@@ -80,8 +80,8 @@ This plan migrates the ColorStack at Ohio State static website from Bootstrap 5 
     - Test network failure propagates error
     - _Requirements: 9.1, 9.4, 9.5_
 
-- [ ] 4. Implement shared components (Navigation, Footer, RevealAnimator)
-  - [ ] 4.1 Create the RevealAnimator client component and useReveal hook
+- [x] 4. Implement shared components (Navigation, Footer, RevealAnimator)
+  - [x] 4.1 Create the RevealAnimator client component and useReveal hook
     - Create `hooks/useReveal.ts` with `IntersectionObserver` logic returning `ref` and `isVisible`
     - Create `components/RevealAnimator.tsx` as a client component wrapping children with scroll-triggered animation
     - Support variants: `fade-up`, `scale-forward`, `slide-left`, `slide-right`
@@ -89,20 +89,20 @@ This plan migrates the ColorStack at Ohio State static website from Bootstrap 5 
     - Perform initial visibility check on mount
     - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5_
 
-  - [ ] 4.2 Create the Navigation client component
+  - [x] 4.2 Create the Navigation client component
     - Create `components/Navigation.tsx` as a client component with sticky navbar, ColorStack logo linking to home, page links (Events, Sponsors, Meet Us), and "About Us" dropdown with sub-links
     - Implement mobile hamburger menu toggle state for viewports below `lg` breakpoint
     - Use Next.js `Link` for all internal navigation
     - Style with Tailwind replacing all Bootstrap navbar classes
     - _Requirements: 2.2, 2.3, 2.4, 2.5, 2.8_
 
-  - [ ] 4.3 Create the Footer server component
+  - [x] 4.3 Create the Footer server component
     - Create `components/Footer.tsx` as a server component with logo, page links (Events, Sponsors, Meet Us, About Us), social media buttons (Email, Instagram, LinkedIn, Slack), and dynamic copyright year
     - Show "Home" link only on small viewports via `md:hidden`
     - Use Next.js `Link` for internal navigation
     - _Requirements: 2.6, 2.7_
 
-  - [ ] 4.4 Create the root layout
+  - [x] 4.4 Create the root layout
     - Create `app/layout.tsx` rendering `Navigation` and `Footer` around `{children}`
     - Apply Onest font CSS variable to the `<html>` element
     - Configure metadata (title "ColorStackOSU", favicon, Open Graph defaults)
