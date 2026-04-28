@@ -48,8 +48,8 @@ This plan migrates the ColorStack at Ohio State static website from Bootstrap 5 
     - Create `data/sponsors-data.ts` exporting sponsor tier data organized by Platinum, Gold, Silver, and Bronze tiers migrated from `sponsors.html`
     - _Requirements: 11.3, 11.4_
 
-- [ ] 3. Implement Drive Gallery Service and utility modules
-  - [ ] 3.1 Create Drive Gallery Service
+- [x] 3. Implement Drive Gallery Service and utility modules
+  - [x] 3.1 Create Drive Gallery Service
     - Create `lib/drive-gallery.ts` implementing `driveThumb(fileId, size?)`, `driveFull(fileId)`, and `fetchDriveFolderImages(folderId)` functions
     - Implement in-memory `Map<string, DriveImage[]>` cache for folder results
     - Read API key from `process.env.NEXT_PUBLIC_GOOGLE_DRIVE_API_KEY`
