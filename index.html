@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="ColorStack at Ohio State" />
+    <meta property="og:description" content="Increasing the number of Black, Latinx, and Indigenous technologists who graduate and launch rewarding technical careers." />
+    <meta property="og:image" content="https://colorstackosu.org/images/Logo.png" />
+    <meta property="og:url" content="https://colorstackosu.org" />
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- StyleSheet -->
+    <link rel="stylesheet" href="css/style.css"> 
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/Logo.png"/>
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital@0;1&family=Onest:wght@100..900&display=swap" rel="stylesheet">
+
+    <title>ColorStackOSU</title>
+
+</head>
+<body>
+
+    <!--NAVIGATION-->
+    <header>
+        <nav class="navbar navbar-expand-lg" aria-label="Main navigation">
+            <div class="container-fluid px-md-5 px-3">
+                <!--Logo-->
+                <a class="navbar-brand" href="index.html" target="_self" aria-label="ColorStackOSU Home">
+                    <img class="nav-logo p-0" src="images/Logo Horizontal.png" alt="ColorStackOSU Logo" draggable="false">
+                </a>
+    
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!--Nav Items-->
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item mx-4"><a href="events.html" class="nav-link">Events</a></li>
+                        <li class="nav-item mx-4"><a href="sponsors.html" class="nav-link">Sponsors</a></li>
+                        <li class="nav-item mx-4"><a href="execboard.html" class="nav-link">Meet Us</a></li>
+                        <li class="nav-item dropdown mx-4"> 
+                            <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                                About Us
+                            </a> 
+                            <ul class="dropdown-menu" aria-label="About Us submenu">
+                                <li><a class="dropdown-item" href="about.html#about-us">About</a></li>
+                                <li><a class="dropdown-item" href="about.html#contact-us">Contact Us</a></li>
+                                <li><a class="dropdown-item" href="https://color-stack-test-bank.vercel.app/">Test Bank</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <!-- HERO SECTION -->
+        <section id="hero" aria-labelledby="hero-title"> 
+            <div class="hero-container container-fluid">
+                <div class="row">
+                    <!--Left Spacer Col-->
+                    <div class="col-lg-1 d-lg-block d-none position-relative px-0">
+                        <!--transitional box-->
+                        <div class="bottom-bar position-absolute w-100 bottom-0 left-0"></div>
+                    </div>
+    
+                    <!--Image Col-->
+                    <div class="col-lg-5 p-0">
+                        <div class="hero-img-container d-lg-block d-none">
+                            <img src="images/hero_photo.jpg" alt="ColorStack community members gathered at an event" class="hero-img" loading="eager" draggable="false">
+                        </div>
+                    </div>
+    
+                    <!--Right Col-->
+                    <div class="col-lg-6 col-md-12 col-sm-12 pt-5 pb-0 px-0 position-relative">
+                        <div class="hero-content pb-4 my-auto mx-md-5 mx-4 text-align-left">
+                            <h1 class="hero-title pt-2 pb-0" id="hero-title">
+                                <span class="typewriter-line">Welcome to</span>
+                                <span class="typewriter-line"><span class="text-red fw-semibold">ColorStack</span></span>
+                                <span class="typewriter-line">at Ohio State<span class="cursor" aria-hidden="true">|</span></span>
+                            </h1>
+    
+                            <p>&nbsp;</p>
+    
+                            <div class="my-1">
+                                <a href="https://airtable.com/appwBXPiTFhfryfV0/shrvvknL6HRR8H2EZ" target="_blank" class="btn btn-primary px-3 py-2" aria-label="Become a ColorStack member - opens in new tab">Become a Member</a>
+                            </div>
+                        </div>
+    
+                        <div class="py-4">
+                            <h6 class="sponsor-text mx-md-5 mx-4 py-2">Our Supporters</h6>
+    
+                            <!--INFINITE SCROLLER HERE-->
+                            <div class="logos" aria-label="Sponsor logos scrolling display">
+                                <div class="logos-slide" aria-hidden="true">
+                                    <img src="images/sponsor-logos/cardinal-health-logo.svg" loading="eager" alt="Cardinal Health">
+                                    <img src="images/sponsor-logos/CapitalOne.svg" loading="eager" alt="Capital One">
+                                    <img src="images/sponsor-logos/pinterest.svg" loading="eager" alt="pinterest">
+                                    <img src="images/sponsor-logos/Mastercard.svg" style="transform: scale(1.2);" loading="eager" alt="Mastercard">
+                                    <img src="images/sponsor-logos/GoDaddy.svg" loading="eager" alt="GoDaddy">
+                                    <img src="images/sponsor-logos/netflix.svg" loading="eager" alt="Netflix">
+                                    <!-- <img src="images/sponsor-logos/JPMorgan.svg" loading="eager" alt="JPMorgan"> -->
+                                    <img src="images/sponsor-logos/adobe.svg" loading="eager" alt="Adobe">
+                                    <img src="images/sponsor-logos/ADS.svg" loading="eager" alt="ADS">
+                                    <img src="images/sponsor-logos/PwC.svg" style="transform: scale(1.5); " loading="eager" alt="PwC">
+                                    <img src="images/sponsor-logos/Progressive.svg" style="width: 200px;" loading="eager" alt="Progressive">
+                                    <img src="images/sponsor-logos/WillowTree.svg" loading="eager" alt="WillowTree">
+                                </div>
+    
+                                <div class="logos-slide" aria-hidden="true">
+                                    <img src="images/sponsor-logos/cardinal-health-logo.svg" loading="eager" alt="Cardinal Health">
+                                    <img src="images/sponsor-logos/CapitalOne.svg" loading="eager" alt="Capital One">
+                                    <img src="images/sponsor-logos/pinterest.svg" loading="eager" alt="pinterest">
+                                    <img src="images/sponsor-logos/Mastercard.svg" style="transform: scale(1.2);" loading="eager" alt="Mastercard">
+                                    <img src="images/sponsor-logos/GoDaddy.svg" loading="eager" alt="GoDaddy">
+                                    <img src="images/sponsor-logos/netflix.svg" loading="eager" alt="Netflix">
+                                    <!-- <img src="images/sponsor-logos/JPMorgan.svg" loading="eager" alt="JPMorgan"> -->
+                                    <img src="images/sponsor-logos/adobe.svg" loading="eager" alt="Adobe">
+                                    <img src="images/sponsor-logos/ADS.svg" loading="eager" alt="ADS">
+                                    <img src="images/sponsor-logos/PwC.svg" style="transform: scale(1.5); " loading="eager" alt="PwC">
+                                    <img src="images/sponsor-logos/Progressive.svg" style="width: 200px;" loading="eager" alt="Progressive">
+                                    <img src="images/sponsor-logos/WillowTree.svg" loading="eager" alt="WillowTree">
+                                </div>
+                            </div>
+                        </div>
+    
+                        <!--transitional box-->
+                        <div class="bottom-bar position-absolute w-100 bottom-0 left-0 d-lg-block d-none"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+        <!--OUR MISSION-->
+        <section id="our-mission" class="our-mission" aria-labelledby="mission-title">
+            <div class="container-fluid">
+                <div class="row pb-md-5 pb-sm-2">
+                    <div class="col-lg-8 col-md-10 col-11 mx-auto reveal-lg">
+                        <div class="text-center text-white py-5 my-4 mx-auto">
+                            <h2 class="py-3" id="mission-title">Our Mission.</h2>
+                            <hr class="divide-line-main w-75 mx-auto" aria-hidden="true">
+                            <h4 class="our-mission-text py-3"> As one of the largest public universities in the nation 
+                                <i class="our-mission-icon bi bi-mortarboard-fill text-red fs-1" aria-hidden="true"></i> , we leverage OSU's
+                                vast resources and connections to create meaningful change
+                                <i class="our-mission-icon bi bi-graph-up-arrow text-red fs-1" aria-hidden="true"></i>  in tech 
+                                diversity.
+                            </h4>
+                            <a href="about.html#about-us" class="btn btn-secondary px-3 py-2">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="row g-md-4 px-3 pb-5 our-mission">
+                    <div class="col-lg-4 col-md-6 col-12 d-flex justify-content-center my-2">
+                        <!--Card 1-->
+                        <div class="our-mission-card reveal-sm-left px-md-4 px-2">
+                            <img src="images/body_photo_1.jpg" alt="Students participating in a ColorStack workshop" class="card-img-top reveal-lg reveal-md rounded-4" loading="lazy">
+                            <div class="align-items-start text-start py-4">
+                                <h3 class="text-white reveal-lg reveal-md mb-2">Workshops</h3>
+                                <hr class="text-white reveal-lg reveal-md">
+                                <p class="card-text reveal-lg reveal-md text-white">Join us for interactive workshops aimed at boosting your 
+                                    technical skills and career readiness. From LeetCode sessions to resume-building workshops, we provide 
+                                    practical experiences to help you excel in the tech industry.</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="col-lg-4 col-md-6 col-12 d-flex justify-content-center my-2">
+                        <!--Card 2-->
+                        <div class="our-mission-card reveal-sm-right px-md-4 px-2">
+                            <img src="images/body_photo_2.jpg" alt="Professional development session with industry representatives" class="card-img-top reveal-lg reveal-md rounded-4" loading="lazy">
+                            <div class="text-end text-md-start py-4">
+                                <h3 class="text-white reveal-lg reveal-md mb-2">Professional Development</h3>
+                                <hr class="text-white reveal-lg reveal-md">
+                                <p class="card-text reveal-lg reveal-md text-white">Elevate your career with our professional development programs. 
+                                    We offer networking opportunities, and career guidance to help you navigate the tech landscape and 
+                                    achieve your professional goals.</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="col-lg-4 col-md-8 col-12 d-flex justify-content-center mx-md-auto my-2">
+                        <!--Card 3-->
+                        <div class="our-mission-card reveal-sm-left px-md-4 px-2">
+                            <img src="images/body_photo_3.jpg" alt="ColorStack community members socializing" class="card-img-top reveal-lg reveal-md rounded-4" loading="lazy">
+                            <div class="text-start py-4">
+                                <h3 class="text-white reveal-lg reveal-md mb-2">Community</h3>
+                                <hr class="text-white reveal-lg reveal-md">
+                                <p class="card-text reveal-lg reveal-md text-white">Be part of a supportive and inclusive community. 
+                                    At ColorStack, we foster connections, share resources, and celebrate each other's successes. 
+                                    Together, we build a stronger, more diverse tech ecosystem.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+        <!-- STATS -->
+        <section id="stats" aria-label="ColorStack impact statistics">
+            <!--Stats Ribbons (Large and Medium)-->
+            <div class="ribbon-container container-fluid p-0 d-md-block d-none">
+
+                <div class="custom-shape-divider-top-black">
+                    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                        <path d="M1200 120L0 16.48 0 0 1200 0 1200 120z" style="fill: #202020;"></path>
+                    </svg>
+                </div>
+
+                <!--Red Ribbon-->
+                <div class="py-4 reveal-left delay-300">
+                    <h3 class="py-3 ms-4 text-red fs-2 fw-semibold">Our Impact,</h3>
+                    
+                    <div class="ribbon d-flex align-items-center text-white" aria-label="Impact statistics">
+                        <div class="ribbon-red d-flex align-items-center flex-lg-grow-0 flex-md-grow-1 ps-lg-4 ps-md-3 ps-2 py-lg-4 py-3" data-tilt data-tilt-max="0" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.2" data-tilt-scale="1" data-tilt-perspective="1000">
+                          <div class="d-flex gap-lg-5 gap-md-5 gap-2">
+                            <div data-tilt data-tilt-max="15" data-tilt-speed="800" data-tilt-scale="1.2">
+                                <div class="ribbon-stat ms-lg-3 ms-md-2 ms-1">
+                                    <h2 class="mb-0">54%</h2>
+                                    <h5>First-Gen Students</h5>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-divider d-md-block d-none" aria-hidden="true"></div>
+
+                            <div data-tilt data-tilt-max="15" data-tilt-speed="800" data-tilt-scale="1.2">
+                                <div class="ribbon-stat">
+                                    <h2 class="mb-0">250+</h2>
+                                    <h5>Registered Members</h5>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-divider d-md-block d-none" aria-hidden="true"></div>
+
+                            <div data-tilt data-tilt-max="15" data-tilt-speed="800" data-tilt-scale="1.2">
+                                <div class="ribbon-stat">
+                                    <h2 class="mb-0">49%</h2>
+                                    <h5>Low-Income Students</h5>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- Icon with responsive spacing -->
+                        <div class="ms-auto me-lg-5 me-md-4 me-3">
+                          <i class="stat-icon bi bi-person-fill-up text-red me-lg-4 me-md-3 me-2" aria-hidden="true"></i>
+                        </div>
+                    </div>         
+                </div>
+    
+                <!--Black Ribbon-->
+                <div class="py-4 reveal-right delay-500">
+                    <h3 class="py-3 me-4 d-flex fs-2 justify-content-end fw-semibold">Through Numbers.</h3>
+                    <div class="ribbon d-flex align-items-center text-white" aria-label="Additional impact statistics">
+                        <!--Icon-->
+                        <div class="ms-md-5 ms-4">
+                            <i class="stat-icon bi bi-briefcase-fill text-black me-lg-5 me-md-4" aria-hidden="true"></i>
+                        </div>
+    
+                        <div class="ribbon-black d-flex align-items-center justify-content-end flex-lg-grow-0 flex-md-grow-1 pe-lg-5 pe-3 py-4" data-tilt data-tilt-max="0" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.2" data-tilt-scale="1" data-tilt-perspective="1000">
+                            <div class="d-flex gap-lg-5 gap-md-5 gap-2">
+                                <div data-tilt data-tilt-max="15" data-tilt-speed="800" data-tilt-scale="1.2">
+                                    <div class="ribbon-stat">
+                                        <h2 class="responsive-stat mb-0">30%</h2>
+                                        <h5 class="responsive-subtext">Identify As Women</h5>
+                                    </div>
+                                </div>
+                                
+                                <div class="stat-divider d-md-block d-none" aria-hidden="true"></div>
+    
+                                <div data-tilt data-tilt-max="15" data-tilt-speed="800" data-tilt-scale="1.2">
+                                    <div class="ribbon-stat">
+                                        <h2 class="mb-0 responsive-stat">25+</h2>
+                                        <h5 class="responsive-subtext">2025 Offers Received</h5>
+                                    </div>
+                                </div>
+                                
+                                <div class="stat-divider d-md-block d-none" aria-hidden="true"></div>
+
+                                <div data-tilt data-tilt-max="15" data-tilt-speed="800" data-tilt-scale="1.2">
+                                    <div class="ribbon-stat me-md-4">
+                                        <h2 class="mb-0 responsive-stat">10+</h2>
+                                        <h5 class="responsive-subtext">Industry Partners</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!--Stats (Small Viewport)-->
+            <div class="row sm-stats-row d-md-none d-block ">
+                <div class="custom-shape-divider-top-black pb-4">
+                    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                        <path d="M1200 120L0 16.48 0 0 1200 0 1200 120z" style="fill: #202020;"></path>
+                    </svg>
+                </div>
+                <div class="text-center reveal pb-4  g-0">
+                    
+                    <div class="col-12 py-4">
+                        <h2 class="text-red mb-0">Our Impact,</h2>
+                        <h3 class="">Through Numbers.</h3>
+                    </div>
+        
+                    <div class="col-12"> 
+                        <div class="d-flex flex-column align-items-center overflow-hidden" role="list" aria-label="Impact statistics for mobile view"> 
+                        <div class="sm-stat my-4" role="listitem">
+                            <h2 class="stat-sm-head-text mb-2">54%</h2>
+                            <h5 class="stat-sm-sub-text ">First-Gen Students</h5>
+                        </div>
+        
+                        <div class="sm-stat my-4" role="listitem">
+                            <h2 class="stat-sm-head-text mb-2">250+</h2>
+                            <h5 class="stat-sm-sub-text">Registered Members</h5>
+                        </div>
+                        
+                        <div class="sm-stat my-4" role="listitem">
+                            <h2 class="stat-sm-head-text mb-2">25+</h2>
+                            <h5 class="stat-sm-sub-text">2025 Offers Received</h5>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+            
+        <!--TESTIMONIALS-->
+        <section id="testimonials" aria-labelledby="testimonials-title">
+            <div class="testimonial-container container-fluid">
+
+                <div class="custom-shape-divider-bottom-white">
+                    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                        <path d="M1200 120L0 16.48 0 0 1200 0 1200 120z" style="fill: #f2f2f2;"></path>
+                    </svg>
+                </div>
+
+                <div class="row text-center reveal-lg-forward reveal pt-5 pb-md-3 pb-5 mt-4">
+                    <h2 class="mb-0 fw-semibold" id="testimonials-title">Voices Of</h2>
+                    <h3 class="text-red ">ColorStack</h3>
+                </div>
+    
+                <!--SMALL VIEWPORT-->
+                <div class="row position-relative d-lg-none d-md-none d-block pb-5 mx-auto">
+                    <div class="d-flex flex-column mx-auto justify-content-center px-4">
+                        <!--Card 1-->
+                        <div class="d-flex flex-column mb-3 reveal">
+                            <div class="testimonial-card rounded-4 shadow-sm py-3 px-4 mb-3">
+                                <h4 class="testimonial-title fw-semibold"><i class="bi bi-quote text-red fs-2" aria-hidden="true"></i> Opening Doors</h4>
+                                <p>
+                                    "ColorStack@OSU has truly opened doors for me. Through the connections I made within the community, 
+                                    I was able to secure my <span class="fw-semibold">upcoming Software Development Engineering internship with GoDaddy</span> and even 
+                                    landed an interview with Warner Bros., all because of the support and network ColorStack provides.
+                                    It's not just a space for underrepresented students in tech; it's <span class="fw-semibold">a launchpad for real opportunities</span>
+                                    and a reminder that we deserve to take up space in this field. I'm incredibly grateful to be part of 
+                                    such an empowering and uplifting community."
+                                </p>
+                            </div>
+    
+                            <div class="d-flex flex-row">
+                                <img src="images/testimonial-photos/Arielle Barnes.jpeg" class="testimonial-pic rounded-circle mx-2" alt="" aria-hidden="true">
+    
+                                <div class="flex-column mx-2">
+                                    <h4 class="mb-0">Arielle Barnes</h4>
+                                    <p class="text-red text-uppercase fw-semibold">Sophomore</p>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <!--Card 2 -->
+                        <div class="d-flex flex-column reveal">
+                            <div class="testimonial-card rounded-4 shadow-sm py-3 px-4 mb-3">
+                                <h4 class="fw-semibold"><i class="bi bi-quote text-red fs-2" aria-hidden="true"></i> Community to Career</h4>
+                                <p>
+                                    "ColorStack has given me a supportive community of like-minded individuals dedicated to uplifting 
+                                    underrepresented groups and communities. Through ColorStack I've <span class="fw-semibold">built meaningful connections, 
+                                    gained mentorship, and strengthened my technical skills.</span> It has also provided access to career
+                                    development opportunities and direct conversations with recruiters, which <span class="fw-semibold">helped me secure my 
+                                    job after college.</span> Being part of ColorStack has not only helped me grow professionally but also 
+                                    connected me with amazing people who are passionate about making a difference."
+                                </p>
+                            </div>
+    
+                            <div class="d-flex flex-row ms-auto">
+                                <div class="flex-column mx-2 text-end">
+                                    <h4 class="mb-0">Dan Flores</h5>
+                                    <p class="text-red text-uppercase fw-semibold">Senior</p>
+                                </div>
+    
+                                <img src="images/testimonial-photos/Dan Flores.jpeg" class="testimonial-pic rounded-circle mx-2" alt="" aria-hidden="true">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!--MEDIUM VIEWPORT -->
+                <div class="row d-lg-none d-md-block d-none position-relative reveal gap-1 px-4 pb-5">
+                    <div class="d-flex gap-4">
+                        <!--Card 1-->
+                        <div class="d-flex flex-column">
+                            <div class="testimonial-card rounded-4 shadow-sm py-3 px-4 mb-3">
+                                <h4 class="fw-semibold"><i class="bi bi-quote text-red fs-2" aria-hidden="true"></i> Opening Doors</h4>
+                                <p>
+                                    "ColorStack@OSU has truly opened doors for me. Through the connections I made within the community, 
+                                    I was able to secure my <span class="fw-semibold">upcoming Software Development Engineering internship with GoDaddy</span> and even 
+                                    landed an interview with Warner Bros., all because of the support and network ColorStack provides.
+                                    It's not just a space for underrepresented students in tech; it's <span class="fw-semibold">a launchpad for real opportunities</span>
+                                    and a reminder that we deserve to take up space in this field. I'm incredibly grateful to be part of 
+                                    such an empowering and uplifting community."
+                                </p>
+                            </div>
+    
+                            <div class="d-flex flex-row">
+                                <img src="images/testimonial-photos/Arielle Barnes.jpeg" class="testimonial-pic rounded-circle mx-2" alt="" aria-hidden="true">
+    
+                                <div class="flex-column mx-2">
+                                    <h4 class="mb-0">Arielle Barnes</h5>
+                                    <p class="text-red text-uppercase fw-semibold">Sophomore</p>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <!--Card 2 -->
+                        <div class="d-flex flex-column">
+                            <div class="testimonial-card rounded-4 shadow-sm py-3 px-4 mb-3">
+                                <h4 class="fw-semibold"><i class="bi bi-quote text-red fs-2" aria-hidden="true"></i> Community to Career</h4>
+                                <p>
+                                    "ColorStack has given me a supportive community of like-minded individuals dedicated to uplifting 
+                                    underrepresented groups and communities. Through ColorStack I've <span class="fw-semibold">built meaningful connections, 
+                                    gained mentorship, and strengthened my technical skills.</span> It has also provided access to career
+                                    development opportunities and direct conversations with recruiters, which <span class="fw-semibold">helped me secure my 
+                                    job after college.</span> Being part of ColorStack has not only helped me grow professionally but also 
+                                    connected me with amazing people who are passionate about making a difference."
+                                </p>
+                            </div>
+    
+                            <div class="d-flex flex-row">
+                                <img src="images/testimonial-photos/Dan Flores.jpeg" class="testimonial-pic rounded-circle mx-2" alt="" aria-hidden="true">
+    
+                                <div class="flex-column mx-2">
+                                    <h4 class="mb-0">Dan Flores</h5>
+                                    <p class="text-red text-uppercase fw-semibold">Senior</p>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <!--Card 3 (MEDIUM VIEWPORT ONLY)-->
+                        <div class="d-flex flex-column d-md-block d-none">
+                            <div class="testimonial-card rounded-4 shadow-sm py-3 px-4 mb-3">
+                                <h4 class="fw-semibold"><i class="bi bi-quote text-red fs-2" aria-hidden="true"></i> Underdog to Big Tech</h4>
+                                <p>
+                                    "I arrived at OSU from an under-resourced high school lacking tech preparation. Through ColorStack's
+                                    workshops and events, <span class="fw-semibold">I gained the confidence and technical
+                                    skills to compete for and secure a prestigious internship at GoDaddy.</span> ColorStack bridged the gap 
+                                    between my background and my potential."
+                                </p>
+                            </div>
+    
+                            <div class="d-flex flex-row">
+                                <img src="images/testimonial-photos/Valdez Kankeu.png" class="testimonial-pic rounded-circle mx-2" alt="" aria-hidden="true">
+    
+                                <div class="flex-column mx-2">
+                                    <h4 class="mb-0">Valdez Kankeu</h5>
+                                    <p class="text-red text-uppercase fw-semibold">Freshman</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!--CAROUSEL, LARGE VIEWPORT ONLY-->
+                <div class="row py-4 my-4 d-lg-block d-none">
+                    <div id="carouselTestimonials" class="carousel slide reveal-forward" aria-label="Testimonials carousel">
+                        <div class="carousel-indicators text-center" role="tablist">
+                            <button type="button" data-bs-target="#carouselTestimonials" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1" role="tab"></button>
+                            <button type="button" data-bs-target="#carouselTestimonials" data-bs-slide-to="1" aria-label="Slide 2" role="tab"></button>
+                        </div>
+    
+                        <div class="carousel-inner">
+                            <!--Page 1-->
+                            <div class="carousel-item active" role="tabpanel" aria-labelledby="testimonial-arielle">
+                                <div class="d-flex flex-row justify-content-center gap-5 pb-5 mb-3">
+                                    <!--Card 1-->
+                                    <div class="d-flex flex-column">
+                                        <div class="testimonial-card rounded-4 shadow-sm py-3 px-4 mb-3">
+                                            <h4 class="fw-semibold" id="testimonial-arielle"><i class="bi bi-quote text-red fs-2" aria-hidden="true"></i> Opening Doors</h4>
+                                            <p>
+                                                "ColorStack@OSU has truly opened doors for me. Through the connections I made within the community, 
+                                                I was able to secure my <span class="fw-semibold">upcoming Software Development Engineering internship with GoDaddy</span> and even 
+                                                landed an interview with Warner Bros., all because of the support and network ColorStack provides.
+                                                It's not just a space for underrepresented students in tech; it's <span class="fw-semibold">a launchpad for real opportunities</span>
+                                                and a reminder that we deserve to take up space in this field. I'm incredibly grateful to be part of 
+                                                such an empowering and uplifting community."
+                                            </p>
+                                        </div>
+    
+                                        <div class="d-flex flex-row">
+                                            <img src="images/testimonial-photos/Arielle Barnes.jpeg" class="testimonial-pic rounded-circle mx-2" alt="" aria-hidden="true">
+    
+                                            <div class="flex-column mx-2">
+                                                <h4 class="mb-0">Arielle Barnes</h5>
+                                                <p class="text-red text-uppercase fw-semibold">Sophomore</p>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <!--Card 2 -->
+                                    <div class="d-flex flex-column reveal-forward d-none d-lg-block">
+                                        <div class="testimonial-card rounded-4 shadow-sm py-3 px-4 mb-3">
+                                            <h4 class="fw-semibold" id="testimonial-dan"><i class="bi bi-quote text-red fs-2" aria-hidden="true"></i> Community to Career</h4>
+                                            <p>
+                                                "ColorStack has given me a supportive community of like-minded individuals dedicated to uplifting 
+                                                underrepresented groups and communities. Through ColorStack I've <span class="fw-semibold">built meaningful connections, 
+                                                gained mentorship, and strengthened my technical skills.</span> It has also provided access to career
+                                                development opportunities and direct conversations with recruiters, which <span class="fw-semibold">helped me secure my 
+                                                job after college.</span> Being part of ColorStack has not only helped me grow professionally but also 
+                                                connected me with amazing people who are passionate about making a difference."
+                                            </p>
+                                        </div>
+    
+                                        <div class="d-flex flex-row">
+                                            <img src="images/testimonial-photos/Dan Flores.jpeg" class="testimonial-pic rounded-circle mx-2" alt="" aria-hidden="true">
+    
+                                            <div class="flex-column mx-2">
+                                                <h4 class="mb-0">Dan Flores</h5>
+                                                <p class="text-red text-uppercase fw-semibold">Senior</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <!--Page 2-->
+                            <div class="carousel-item" role="tabpanel" aria-labelledby="testimonial-berenice">
+                                <div class="d-flex flex-row justify-content-center pb-5 mb-3">
+                                    <!--Card 1-->
+                                    <div class="d-flex flex-column me-4">
+                                        <div class="testimonial-card rounded-4 shadow-sm py-3 px-4 mb-3">
+                                            <h4 class="fw-semibold" id="testimonial-berenice"><i class="bi bi-quote text-red fs-2" aria-hidden="true"></i> Supported Every Step</h4>
+                                            <p>
+                                                Through ColorStack, I met one of my closest friends and have fostered a sense of community with people who uplift each other
+                                                in every sense. I have felt and had support through every step of my first year at OSU, and <span class="fw-semibold">learned about opportunities I never 
+                                                    would have otherwise</span>. Thanks to the mentorship and guidance I have received, I now have the opportunity to participate in <span class="fw-semibold">PwC's
+                                                 Career Preview</span> this summer. I am truly grateful I decided to join this community. 
+                                            </p>
+                                        </div>
+    
+                                        <div class="d-flex flex-row">
+                                            <img src="images/testimonial-photos/Berenice.jpeg" class="testimonial-pic rounded-circle mx-2" loading="lazy" alt="" aria-hidden="true">
+    
+                                            <div class="flex-column mx-2">
+                                                <h4 class="mb-0">Berenice Araiza Sierra</h5>
+                                                <p class="text-red text-uppercase fw-semibold">FRESHMAN</p>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <!--Card 2 -->
+                                    <div class="d-flex flex-column d-none d-lg-block ms-4">
+                                        <div class="testimonial-card rounded-4 shadow-sm py-3 px-4 mb-3">
+                                            <h4 class="fw-semibold" id="testimonial-valdez"><i class="bi bi-quote text-red fs-2" aria-hidden="true"></i> Underdog to Big Tech</h4>
+                                            <p>
+                                                "I arrived at OSU from an under-resourced high school lacking tech preparation. Through ColorStack's
+                                                workshops and events, <span class="fw-semibold">I gained the confidence and technical
+                                                skills to compete for and secure a prestigious internship at GoDaddy.</span> ColorStack bridged the gap 
+                                                between my background and my potential."
+                                            </p>
+                                        </div>
+    
+                                        <div class="d-flex flex-row">
+                                            <img src="images/testimonial-photos/Valdez Kankeu.png" class="testimonial-pic rounded-circle mx-2" loading="lazy" alt="" aria-hidden="true">
+    
+                                            <div class="flex-column mx-2">
+                                                <h4 class="mb-0">Valdez Kankeu</h5>
+                                                <p class="text-red text-uppercase fw-semibold">Freshman</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <button class="carousel-control-prev carousel-dark" type="button" data-bs-target="#carouselTestimonials" data-bs-slide="prev" aria-label="Previous slide">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next carousel-dark" type="button" data-bs-target="#carouselTestimonials" data-bs-slide="next" aria-label="Next slide">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+        <!--GET INVOLVED-->
+        <section id="get-involved" aria-labelledby="get-involved-title">
+            <div class="involved-container container-fluid">
+                <div class="row reveal mx-md-5 mx-2 px-md-4 px-2 pt-5">
+                    <h3 class="px-2 fw-semibold" id="get-involved-title">Get Involved</h3>
+                    <hr class="divide-line-red reveal-divide w-50 ms-2 mt-2" aria-hidden="true">
+                </div>
+    
+                <div class="row reveal py-4 my-4 mx-4">
+                    <!--Sponsors-->
+                    <div class="col-lg-4 col-md-4 col-6 mb-3 d-flex justify-content-center">
+                        <a href="sponsors.html" class="involved-card d-flex flex-column shadow px-4 py-3" aria-labelledby="sponsorship-title">
+                            <i class="bi bi-building-fill-add fs-2" aria-hidden="true"></i>
+                            <p class="opacity-75 mb-0">Collaborate With Us</p>
+                            <h4 id="sponsorship-title">Sponsorship</h4>
+                        </a>
+                        
+                    </div>
+    
+                    <!--Join Us (Large & Medium Viewport)-->
+                    <div class="col-lg-4 col-md-4 col-6 mb-3 d-md-flex d-none justify-content-center">
+                        <a href="https://colorstackosu.slack.com/" target="_blank" class="involved-card-red d-flex flex-column shadow px-4 py-3" aria-labelledby="join-community-title">
+                            <i class="bi bi-person-heart fs-2" aria-hidden="true"></i>
+                            <p class="opacity-75 mb-0">Join Us</p>
+                            <h4 id="join-community-title">Join The Community</h4>
+                        </a>
+                    </div>
+    
+                    <!--Contact (Large & Medium Viewport)-->
+                    <div class="col-lg-4 col-md-4 col-8 mb-3 mx-auto d-md-flex d-none justify-content-center">
+                        <a href="about.html#contact-us" class="involved-card d-flex flex-column shadow px-4 py-3" aria-labelledby="contact-us-title">
+                            <i class="bi bi-envelope-fill fs-2" aria-hidden="true"></i>
+                            <p class="opacity-75 mb-0">Get In Touch</p>
+                            <h4 id="contact-us-title">Contact Us</h4>
+                        </a>
+                    </div>
+    
+                    <!--Orientation Change for SM Viewport-->
+                    <!--Contact (Small Viewport)-->
+                    <div class="col-6 mb-3 d-flex d-md-none justify-content-center">
+                        <a href="about.html#contact-us" class="involved-card d-flex flex-column shadow px-4 py-3" aria-labelledby="contact-us-title-sm">
+                            <i class="bi bi-envelope-fill fs-2" aria-hidden="true"></i>
+                            <p class="opacity-75 mb-0">Get In Touch</p>
+                            <h4 id="contact-us-title-sm">Contact Us</h4>
+                        </a>
+                    </div>
+    
+                    <!--Join Us (Small Viewport)-->
+                    <div class="col-10 mb-3 mx-auto d-flex d-md-none justify-content-center">
+                        <a href="https://colorstackosu.slack.com/" target="_blank" class="involved-card-red d-flex flex-column shadow px-4 py-3" aria-labelledby="join-community-title-sm">
+                            <i class="bi bi-person-heart fs-2" aria-hidden="true"></i>
+                            <p class="opacity-75 mb-0">Join Us</p>
+                            <h4 id="join-community-title-sm">Join The Community</h4>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!--FOOTER-->
+    <footer role="contentinfo">
+        <div class="footer container-fluid">
+            <div class="row py-4">
+                <div class="col-12">
+                    <div class="text-md-center text-start px-3">
+                        <a href="index.html" aria-label="ColorStackOSU Home">
+                            <img class="footer-logo" src="images/Logo Horizontal.png" alt="ColorStackOSU Logo">
+                        </a>
+                    </div>
+    
+                    <nav aria-label="Footer navigation">
+                        <div class="d-flex flex-md-row flex-column justify-content-md-center justify-content-start gap-md-5 gap-3 py-md-2 py-4 px-4">
+                            <a href="index.html" class="nav-link footer-nav-link d-md-none d-block">Home</a>
+                            <a href="events.html" class="nav-link footer-nav-link">Events</a>
+                            <a href="sponsors.html" class="nav-link footer-nav-link">Sponsors</a>
+                            <a href="execboard.html" class="nav-link footer-nav-link">Meet Us</a>
+                            <a href="about.html" class="nav-link footer-nav-link">About Us</a>
+                        </div>
+                    </nav>
+    
+                    <div class="d-flex justify-content-center py-2 w-100" aria-label="Social media links">
+                        <a href="mailto:colorstackosu@gmail.com" class="btn btn-primary rounded-pill mx-2" aria-label="Email us">
+                            <i class="bi bi-envelope-fill" aria-hidden="true"></i>
+                            <span class="visually-hidden">Email</span>
+                        </a>
+
+                        <a href="https://www.instagram.com/colorstackosu/" target="_blank" class="btn btn-primary rounded-pill mx-2" aria-label="Instagram - opens in new tab">
+                            <i class="bi bi-instagram" aria-hidden="true"></i>
+                            <span class="visually-hidden">Instagram</span>
+                        </a>
+                        <a href="https://www.linkedin.com/company/colorstack-osu/" target="_blank" class="btn btn-primary rounded-pill mx-2" aria-label="LinkedIn - opens in new tab"> 
+                            <i class="bi bi-linkedin" aria-hidden="true"></i>
+                            <span class="visually-hidden">LinkedIn</span>
+                        </a>
+                        <a href="https://colorstackosu.slack.com/" target="_blank" class="btn btn-primary rounded-pill mx-2" aria-label="Slack - opens in new tab"> 
+                            <i class="bi bi-slack" aria-hidden="true"></i>
+                            <span class="visually-hidden">Slack</span>
+                        </a>
+                    </div>
+
+                    <p class="text-center mt-2 mb-0 opacity-50">
+                        © <script>document.write(new Date().getFullYear())</script> ColorStack Ohio State. All Rights Reserved.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPT LOADING -->
+    <!--Bootstrap JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+    <!--VanillaTiltPkgJS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js" integrity="sha512-wC/cunGGDjXSl9OHUH0RuqSyW4YNLlsPwhcLxwWW1CR4OeC2E1xpcdZz2DeQkEmums41laI+eGMw95IJ15SS3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="js/shared/gsap.js"></script>
+
+
+    <!--CustomJS-->
+    <script type="module" src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="ColorStack at Ohio State" />
+    <meta
+      property="og:description"
+      content="Increasing the number of Black, Latinx, and Indigenous technologists who graduate and launch rewarding technical careers."
+    />
+    <meta
+      property="og:image"
+      content="https://colorstackosu.org/images/Logo.png"
+    />
+    <meta property="og:url" content="https://colorstackosu.org" />
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+
+    <!-- StyleSheet -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/Logo.png" />
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital@0;1&family=Onest:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>ColorStackOSU</title>
+  </head>
+  <body>
+    <!--NAVIGATION-->
+    <header>
+      <nav class="navbar navbar-expand-lg" aria-label="Main navigation">
+        <div class="container-fluid px-md-5 px-3">
+          <!--Logo-->
+          <a
+            class="navbar-brand"
+            href="index.html"
+            target="_self"
+            aria-label="ColorStackOSU Home"
+          >
+            <img
+              class="nav-logo p-0"
+              src="images/Logo Horizontal.png"
+              alt="ColorStackOSU Logo"
+              draggable="false"
+            />
+          </a>
+
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarCollapse"
+            aria-controls="navbarCollapse"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <!--Nav Items-->
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item mx-4">
+                <a href="events.html" class="nav-link">Events</a>
+              </li>
+              <li class="nav-item mx-4">
+                <a href="sponsors.html" class="nav-link">Sponsors</a>
+              </li>
+              <li class="nav-item mx-4">
+                <a href="execboard.html" class="nav-link">Meet Us</a>
+              </li>
+              <li class="nav-item dropdown mx-4">
+                <a
+                  href="#"
+                  class="nav-link dropdown-toggle"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                >
+                  About Us
+                </a>
+                <ul class="dropdown-menu" aria-label="About Us submenu">
+                  <li>
+                    <a class="dropdown-item" href="about.html#about-us"
+                      >About</a
+                    >
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="about.html#contact-us"
+                      >Contact Us</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="https://color-stack-test-bank.vercel.app/"
+                      >Test Bank</a
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Meet The Board-->
+    <section id="meet-the-board" class="meet-the-board-section">
+      <div class="container-fluid px-md-5">
+        <h2 class="text-center mt-4 py-4">
+          <span class="text-secondary">&lt;</span>
+          Meet The Board
+          <span class="text-secondary">/&gt;</span>
+        </h2>
+
+        <!-- buttons -->
+        <div class="d-flex justify-content-center gap-3">
+          <button
+            id="btn-2023-2024"
+            class="btn btn-primary board-btn inactive rounded-2 fw-semibold"
+          >
+            2023-2024
+          </button>
+          <button
+            id="btn-2024-2025"
+            class="btn btn-primary board-btn inactive rounded-2 fw-semibold"
+          >
+            2024-2025
+          </button>
+          <button
+            id="btn-2025-2026"
+            class="btn btn-primary board-btn rounded-2 fw-semibold"
+          >
+            2025-2026
+          </button>
+        </div>
+
+        <div id="board-body" class="row g-md-4 m-3">
+          <!-- Dyamically Filled Using JavaScript (eboard-data.js)-->
+        </div>
+      </div>
+    </section>
+
+    <!--FOOTER-->
+    <footer>
+      <div class="footer container-fluid">
+        <div class="row py-4">
+          <div class="col-12">
+            <div class="text-md-center text-start px-3">
+              <a href="index.html">
+                <img
+                  class="footer-logo"
+                  src="images/Logo Horizontal.png"
+                  alt="Logo"
+                />
+              </a>
+            </div>
+
+            <div
+              class="d-flex flex-md-row flex-column justify-content-md-center justify-content-start gap-md-5 gap-3 py-md-2 py-4 px-4"
+            >
+              <a
+                href="index.html"
+                class="nav-link footer-nav-link d-md-none d-block"
+                >Home</a
+              >
+              <a href="events.html" class="nav-link footer-nav-link">Events</a>
+              <a href="sponsors.html" class="nav-link footer-nav-link"
+                >Sponsors</a
+              >
+              <a href="execboard.html" class="nav-link footer-nav-link"
+                >Meet Us</a
+              >
+              <a href="about.html" class="nav-link footer-nav-link">About Us</a>
+            </div>
+
+            <div class="d-flex justify-content-center py-2 w-100">
+              <a
+                href="mailto:colorstackosu@gmail.com"
+                class="btn btn-primary rounded-pill mx-2"
+              >
+                <i class="bi bi-envelope-fill"></i>
+              </a>
+
+              <a
+                href="https://www.instagram.com/colorstackosu/"
+                target="_blank"
+                class="btn btn-primary rounded-pill mx-2"
+              >
+                <i class="bi bi-instagram"></i>
+              </a>
+              <a
+                href="https://www.linkedin.com/company/colorstack-osu/"
+                target="_blank"
+                class="btn btn-primary rounded-pill mx-2"
+              >
+                <i class="bi bi-linkedin"> </i>
+              </a>
+              <a
+                href="https://colorstackosu.slack.com/"
+                target="_blank"
+                class="btn btn-primary rounded-pill mx-2"
+              >
+                <i class="bi bi-slack"> </i>
+              </a>
+            </div>
+            <p class="text-center mt-2 mb-0 opacity-50">
+              ©
+              <script>
+                document.write(new Date().getFullYear());
+              </script>
+              ColorStack Ohio State. All Rights Reserved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- MEMBER DETAILS MODAL -->
+    <div class="modal fade" id="memberModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content member-modal">
+          <!-- Close button (no header) -->
+          <button
+            type="button"
+            class="btn-close member-modal__close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+
+          <div class="modal-body member-modal__body">
+            <div class="member-modal__inner">
+              <!-- Left: Image -->
+              <div class="member-modal__left my-auto">
+                <img
+                  id="memberModalImg"
+                  src=""
+                  alt=""
+                  class="member-modal__img"
+                />
+              </div>
+
+              <!-- Right: Info -->
+              <div class="member-modal__right">
+                <h3 id="memberModalName" class="fw-semibold mb-0"></h3>
+                <p id="memberModalRole" class="board-card-role mb-0"></p>
+                <hr class="my-2" />
+
+                <p id="memberModalBio" class="member-modal__text mb-0">
+                  Placeholder
+                </p>
+
+                <div
+                  class="d-flex justify-content-center justify-content-md-start mt-4 flex-wrap gap-2"
+                >
+                  <a
+                    id="memberModalCalendly"
+                    class="btn btn-primary px-3 py-2 border"
+                    href="#"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <i class="bi bi-calendar-check"></i> Book a Time
+                  </a>
+
+                  <a
+                    id="memberModalLinkedIn"
+                    class="btn btn-primary px-3 py-2 border border-black"
+                    href="#"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="LinkedIn"
+                    title="LinkedIn"
+                  >
+                    <i class="bi bi-linkedin text-gray"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCRIPT LOADING -->
+    <!--Bootstrap JS-->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+      crossorigin="anonymous"
+    ></script>
+
+    <!--CustomJS-->
+    <script type="module" src="js/script.js"></script>
+  </body>
+</html>
