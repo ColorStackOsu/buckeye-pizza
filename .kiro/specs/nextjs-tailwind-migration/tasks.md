@@ -34,15 +34,15 @@ This plan migrates the ColorStack at Ohio State static website from Bootstrap 5 
     - Create `vitest.config.ts` with jsdom environment and path aliases
     - _Requirements: (testing infrastructure for all subsequent test tasks)_
 
-- [ ] 2. Create TypeScript data models and data files
-  - [ ] 2.1 Define TypeScript interfaces
+- [x] 2. Create TypeScript data models and data files
+  - [x] 2.1 Define TypeScript interfaces
     - Create `types/board.ts` with `BoardMember`, `BoardYear`, and `BoardData` interfaces
     - Create `types/events.ts` with `EventItem` interface
     - Create `types/drive.ts` with `DriveImage` and `DriveFileResponse` interfaces
     - Create `types/sponsors.ts` with `Sponsor` and `SponsorTierData` interfaces
     - _Requirements: 11.1, 11.2_
 
-  - [ ] 2.2 Create typed data files
+  - [x] 2.2 Create typed data files
     - Create `data/board-data.ts` exporting `boardData: BoardData` with all three academic years of member data migrated from `js/eboard/eboard-data.js`
     - Create `data/events-data.ts` exporting `eventsData: EventItem[]` migrated from `js/events/events-data.js`
     - Create `data/sponsors-data.ts` exporting sponsor tier data organized by Platinum, Gold, Silver, and Bronze tiers migrated from `sponsors.html`
