@@ -6,30 +6,30 @@ This plan migrates the ColorStack at Ohio State static website from Bootstrap 5 
 
 ## Tasks
 
-- [ ] 1. Initialize Next.js project with Tailwind CSS and core configuration
-  - [ ] 1.1 Scaffold Next.js 14+ App Router project with TypeScript
+- [x] 1. Initialize Next.js project with Tailwind CSS and core configuration
+  - [x] 1.1 Scaffold Next.js 14+ App Router project with TypeScript
     - Run `npx create-next-app@latest` with App Router, TypeScript, Tailwind CSS, and ESLint enabled
     - Configure `tsconfig.json` with path alias `@/` pointing to the project root
     - _Requirements: 1.1, 1.2, 1.3_
 
-  - [ ] 1.2 Configure Tailwind theme and global styles
+  - [x] 1.2 Configure Tailwind theme and global styles
     - Update `tailwind.config.ts` with custom colors (`primary-red`, `hover-red`, `bg-white`, `light-gray`, `dark`), Onest font family, custom animations (`slide`, `move-gradient`, `bounce-slow`, `typing-1/2/3`, `cursor-blink`), custom keyframes, and responsive breakpoints (`sm: 640px`, `md: 768px`, `lg: 992px`)
     - Create `app/globals.css` with Tailwind directives (`@tailwind base/components/utilities`) and custom CSS for reveal animation classes, gradient overlays, and any styles that cannot be expressed as Tailwind utilities
     - _Requirements: 1.4, 1.5, 12.1, 12.2, 12.8_
 
-  - [ ] 1.3 Configure Onest font via next/font and environment variables
+  - [x] 1.3 Configure Onest font via next/font and environment variables
     - Set up `next/font/google` for the Onest font in the root layout, applying the CSS variable `--font-onest`
     - Create `.env.local` with `NEXT_PUBLIC_GOOGLE_DRIVE_API_KEY` placeholder
     - Add `.env.local` to `.gitignore`
     - _Requirements: 1.6, 1.7, 11.5_
 
-  - [ ] 1.4 Migrate static assets to the public directory
+  - [x] 1.4 Migrate static assets to the public directory
     - Copy all image assets to `public/images/` preserving subdirectory structure (`eboard-photos/`, `sponsor-logos/`, `testimonial-photos/`)
     - Copy `Sponsorship Packet.pdf` to `public/assets/`
     - Copy favicon (`Logo.png`) to `public/`
     - _Requirements: 10.1, 10.2_
 
-  - [ ] 1.5 Install testing dependencies
+  - [x] 1.5 Install testing dependencies
     - Install `vitest`, `@testing-library/react`, `@testing-library/jest-dom`, `jsdom`, `fast-check` as dev dependencies
     - Create `vitest.config.ts` with jsdom environment and path aliases
     - _Requirements: (testing infrastructure for all subsequent test tasks)_

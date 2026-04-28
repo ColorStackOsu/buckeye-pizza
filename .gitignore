@@ -21,6 +21,11 @@ build/
 out/
 public/dist/
 
+# Next.js
+.next/
+out/
+next-env.d.ts
+
 # Log files
 logs
 *.log
