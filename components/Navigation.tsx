@@ -132,14 +132,18 @@ export default function Navigation() {
         aria-label="Main navigation"
       >
         <div className="flex items-center justify-between px-3 md:px-10 py-2">
-          {/* Logo */}
+          {/* Logo — white version over hero, dark version when scrolled */}
           <Link href="/" aria-label="ColorStackOSU Home">
             <Image
-              src="/images/Logo Horizontal.png"
+              src={
+                isScrolled
+                  ? "/images/Logo Horizontal.png"
+                  : "/images/Logo Horizontal_White.png"
+              }
               alt="ColorStackOSU Logo"
               width={200}
               height={56}
-              className="h-14 w-auto"
+              className="h-14 w-auto transition-opacity duration-300"
               draggable={false}
               priority
             />

@@ -8,62 +8,92 @@ import gsap from "gsap";
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const photoRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
   const welcomeRef = useRef<HTMLSpanElement>(null);
   const colorstackRef = useRef<HTMLSpanElement>(null);
   const atOhioRef = useRef<HTMLSpanElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
+  const atOhioHighlightRef = useRef<HTMLSpanElement>(null);
+  const sublineRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLAnchorElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-      // 1. Photo clips in from left via clip-path reveal (0.8s)
+      // 1. Photo fades in with subtle scale settle
       tl.fromTo(
         photoRef.current,
-        { clipPath: "inset(0 100% 0 0)" },
-        { clipPath: "inset(0 0% 0 0)", duration: 0.8, ease: "power3.inOut" },
+        { opacity: 0, scale: 1.04 },
+        { opacity: 1, scale: 1, duration: 0.9, ease: "power2.out" },
         0,
       );
 
-      // 2. "Welcome to" fades up (0.4s, 0.3s delay)
+      // 2. Overlay fades in with photo
+      tl.fromTo(
+        overlayRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.9 },
+        0,
+      );
+
+      // 3. "Welcome to" fades up
       tl.fromTo(
         welcomeRef.current,
-        { opacity: 0, y: 24 },
+        { opacity: 0, y: 14 },
         { opacity: 1, y: 0, duration: 0.4 },
-        0.3,
+        0.4,
       );
 
-      // 3. "ColorStack" slides in from right (0.6s, 0.5s delay)
+      // 4. "ColorStack" fades up
       tl.fromTo(
         colorstackRef.current,
-        { opacity: 0, x: 60 },
-        { opacity: 1, x: 0, duration: 0.6 },
-        0.5,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.5 },
+        0.6,
       );
 
-      // 4. "at Ohio State" fades up (0.4s, 0.7s delay)
+      // 5. "at Ohio State" — red box sweeps in, then text fades in on top
+      tl.fromTo(
+        atOhioHighlightRef.current,
+        { scaleX: 0 },
+        {
+          scaleX: 1,
+          duration: 0.45,
+          ease: "power3.inOut",
+          transformOrigin: "left center",
+        },
+        0.8,
+      );
       tl.fromTo(
         atOhioRef.current,
-        { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 0.4 },
-        0.7,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.2 },
+        1.1,
       );
 
-      // 5. CTA button scales in (0.3s, 1.0s delay)
+      // 6. Subline fades up
+      tl.fromTo(
+        sublineRef.current,
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.4 },
+        1.3,
+      );
+
+      // 7. CTA fades up
       tl.fromTo(
         ctaRef.current,
-        { opacity: 0, scale: 0.85 },
-        { opacity: 1, scale: 1, duration: 0.3 },
-        1.0,
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.4 },
+        1.5,
       );
 
-      // 6. Sponsor scroller fades in (0.4s, 1.2s delay)
+      // 8. Sponsor scroller slides up into frame
       tl.fromTo(
         scrollerRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.4 },
-        1.2,
+        { opacity: 0, y: 40 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+        1.6,
       );
     }, sectionRef);
 
@@ -75,125 +105,144 @@ export default function HeroSection() {
       ref={sectionRef}
       id="hero"
       aria-labelledby="hero-title"
-      className="relative min-h-screen bg-brand-cream overflow-hidden flex flex-col"
+      className="relative min-h-screen overflow-hidden flex flex-col"
     >
-      {/* Atmospheric gradient mesh behind text area */}
+      {/* ── Full-bleed background photo ── */}
       <div
-        className="absolute inset-0 pointer-events-none z-0"
+        ref={photoRef}
+        className="absolute inset-0 z-0"
+        style={{ opacity: 0 }}
         aria-hidden="true"
       >
-        <div className="hero-gradient-mesh" />
-        <div className="hero-noise-overlay" />
+        <Image
+          src="/images/hero-image.jpg"
+          alt=""
+          fill
+          className="object-cover object-center"
+          priority
+          draggable={false}
+        />
       </div>
 
-      {/* ── Main content area: grows to fill viewport height ── */}
-      <div className="relative z-10 flex-1 flex flex-col lg:block lg:min-h-[calc(100vh-80px)]">
-        {/* Hero photo — mobile: full-width above text; desktop: absolute left at 55% */}
-        <div
-          ref={photoRef}
-          className="relative w-full lg:absolute lg:left-0 lg:top-0 lg:bottom-0 lg:w-[55%]"
-          style={{
-            clipPath: "inset(0 100% 0 0)",
-            /* Mobile height */
-            height: undefined,
-          }}
-        >
-          {/* Mobile sizing wrapper */}
-          <div className="relative w-full h-[55vw] min-h-[240px] max-h-[400px] lg:hidden">
-            <Image
-              src="/images/hero_photo.jpg"
-              alt="ColorStack community members gathered at an event"
-              fill
-              className="object-cover object-center"
-              priority
-              draggable={false}
-            />
-            {/* Mobile gradient fade at bottom */}
-            <div
-              className="absolute bottom-0 left-0 right-0 h-24"
-              style={{
-                background:
-                  "linear-gradient(to bottom, transparent, var(--color-brand-cream))",
-              }}
+      {/* ── Light gradient overlay: cream/white on the left where text lives,
+              fading to transparent on the right so the photo shows through ── */}
+      <div
+        ref={overlayRef}
+        className="absolute inset-0 z-10 pointer-events-none"
+        style={{
+          opacity: 0,
+          background: `
+            linear-gradient(
+              to right,
+              rgba(20, 20, 20, 0.62) 0%,
+              rgba(20, 20, 20, 0.45) 40%,
+              rgba(20, 20, 20, 0.15) 70%,
+              rgba(20, 20, 20, 0.0) 100%
+            ),
+            linear-gradient(
+              to top,
+              rgba(20, 20, 20, 0.4) 0%,
+              transparent 25%
+            )
+          `,
+        }}
+        aria-hidden="true"
+      />
+
+      {/* ── Atmospheric noise texture ── */}
+      <div
+        className="absolute inset-0 z-10 pointer-events-none hero-noise-overlay"
+        aria-hidden="true"
+      />
+
+      {/* ── Text content — left-aligned, vertically centered ── */}
+      <div className="relative z-20 flex-1 flex flex-col justify-center px-8 py-24 sm:px-12 lg:px-20 max-w-3xl pb-40">
+        <h1 id="hero-title" className="text-left">
+          {/* "Welcome to" — overline */}
+          <span
+            ref={welcomeRef}
+            className="block font-body text-overline uppercase tracking-widest text-white/60 mb-3"
+            style={{ opacity: 0 }}
+          >
+            Welcome to
+          </span>
+
+          {/* "ColorStack" — Syne bold, bright red with glow for dark bg */}
+          <span
+            ref={colorstackRef}
+            className="block font-display font-bold text-hero leading-none tracking-tight text-white"
+            style={{
+              opacity: 0,
+            }}
+          >
+            ColorStack
+          </span>
+
+          {/* "at Ohio State" — red highlight box sweeps in, then text appears */}
+          <span className="block mt-1 relative">
+            {/* Red highlight box — sweeps from left via scaleX */}
+            <span
+              ref={atOhioHighlightRef}
+              className="absolute inset-y-0 left-0 right-0 bg-brand-red origin-left"
+              style={{ transform: "scaleX(0)" }}
               aria-hidden="true"
             />
-          </div>
-
-          {/* Desktop: fills the absolute container */}
-          <div className="hidden lg:block absolute inset-0">
-            <Image
-              src="/images/hero_photo.jpg"
-              alt="ColorStack community members gathered at an event"
-              fill
-              className="object-cover object-center"
-              priority
-              draggable={false}
-            />
-            {/* Desktop right-edge gradient blending into text area */}
-            <div
-              className="absolute top-0 right-0 bottom-0 w-40"
-              style={{
-                background:
-                  "linear-gradient(to right, transparent, var(--color-brand-cream))",
-              }}
-              aria-hidden="true"
-            />
-          </div>
-        </div>
-
-        {/* Text content — mobile: below photo; desktop: right side overlapping photo edge */}
-        <div className="flex flex-col justify-center px-6 pt-6 pb-0 lg:absolute lg:right-0 lg:top-0 lg:bottom-0 lg:w-[50%] lg:px-12 lg:py-20">
-          <h1 id="hero-title" className="leading-tight text-left">
-            {/* "Welcome to" — Source Serif 4 italic, subheading scale */}
-            <span
-              ref={welcomeRef}
-              className="block font-body italic text-subheading text-brand-charcoal mb-1"
-              style={{ opacity: 0 }}
-            >
-              Welcome to
-            </span>
-
-            {/* "ColorStack" — Syne, hero scale, brand red */}
-            <span
-              ref={colorstackRef}
-              className="block font-display text-hero text-brand-red leading-none"
-              style={{ opacity: 0 }}
-            >
-              ColorStack
-            </span>
-
-            {/* "at Ohio State" — Syne, display scale */}
+            {/* Text sits on top of the highlight */}
             <span
               ref={atOhioRef}
-              className="block font-display text-display text-brand-dark leading-tight"
+              className="relative font-display font-normal text-display text-white leading-tight tracking-tight px-2"
               style={{ opacity: 0 }}
             >
               at Ohio State
             </span>
-          </h1>
+          </span>
+        </h1>
 
-          {/* CTA button */}
-          <div ref={ctaRef} className="mt-8" style={{ opacity: 0 }}>
-            <a
-              href="https://airtable.com/appwBXPiTFhfryfV0/shrvvknL6HRR8H2EZ"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block bg-brand-red text-white px-6 py-3 rounded font-body text-body font-semibold transition-colors duration-normal ease-out-quart hover:bg-brand-red-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
-              aria-label="Become a ColorStack member - opens in new tab"
+        {/* Mission subline */}
+        <p
+          ref={sublineRef}
+          className="mt-6 font-body text-body text-white/80 max-w-sm leading-relaxed"
+          style={{ opacity: 0 }}
+        >
+          Increasing the number of Black, Latinx, and Indigenous technologists
+          who graduate and launch rewarding careers.
+        </p>
+
+        {/* CTA */}
+        <div className="mt-8">
+          <a
+            ref={ctaRef}
+            href="https://airtable.com/appwBXPiTFhfryfV0/shrvvknL6HRR8H2EZ"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-brand-red text-white px-7 py-3.5 rounded-lg font-body text-body font-semibold transition-colors duration-normal ease-out-quart hover:bg-brand-red-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+            aria-label="Become a ColorStack member - opens in new tab"
+            style={{ opacity: 0 }}
+          >
+            Become a Member
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              aria-hidden="true"
             >
-              Become a Member
-            </a>
-          </div>
+              <path
+                fillRule="evenodd"
+                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
+              />
+            </svg>
+          </a>
         </div>
       </div>
 
-      {/* Sponsor scroller — full-width at bottom of hero */}
+      {/* ── Sponsor scroller — pinned to bottom of hero, always in frame ── */}
       <div
         ref={scrollerRef}
-        className="relative z-10 mt-auto"
+        className="absolute bottom-0 left-0 right-0 z-20"
         style={{ opacity: 0 }}
       >
-        <p className="px-6 lg:px-12 pt-4 pb-2 uppercase font-body text-overline tracking-widest text-brand-slate">
+        <p className="px-8 sm:px-12 lg:px-20 pt-4 pb-2 uppercase font-body text-overline tracking-widest text-brand-slate">
           Our Supporters
         </p>
         <SponsorScroller />

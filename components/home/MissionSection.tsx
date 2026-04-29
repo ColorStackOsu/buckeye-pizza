@@ -72,17 +72,9 @@ export default function MissionSection() {
 
             {/* Bottom red rule */}
             <hr
-              className="divide-line-red-center w-1/2 mx-auto mt-6 mb-8"
+              className="divide-line-red-center w-1/2 mx-auto mt-6"
               aria-hidden="true"
             />
-
-            <Link
-              href="/about#about-us"
-              className="inline-block font-body text-white border border-white/40 px-6 py-3 rounded-sm hover:bg-white hover:text-brand-dark transition-colors duration-normal"
-              aria-label="Learn more about ColorStack at Ohio State"
-            >
-              Learn More
-            </Link>
           </div>
         </RevealAnimator>
 
@@ -118,6 +110,19 @@ export default function MissionSection() {
             </RevealAnimator>
           </div>
         </div>
+
+        {/* ── Learn More — after programs are shown ── */}
+        <RevealAnimator variant="fade-up" delay={200}>
+          <div className="text-center mt-10">
+            <Link
+              href="/about#about-us"
+              className="inline-block font-body text-white border border-white/40 px-6 py-3 rounded-sm hover:bg-white hover:text-brand-dark transition-colors duration-normal"
+              aria-label="Learn more about ColorStack at Ohio State"
+            >
+              Learn More
+            </Link>
+          </div>
+        </RevealAnimator>
       </div>
     </section>
   );

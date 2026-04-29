@@ -102,11 +102,14 @@ export default function GetInvolvedSection() {
         {/* Section heading */}
         <RevealAnimator variant="fade-up">
           <div className="max-w-6xl mx-auto mb-12">
+            <p className="font-body text-overline uppercase tracking-widest text-brand-red mb-3">
+              Your turn
+            </p>
             <h3
               className="font-display font-semibold text-3xl md:text-heading"
               id="get-involved-title"
             >
-              Get Involved
+              Ready to be part of something bigger?
             </h3>
             <hr className="divide-line-red w-24 mt-3" aria-hidden="true" />
           </div>

@@ -156,11 +156,14 @@ export default function TestimonialsSection() {
     >
       {/* Section Title */}
       <div className="text-center mb-10 md:mb-14 px-4">
+        <p className="font-body text-overline uppercase tracking-widest text-brand-red mb-3">
+          Real people. Real outcomes.
+        </p>
         <h2
           id="testimonials-title"
           className="font-display text-heading text-brand-dark"
         >
-          Voices Of <span className="text-brand-red">ColorStack</span>
+          Behind every number, <span className="text-brand-red">a story</span>
         </h2>
       </div>
 
@@ -186,7 +189,7 @@ export default function TestimonialsSection() {
             aria-roledescription="slide"
             aria-label={`Testimonial ${activeIndex + 1} of ${totalTestimonials}`}
           >
-            <div className="flex items-stretch gap-0 rounded-2xl overflow-hidden shadow-sm bg-brand-cream min-h-[420px] lg:min-h-[480px]">
+            <div className="flex items-stretch gap-0 rounded-2xl overflow-hidden shadow-sm bg-brand-cream min-h-[320px] lg:min-h-[360px]">
               {/* Photo column — 30% on tablet, 40% on desktop */}
               <div className="w-[30%] lg:w-[40%] relative flex-shrink-0 self-stretch">
                 <Image
@@ -199,7 +202,7 @@ export default function TestimonialsSection() {
               </div>
 
               {/* Quote column — 70% on tablet, 60% on desktop */}
-              <div className="w-[70%] lg:w-[60%] relative flex flex-col justify-center px-8 lg:px-14 py-10 lg:py-16 overflow-hidden">
+              <div className="w-[70%] lg:w-[60%] relative flex flex-col justify-center px-8 lg:px-12 py-8 lg:py-10 overflow-hidden">
                 {/* Decorative oversized opening quotation mark */}
                 <span
                   className="font-display absolute top-4 left-6 lg:left-10 select-none pointer-events-none"
@@ -220,7 +223,7 @@ export default function TestimonialsSection() {
                 </p>
 
                 {/* Quote text */}
-                <blockquote className="font-body text-subheading text-brand-dark leading-relaxed relative z-10 mb-6">
+                <blockquote className="font-body text-body text-brand-dark leading-relaxed relative z-10 mb-6">
                   {current.quote}
                 </blockquote>
 

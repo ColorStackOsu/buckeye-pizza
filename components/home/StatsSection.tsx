@@ -14,7 +14,7 @@ const stats: StatItem[] = [
   { value: "250+", label: "Registered Members" },
   { value: "49%", label: "Low-Income Students" },
   { value: "30%", label: "Identify As Women" },
-  { value: "25+", label: "2025 Offers Received" },
+  { value: "80+", label: "Offers Received for 2026" },
   { value: "10+", label: "Industry Partners" },
 ];
 
@@ -42,8 +42,33 @@ export default function StatsSection() {
         const el = valueRefs.current[index];
         if (!el) return;
 
+        const cell = el.closest("[data-stat-cell]") as HTMLElement | null;
         const { num, suffix } = parseStatValue(stat.value);
         const obj = { val: 0 };
+
+        // Stagger cells in from alternating sides to match the checkerboard rhythm
+        const col = index % 3;
+        const fromX = col === 0 ? -40 : col === 2 ? 40 : 0;
+        const staggerDelay = col * 0.1 + Math.floor(index / 3) * 0.08;
+
+        if (cell) {
+          gsap.fromTo(
+            cell,
+            { opacity: 0, x: fromX },
+            {
+              opacity: 1,
+              x: 0,
+              duration: 0.7,
+              delay: staggerDelay,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: cell,
+                start: "top 88%",
+                once: true,
+              },
+            },
+          );
+        }
 
         ScrollTrigger.create({
           trigger: el,
@@ -53,13 +78,12 @@ export default function StatsSection() {
             gsap.to(obj, {
               val: num,
               duration: 1.6,
-              delay: (index % 3) * 0.1 + Math.floor(index / 3) * 0.1,
+              delay: staggerDelay,
               ease: "power2.out",
               onUpdate: () => {
                 el.textContent = Math.round(obj.val) + suffix;
               },
               onComplete: () => {
-                // Ensure final value is exact
                 el.textContent = stat.value;
               },
             });
@@ -72,7 +96,20 @@ export default function StatsSection() {
   }, []);
 
   return (
-    <section aria-label="Impact statistics">
+    <section aria-labelledby="stats-title">
+      {/* ── Section intro ── */}
+      <div className="bg-brand-light px-6 pt-14 pb-8 text-center">
+        <p className="font-body text-overline uppercase tracking-widest text-brand-red mb-3">
+          Our impact in numbers
+        </p>
+        <h2
+          id="stats-title"
+          className="font-display text-heading text-brand-dark max-w-2xl mx-auto leading-tight"
+        >
+          A community that shows up — for each other, and for the industry.
+        </h2>
+      </div>
+
       {/*
         3×2 grid on desktop (lg+), 2-column on mobile.
         Checkerboard: even index → bg-brand-light / text-brand-red
@@ -88,6 +125,7 @@ export default function StatsSection() {
           return (
             <div
               key={stat.label}
+              data-stat-cell
               className={`${bgClass} flex flex-col items-center justify-center px-6 py-12 lg:py-16`}
             >
               {/* Stat value — count-up target */}
