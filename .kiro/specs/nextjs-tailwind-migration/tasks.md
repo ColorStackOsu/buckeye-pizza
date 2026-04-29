@@ -215,18 +215,18 @@ This plan migrates the ColorStack at Ohio State static website from Bootstrap 5 
     - Add page-level Open Graph metadata
     - _Requirements: 13.1_
 
-- [ ] 9. Checkpoint - Ensure all tests pass and pages render correctly
+- [x] 9. Checkpoint - Ensure all tests pass and pages render correctly
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 10. Implement Sponsors Page
-  - [ ] 10.1 Create SponsorHeader, SponsorTier, and SponsorEntry server components
+- [x] 10. Implement Sponsors Page
+  - [x] 10.1 Create SponsorHeader, SponsorTier, and SponsorEntry server components
     - Create `components/sponsors/SponsorHeader.tsx` with title, description, "Become A Sponsor" anchor button, and Sponsorship Packet PDF link
     - Create `components/sponsors/SponsorTier.tsx` rendering tier heading and list of SponsorEntry components with alternating background variants
     - Create `components/sponsors/SponsorEntry.tsx` displaying sponsor logo and description blurb with RevealAnimator
     - Use standard `<img>` for SVG sponsor logos
     - _Requirements: 6.1, 6.2, 6.3, 10.4_
 
-  - [ ] 10.2 Create SponsorForm client component
+  - [x] 10.2 Create SponsorForm client component
     - Create `components/sponsors/SponsorForm.tsx` with controlled form fields: Company Name (required), Contact Name (required), Email Address (required), Message (optional)
     - Implement client-side validation preventing submission when required fields are empty
     - Submit to Web3Forms API via `fetch` with hidden access key
@@ -238,7 +238,7 @@ This plan migrates the ColorStack at Ohio State static website from Bootstrap 5 
     - For any combination of form field values where at least one required field is empty, the form prevents submission and does not call the API
     - **Validates: Requirements 6.6**
 
-  - [ ] 10.4 Assemble Sponsors page
+  - [x] 10.4 Assemble Sponsors page
     - Create `app/sponsors/page.tsx` composing SponsorHeader, SponsorTier components for each tier, and SponsorForm
     - Add page-level Open Graph metadata
     - _Requirements: 13.1_
