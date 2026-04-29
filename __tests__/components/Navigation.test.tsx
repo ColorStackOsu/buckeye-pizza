@@ -127,10 +127,11 @@ describe("Navigation", () => {
     expect(toggleButton).toHaveAttribute("aria-expanded", "false");
   });
 
-  it("has sticky positioning", () => {
+  it("has fixed positioning at top of viewport", () => {
     render(<Navigation />);
     const nav = screen.getByRole("navigation");
-    expect(nav).toHaveClass("sticky", "top-0");
+    // Navigation uses fixed positioning to overlay the hero (design-revamp task 3)
+    expect(nav).toHaveClass("fixed", "top-0");
   });
 
   it("uses Next.js Link for internal navigation", () => {

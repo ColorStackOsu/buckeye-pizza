@@ -30,7 +30,7 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
   - Verify no component hardcodes `font-onest` or `var(--font-onest)` — update any that do
   - _Requirements: 2.1, 2.2, 2.3, 2.5, 2.6, 1.6_
 
-- [ ] 3. Redesign Navigation component
+- [x] 3. Redesign Navigation component
   - Refactor `components/Navigation.tsx` to start transparent (no background) and gain `backdrop-blur-md bg-white/80 border-b border-black/10` on scroll past the hero — use a `useEffect` + `scroll` listener toggling a state class
   - Apply `font-display` at `text-overline` size, uppercase, with wide letter-spacing (`tracking-widest`) to all desktop nav links
   - Replace the current hover color change with a red underline that slides in from center using a CSS `::after` pseudo-element (add a `.nav-link` class in `globals.css` mirroring the existing `footer-nav-link` pattern)
@@ -43,7 +43,7 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
     - Verify logo renders, all six destinations present (Events, Sponsors, Meet Us, About, Contact Us, Test Bank), sticky positioning class, mobile menu toggle, ARIA attributes
     - _Requirements: 3.1, 3.2, 3.4, 3.6_
 
-- [ ] 4. Redesign HeroSection — magazine-cover composition
+- [x] 4. Redesign HeroSection — magazine-cover composition
   - Restructure `components/home/HeroSection.tsx` as a full-viewport section (`min-h-screen`) with the hero photo bleeding to the left edge at ~55% width and the text content on the right, overlapping the photo edge slightly (negative left margin or absolute positioning)
   - Headline treatment: "Welcome to" in `font-body italic` at `text-subheading`, then "ColorStack" in `font-display text-hero text-brand-red`, then "at Ohio State" in `font-display` at `text-display` — all left-aligned with generous `leading-tight`
   - Remove the typewriter CSS animation; replace with a GSAP timeline (registered in a `useEffect`):

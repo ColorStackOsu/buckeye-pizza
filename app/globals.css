@@ -369,6 +369,34 @@
 }
 
 /* ==========================================================================
+   DESKTOP NAV LINK UNDERLINE ANIMATION
+   Animated red underline that slides in from center on hover, mirroring
+   the footer-nav-link pattern but using the brand red color directly.
+   ========================================================================== */
+
+.nav-link {
+  position: relative;
+  text-decoration: none;
+  padding-bottom: 2px;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 1.5px;
+  bottom: 0;
+  left: 50%;
+  background-color: var(--color-brand-red);
+  transition: width 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ==========================================================================
    DIVIDER LINES
    Gradient divider lines used between sections. These use complex
    linear-gradient backgrounds that are more readable as custom CSS.
@@ -488,4 +516,80 @@
   .logos:hover .logos-slide {
     animation-play-state: paused;
   }
+}
+
+/* ==========================================================================
+   HERO ATMOSPHERIC EFFECTS
+   Radial gradient mesh and noise texture overlay for the hero section.
+   These use complex gradient + SVG filter combinations that cannot be
+   expressed as Tailwind utilities.
+   ========================================================================== */
+
+.hero-gradient-mesh {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 70% 60% at 75% 40%,
+      rgba(185, 40, 61, 0.12) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 50% at 85% 70%,
+      rgba(240, 208, 213, 0.3) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 60% 40% at 60% 20%,
+      rgba(250, 245, 240, 0.5) 0%,
+      transparent 70%
+    );
+  background-size: 200% 200%;
+  animation: heroMeshShift 18s ease-in-out infinite alternate;
+}
+
+.hero-noise-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+@keyframes heroMeshShift {
+  0% {
+    background-position:
+      0% 0%,
+      100% 100%,
+      50% 50%;
+  }
+  50% {
+    background-position:
+      30% 60%,
+      70% 30%,
+      80% 20%;
+  }
+  100% {
+    background-position:
+      60% 30%,
+      20% 80%,
+      30% 70%;
+  }
+}
+
+/* ==========================================================================
+   HERO SPONSOR SCROLLER — GRAYSCALE LOGOS
+   Logos rendered in grayscale with opacity, transitioning to full color
+   on section hover. Uses descendant selector that cannot be expressed
+   as a single Tailwind utility.
+   ========================================================================== */
+
+#hero .logos img {
+  filter: grayscale(1) opacity(0.6);
+  transition: filter 0.4s ease;
+}
+
+#hero:hover .logos img {
+  filter: grayscale(0) opacity(1);
 }
