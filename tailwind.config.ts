@@ -26,7 +26,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-onest)", "sans-serif"],
+        sans: ["var(--font-body)", "Georgia", "serif"],
         display: ["var(--font-display)", "sans-serif"],
         body: ["var(--font-body)", "Georgia", "serif"],
       },

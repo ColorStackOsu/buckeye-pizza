@@ -23,7 +23,7 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
     - Tag: `Feature: design-revamp, Property 1: WCAG Color Contrast Compliance`
     - **Validates: Requirements 17.1, 17.2**
 
-- [ ] 2. Replace font loading with Syne + Source Serif 4 via next/font
+- [x] 2. Replace font loading with Syne + Source Serif 4 via next/font
   - In `app/layout.tsx`, remove the `Onest` import and replace with `Syne` (variable `--font-display`, `display: "swap"`) and `Source_Serif_4` (variable `--font-body`, `display: "swap"`)
   - Apply both CSS variables to the `<html>` element's `className`
   - Update `tailwind.config.ts` `fontFamily` so `font-display` maps to `["var(--font-display)", "sans-serif"]` and `font-body` maps to `["var(--font-body)", "Georgia", "serif"]`; update the existing `font-sans` fallback to use `font-body` or remove it if no longer needed
