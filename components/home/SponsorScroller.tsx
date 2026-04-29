@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+
 const sponsorLogos = [
   {
     src: "/images/sponsor-logos/cardinal-health-logo.svg",
@@ -25,33 +27,94 @@ const sponsorLogos = [
   { src: "/images/sponsor-logos/WillowTree.svg", alt: "WillowTree" },
 ];
 
-function LogoSet() {
-  return (
-    <div
-      className="logos-slide inline-block animate-slide will-change-transform"
-      aria-hidden="true"
-    >
-      {sponsorLogos.map((logo) => (
-        <img
-          key={logo.alt}
-          src={logo.src}
-          alt={logo.alt}
-          loading="eager"
-          className={`inline-block h-[1.7rem] mx-[1.3rem] ${logo.className ?? ""}`}
-        />
-      ))}
-    </div>
-  );
-}
+// Normal speed in px/s; slow speed on hover
+const SPEED_NORMAL = 60;
+const SPEED_HOVER = 20;
+// How fast speed transitions (px/s per second)
+const SPEED_LERP = 4;
 
 export default function SponsorScroller() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const posRef = useRef(0);
+  const speedRef = useRef(SPEED_NORMAL);
+  const targetSpeedRef = useRef(SPEED_NORMAL);
+  const rafRef = useRef<number | null>(null);
+  const lastTimeRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    // Width of one logo set (half the track, since we duplicate)
+    const getSetWidth = () => track.scrollWidth / 2;
+
+    const tick = (now: number) => {
+      if (lastTimeRef.current === null) lastTimeRef.current = now;
+      const dt = Math.min((now - lastTimeRef.current) / 1000, 0.1); // seconds, capped
+      lastTimeRef.current = now;
+
+      // Smoothly interpolate current speed toward target
+      const current = speedRef.current;
+      const target = targetSpeedRef.current;
+      speedRef.current =
+        current + (target - current) * Math.min(SPEED_LERP * dt, 1);
+
+      posRef.current += speedRef.current * dt;
+
+      const setWidth = getSetWidth();
+      if (setWidth > 0 && posRef.current >= setWidth) {
+        posRef.current -= setWidth;
+      }
+
+      track.style.transform = `translateX(${-posRef.current}px)`;
+
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+
+    return () => {
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      lastTimeRef.current = null;
+    };
+  }, []);
+
+  const handleMouseEnter = () => {
+    targetSpeedRef.current = SPEED_HOVER;
+  };
+
+  const handleMouseLeave = () => {
+    targetSpeedRef.current = SPEED_NORMAL;
+  };
+
   return (
     <div
-      className="logos overflow-hidden whitespace-nowrap bg-white py-[1.2rem] px-[1.2rem] shadow-[0_2px_4px_rgba(0,0,0,0.05)]"
+      className="logos overflow-hidden whitespace-nowrap bg-white py-[1.2rem] shadow-[0_2px_4px_rgba(0,0,0,0.05)]"
       aria-label="Sponsor logos scrolling display"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
-      <LogoSet />
-      <LogoSet />
+      {/* Single track div that we translate via JS */}
+      <div ref={trackRef} className="inline-block will-change-transform">
+        {/* Two copies for seamless loop */}
+        {[0, 1].map((setIndex) => (
+          <span
+            key={setIndex}
+            className="logos-slide inline-block"
+            aria-hidden={setIndex === 1 ? "true" : undefined}
+          >
+            {sponsorLogos.map((logo) => (
+              <img
+                key={logo.alt}
+                src={logo.src}
+                alt={setIndex === 0 ? logo.alt : ""}
+                loading="eager"
+                className={`inline-block h-[1.7rem] mx-[1.3rem] ${logo.className ?? ""}`}
+              />
+            ))}
+          </span>
+        ))}
+      </div>
     </div>
   );
 }

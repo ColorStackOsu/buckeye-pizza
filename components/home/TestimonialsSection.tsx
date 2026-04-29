@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import RevealAnimator from "@/components/RevealAnimator";
 
 interface Testimonial {
   name: string;
@@ -19,8 +18,8 @@ const testimonials: Testimonial[] = [
     title: "Opening Doors",
     quote: (
       <>
-        &ldquo;ColorStack@OSU has truly opened doors for me. Through the
-        connections I made within the community, I was able to secure my{" "}
+        ColorStack@OSU has truly opened doors for me. Through the connections I
+        made within the community, I was able to secure my{" "}
         <span className="font-semibold">
           upcoming Software Development Engineering internship with GoDaddy
         </span>{" "}
@@ -32,7 +31,7 @@ const testimonials: Testimonial[] = [
         </span>{" "}
         and a reminder that we deserve to take up space in this field. I&rsquo;m
         incredibly grateful to be part of such an empowering and uplifting
-        community.&rdquo;
+        community.
       </>
     ),
     photo: "/images/testimonial-photos/Arielle Barnes.jpeg",
@@ -43,7 +42,7 @@ const testimonials: Testimonial[] = [
     title: "Community to Career",
     quote: (
       <>
-        &ldquo;ColorStack has given me a supportive community of like-minded
+        ColorStack has given me a supportive community of like-minded
         individuals dedicated to uplifting underrepresented groups and
         communities. Through ColorStack I&rsquo;ve{" "}
         <span className="font-semibold">
@@ -57,7 +56,7 @@ const testimonials: Testimonial[] = [
         </span>{" "}
         Being part of ColorStack has not only helped me grow professionally but
         also connected me with amazing people who are passionate about making a
-        difference.&rdquo;
+        difference.
       </>
     ),
     photo: "/images/testimonial-photos/Dan Flores.jpeg",
@@ -68,17 +67,17 @@ const testimonials: Testimonial[] = [
     title: "Supported Every Step",
     quote: (
       <>
-        &ldquo;Through ColorStack, I met one of my closest friends and have
-        fostered a sense of community with people who uplift each other in every
-        sense. I have felt and had support through every step of my first year
-        at OSU, and{" "}
+        Through ColorStack, I met one of my closest friends and have fostered a
+        sense of community with people who uplift each other in every sense. I
+        have felt and had support through every step of my first year at OSU,
+        and{" "}
         <span className="font-semibold">
           learned about opportunities I never would have otherwise
         </span>
         . Thanks to the mentorship and guidance I have received, I now have the
         opportunity to participate in{" "}
         <span className="font-semibold">PwC&rsquo;s Career Preview</span> this
-        summer. I am truly grateful I decided to join this community.&rdquo;
+        summer. I am truly grateful I decided to join this community.
       </>
     ),
     photo: "/images/testimonial-photos/Berenice.jpeg",
@@ -89,200 +88,168 @@ const testimonials: Testimonial[] = [
     title: "Underdog to Big Tech",
     quote: (
       <>
-        &ldquo;I arrived at OSU from an under-resourced high school lacking tech
+        I arrived at OSU from an under-resourced high school lacking tech
         preparation. Through ColorStack&rsquo;s workshops and events,{" "}
         <span className="font-semibold">
           I gained the confidence and technical skills to compete for and secure
           a prestigious internship at GoDaddy.
         </span>{" "}
-        ColorStack bridged the gap between my background and my
-        potential.&rdquo;
+        ColorStack bridged the gap between my background and my potential.
       </>
     ),
     photo: "/images/testimonial-photos/Valdez Kankeu.png",
   },
 ];
 
-function QuoteIcon() {
-  return (
-    <span className="text-primary-red text-3xl leading-none" aria-hidden="true">
-      &#10077;
-    </span>
-  );
-}
-
-interface TestimonialCardProps {
-  testimonial: Testimonial;
-}
-
-function TestimonialCard({ testimonial }: TestimonialCardProps) {
-  return (
-    <div className="bg-white rounded-2xl shadow-sm py-3 px-4 mb-3">
-      <h4 className="font-semibold text-lg">
-        <QuoteIcon /> {testimonial.title}
-      </h4>
-      <p className="text-sm mt-2 leading-relaxed">{testimonial.quote}</p>
-    </div>
-  );
-}
-
-interface StudentInfoProps {
-  testimonial: Testimonial;
-  align?: "left" | "right";
-}
-
-function StudentInfo({ testimonial, align = "left" }: StudentInfoProps) {
-  return (
-    <div
-      className={`flex items-center gap-2 ${align === "right" ? "flex-row-reverse ml-auto" : ""}`}
-    >
-      <Image
-        src={testimonial.photo}
-        alt=""
-        aria-hidden="true"
-        width={56}
-        height={56}
-        className="rounded-full w-14 h-14 object-cover"
-      />
-      <div className={align === "right" ? "text-right" : ""}>
-        <h4 className="font-semibold text-base mb-0">{testimonial.name}</h4>
-        <p className="text-primary-red uppercase font-semibold text-sm">
-          {testimonial.year}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function ShapeDivider() {
-  return (
-    <div className="w-full">
-      <svg
-        data-name="Layer 1"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 1200 120"
-        preserveAspectRatio="none"
-        className="h-[60px] w-full"
-      >
-        <path
-          d="M1200 120L0 16.48 0 0 1200 0 1200 120z"
-          style={{ fill: "#f2f2f2" }}
-        />
-      </svg>
-    </div>
-  );
-}
-
 export default function TestimonialsSection() {
-  const [slideIndex, setSlideIndex] = useState(0);
-  const totalPages = 2;
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [displayIndex, setDisplayIndex] = useState(0);
+  const totalTestimonials = testimonials.length;
+  const transitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
+  // Ref so navigateTo always reads the latest index, not a stale closure
+  const activeIndexRef = useRef(0);
+
+  const navigateTo = (index: number) => {
+    if (index === activeIndexRef.current) return;
+    if (transitionTimeoutRef.current) {
+      clearTimeout(transitionTimeoutRef.current);
+    }
+    setIsTransitioning(true);
+    transitionTimeoutRef.current = setTimeout(() => {
+      activeIndexRef.current = index;
+      setDisplayIndex(index);
+      setActiveIndex(index);
+      setIsTransitioning(false);
+      transitionTimeoutRef.current = null;
+    }, 350);
+  };
 
   const goToPrev = () => {
-    setSlideIndex((prev) => (prev === 0 ? totalPages - 1 : prev - 1));
+    const current = activeIndexRef.current;
+    navigateTo(current === 0 ? totalTestimonials - 1 : current - 1);
   };
 
   const goToNext = () => {
-    setSlideIndex((prev) => (prev === totalPages - 1 ? 0 : prev + 1));
+    const current = activeIndexRef.current;
+    navigateTo(current === totalTestimonials - 1 ? 0 : current + 1);
   };
 
-  // Carousel pages: page 0 = testimonials 0,1; page 1 = testimonials 2,3
-  const carouselPages = [
-    [testimonials[0], testimonials[1]],
-    [testimonials[2], testimonials[3]],
-  ];
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (transitionTimeoutRef.current) {
+        clearTimeout(transitionTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const current = testimonials[displayIndex];
 
   return (
     <section
       id="testimonials"
       aria-labelledby="testimonials-title"
-      className="testimonial-gradient-overlay"
+      className="testimonial-gradient-overlay py-space-section overflow-hidden"
     >
-      <ShapeDivider />
-
       {/* Section Title */}
-      <RevealAnimator
-        variant="scale-forward"
-        className="text-center pt-5 pb-5 md:pb-3 mt-4"
-      >
-        <h2 className="mb-0 font-semibold text-3xl" id="testimonials-title">
-          Voices Of
+      <div className="text-center mb-10 md:mb-14 px-4">
+        <h2
+          id="testimonials-title"
+          className="font-display text-heading text-brand-dark"
+        >
+          Voices Of <span className="text-brand-red">ColorStack</span>
         </h2>
-        <h3 className="text-primary-red text-2xl font-semibold">ColorStack</h3>
-      </RevealAnimator>
-
-      {/* Small Viewport: stacked cards, testimonials 1 and 2 only */}
-      <div className="block md:hidden relative pb-5 mx-auto">
-        <div className="flex flex-col mx-auto justify-center px-4">
-          {/* Card 1 - photo on left */}
-          <RevealAnimator variant="fade-up">
-            <div className="flex flex-col mb-3">
-              <TestimonialCard testimonial={testimonials[0]} />
-              <StudentInfo testimonial={testimonials[0]} align="left" />
-            </div>
-          </RevealAnimator>
-
-          {/* Card 2 - photo on right */}
-          <RevealAnimator variant="fade-up">
-            <div className="flex flex-col">
-              <TestimonialCard testimonial={testimonials[1]} />
-              <StudentInfo testimonial={testimonials[1]} align="right" />
-            </div>
-          </RevealAnimator>
-        </div>
       </div>
 
-      {/* Medium Viewport: horizontal row, 3 cards */}
-      <div className="hidden md:block lg:hidden relative pb-5">
-        <RevealAnimator variant="fade-up" className="px-4">
-          <div className="flex gap-4">
-            {[testimonials[0], testimonials[1], testimonials[3]].map(
-              (testimonial) => (
-                <div key={testimonial.name} className="flex flex-col flex-1">
-                  <TestimonialCard testimonial={testimonial} />
-                  <StudentInfo testimonial={testimonial} align="left" />
-                </div>
-              ),
-            )}
-          </div>
-        </RevealAnimator>
-      </div>
-
-      {/* Large Viewport: Paginated Carousel */}
-      <div className="hidden lg:block py-4 my-4 relative">
-        <RevealAnimator variant="scale-forward">
+      {/* ── DESKTOP / TABLET: Editorial spread layout ── */}
+      <div
+        className="hidden md:block relative z-10"
+        role="region"
+        aria-label="Testimonials carousel"
+        aria-roledescription="carousel"
+        aria-live="polite"
+      >
+        <div className="max-w-6xl mx-auto px-6 lg:px-12">
+          {/* Spread container — crossfade + slide transition */}
           <div
-            aria-label="Testimonials carousel"
-            aria-roledescription="carousel"
+            className="relative"
+            style={{
+              transition: "opacity 350ms ease, transform 350ms ease",
+              opacity: isTransitioning ? 0 : 1,
+              transform: isTransitioning ? "translateX(12px)" : "translateX(0)",
+              willChange: "opacity, transform",
+            }}
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`Testimonial ${activeIndex + 1} of ${totalTestimonials}`}
           >
-            {/* Carousel Content */}
-            <div className="overflow-hidden">
-              {carouselPages.map((page, pageIndex) => (
-                <div
-                  key={pageIndex}
-                  className={`${slideIndex === pageIndex ? "block" : "hidden"}`}
-                  role="tabpanel"
-                  aria-label={`Slide ${pageIndex + 1} of ${totalPages}`}
+            <div className="flex items-stretch gap-0 rounded-2xl overflow-hidden shadow-sm bg-brand-cream min-h-[420px] lg:min-h-[480px]">
+              {/* Photo column — 30% on tablet, 40% on desktop */}
+              <div className="w-[30%] lg:w-[40%] relative flex-shrink-0 self-stretch">
+                <Image
+                  src={current.photo}
+                  alt={`Photo of ${current.name}`}
+                  fill
+                  className="object-cover object-top"
+                  sizes="(min-width: 1024px) 40vw, 30vw"
+                />
+              </div>
+
+              {/* Quote column — 70% on tablet, 60% on desktop */}
+              <div className="w-[70%] lg:w-[60%] relative flex flex-col justify-center px-8 lg:px-14 py-10 lg:py-16 overflow-hidden">
+                {/* Decorative oversized opening quotation mark */}
+                <span
+                  className="font-display absolute top-4 left-6 lg:left-10 select-none pointer-events-none"
+                  aria-hidden="true"
+                  style={{
+                    fontSize: "8rem",
+                    lineHeight: 1,
+                    opacity: 0.12,
+                    color: "var(--color-brand-red)",
+                  }}
                 >
-                  <div className="flex justify-center gap-5 pb-5 mb-3">
-                    {page.map((testimonial) => (
-                      <div
-                        key={testimonial.name}
-                        className="flex flex-col max-w-md"
-                      >
-                        <TestimonialCard testimonial={testimonial} />
-                        <StudentInfo testimonial={testimonial} align="left" />
-                      </div>
-                    ))}
+                  &ldquo;
+                </span>
+
+                {/* Testimonial title */}
+                <p className="font-display text-overline uppercase tracking-widest text-brand-red mb-3 relative z-10">
+                  {current.title}
+                </p>
+
+                {/* Quote text */}
+                <blockquote className="font-body text-subheading text-brand-dark leading-relaxed relative z-10 mb-6">
+                  {current.quote}
+                </blockquote>
+
+                {/* Byline */}
+                <div className="relative z-10 flex items-center gap-3">
+                  <div
+                    className="h-px w-8 bg-brand-red flex-shrink-0"
+                    aria-hidden="true"
+                  />
+                  <div>
+                    <p className="font-body font-semibold text-brand-dark text-body leading-tight">
+                      {current.name}
+                    </p>
+                    <p className="font-display text-overline uppercase tracking-widest text-brand-red">
+                      {current.year}
+                    </p>
                   </div>
                 </div>
-              ))}
+              </div>
             </div>
+          </div>
 
-            {/* Carousel Controls */}
+          {/* Navigation controls */}
+          <div className="flex items-center justify-between mt-6">
+            {/* Prev arrow */}
             <button
               onClick={goToPrev}
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center rounded-full bg-white/80 hover:bg-white shadow transition-colors"
-              aria-label="Previous slide"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/80 hover:bg-white shadow transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-red"
+              aria-label="Previous testimonial"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -299,10 +266,34 @@ export default function TestimonialsSection() {
               </svg>
             </button>
 
+            {/* Dot indicators */}
+            <div
+              className="flex items-center gap-2"
+              role="tablist"
+              aria-label="Testimonial indicators"
+            >
+              {testimonials.map((t, i) => (
+                <button
+                  key={t.name}
+                  onClick={() => navigateTo(i)}
+                  className={`rounded-full transition-all duration-normal focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-red ${
+                    activeIndex === i
+                      ? "w-6 h-2.5 bg-brand-red"
+                      : "w-2.5 h-2.5 bg-gray-300 hover:bg-gray-400"
+                  }`}
+                  role="tab"
+                  aria-selected={activeIndex === i}
+                  aria-current={activeIndex === i ? "true" : undefined}
+                  aria-label={`Go to testimonial ${i + 1}: ${t.name}`}
+                />
+              ))}
+            </div>
+
+            {/* Next arrow */}
             <button
               onClick={goToNext}
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center rounded-full bg-white/80 hover:bg-white shadow transition-colors"
-              aria-label="Next slide"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/80 hover:bg-white shadow transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-red"
+              aria-label="Next testimonial"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -318,30 +309,49 @@ export default function TestimonialsSection() {
                 />
               </svg>
             </button>
-
-            {/* Dot Indicators */}
-            <div
-              className="flex justify-center gap-2 mt-2"
-              role="tablist"
-              aria-label="Carousel page indicators"
-            >
-              {carouselPages.map((_, pageIndex) => (
-                <button
-                  key={pageIndex}
-                  onClick={() => setSlideIndex(pageIndex)}
-                  className={`w-3 h-3 rounded-full transition-colors ${
-                    slideIndex === pageIndex
-                      ? "bg-primary-red"
-                      : "bg-gray-300 hover:bg-gray-400"
-                  }`}
-                  role="tab"
-                  aria-selected={slideIndex === pageIndex}
-                  aria-label={`Go to slide ${pageIndex + 1}`}
-                />
-              ))}
-            </div>
           </div>
-        </RevealAnimator>
+        </div>
+      </div>
+
+      {/* ── MOBILE: Stacked layout — all four testimonials ── */}
+      <div className="block md:hidden px-4 relative z-10">
+        <div className="flex flex-col gap-10">
+          {testimonials.map((testimonial) => (
+            <div key={testimonial.name} className="flex flex-col items-center">
+              {/* Circular photo centered above */}
+              <div className="relative w-24 h-24 rounded-full overflow-hidden mb-5 flex-shrink-0 shadow-sm">
+                <Image
+                  src={testimonial.photo}
+                  alt={`Photo of ${testimonial.name}`}
+                  fill
+                  className="object-cover"
+                  sizes="96px"
+                />
+              </div>
+
+              {/* Quote content below */}
+              <div className="text-center max-w-sm">
+                {/* Testimonial title */}
+                <p className="font-display text-overline uppercase tracking-widest text-brand-red mb-2">
+                  {testimonial.title}
+                </p>
+
+                {/* Quote text */}
+                <blockquote className="font-body text-body text-brand-dark leading-relaxed mb-4">
+                  {testimonial.quote}
+                </blockquote>
+
+                {/* Byline */}
+                <p className="font-body font-semibold text-brand-dark text-body leading-tight">
+                  {testimonial.name}
+                </p>
+                <p className="font-display text-overline uppercase tracking-widest text-brand-red">
+                  {testimonial.year}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

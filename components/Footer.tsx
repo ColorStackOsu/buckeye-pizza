@@ -76,62 +76,66 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer role="contentinfo" className="bg-dark text-white">
-      <div className="container mx-auto px-4 py-8">
-        {/* Logo */}
-        <div className="text-start md:text-center px-3">
-          <Link href="/" aria-label="ColorStackOSU Home">
+    <footer role="contentinfo" className="bg-brand-dark text-white font-body">
+      <div className="container mx-auto px-6 py-10">
+        {/* ── Top Row: Logo left + Nav links right (desktop) ── */}
+        <div className="flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-between md:gap-0 pb-8 border-b border-white/10">
+          {/* Logo */}
+          <Link href="/" aria-label="ColorStackOSU Home" className="shrink-0">
             <Image
               src="/images/Logo Horizontal.png"
               alt="ColorStackOSU Logo"
               width={180}
               height={50}
-              className="h-12 w-auto inline-block"
+              className="h-12 w-auto"
             />
           </Link>
+
+          {/* Navigation Links */}
+          <nav aria-label="Footer navigation">
+            <div className="flex flex-col items-center gap-3 md:flex-row md:gap-8">
+              {pageLinks.map((link) => (
+                <Link
+                  key={link.href + link.label}
+                  href={link.href}
+                  className={`footer-nav-link font-body text-white/80 hover:text-white transition-colors text-sm${
+                    link.mobileOnly ? " md:hidden" : ""
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </nav>
         </div>
 
-        {/* Navigation Links */}
-        <nav aria-label="Footer navigation">
-          <div className="flex flex-col md:flex-row md:justify-center justify-start gap-3 md:gap-10 py-4 md:py-2 px-4">
-            {pageLinks.map((link) => (
-              <Link
-                key={link.href + link.label}
-                href={link.href}
-                className={`footer-nav-link text-white/80 hover:text-white transition-colors${
-                  link.mobileOnly ? " md:hidden block" : ""
-                }`}
+        {/* ── Bottom Row: Social icons centered + copyright below ── */}
+        <div className="flex flex-col items-center gap-4 pt-8">
+          {/* Social Media Icons */}
+          <div
+            className="flex items-center justify-center gap-3"
+            aria-label="Social media links"
+          >
+            {socialLinks.map((social) => (
+              <a
+                key={social.href}
+                href={social.href}
+                className="flex items-center justify-center w-10 h-10 rounded-full bg-brand-red text-white hover:bg-brand-red-hover transition-colors"
+                aria-label={social.label}
+                {...(social.external
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
               >
-                {link.label}
-              </Link>
+                {social.icon}
+              </a>
             ))}
           </div>
-        </nav>
 
-        {/* Social Media Buttons */}
-        <div
-          className="flex justify-center py-2 w-full gap-2"
-          aria-label="Social media links"
-        >
-          {socialLinks.map((social) => (
-            <a
-              key={social.href}
-              href={social.href}
-              className="flex items-center justify-center w-10 h-10 rounded-full bg-primary-red text-white hover:bg-hover-red transition-colors"
-              aria-label={social.label}
-              {...(social.external
-                ? { target: "_blank", rel: "noopener noreferrer" }
-                : {})}
-            >
-              {social.icon}
-            </a>
-          ))}
+          {/* Copyright */}
+          <p className="font-body text-white/50 text-sm text-center">
+            © {currentYear} ColorStack Ohio State. All Rights Reserved.
+          </p>
         </div>
-
-        {/* Copyright */}
-        <p className="text-center mt-2 mb-0 opacity-50 text-sm">
-          © {currentYear} ColorStack Ohio State. All Rights Reserved.
-        </p>
       </div>
     </footer>
   );

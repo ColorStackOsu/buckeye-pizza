@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useRef, useCallback } from "react";
 import RevealAnimator from "@/components/RevealAnimator";
 
 /* ── SVG Icons (inline since Bootstrap Icons CDN is not available) ── */
@@ -60,26 +63,29 @@ interface InvolvedCard {
   href: string;
   external?: boolean;
   variant: "standard" | "red";
+  /** Whether this card is the elevated center card on desktop */
+  primary?: boolean;
 }
 
 const cards: InvolvedCard[] = [
   {
-    icon: <BuildingIcon className="text-3xl" />,
+    icon: <BuildingIcon className="text-4xl" />,
     subtitle: "Collaborate With Us",
     title: "Sponsorship",
     href: "/sponsors",
     variant: "standard",
   },
   {
-    icon: <PersonHeartIcon className="text-3xl" />,
+    icon: <PersonHeartIcon className="text-4xl" />,
     subtitle: "Join Us",
     title: "Join The Community",
     href: "https://colorstackosu.slack.com/",
     external: true,
     variant: "red",
+    primary: true,
   },
   {
-    icon: <EnvelopeIcon className="text-3xl" />,
+    icon: <EnvelopeIcon className="text-4xl" />,
     subtitle: "Get In Touch",
     title: "Contact Us",
     href: "/about#contact-us",
@@ -92,55 +98,55 @@ const cards: InvolvedCard[] = [
 export default function GetInvolvedSection() {
   return (
     <section id="get-involved" aria-labelledby="get-involved-title">
-      <div className="bg-bg-white px-4">
+      <div className="bg-brand-bg px-6 md:px-12 py-16 md:py-24">
         {/* Section heading */}
         <RevealAnimator variant="fade-up">
-          <div className="mx-2 md:mx-5 px-2 md:px-4 pt-5">
-            <h3 className="px-2 font-semibold text-2xl" id="get-involved-title">
+          <div className="max-w-6xl mx-auto mb-12">
+            <h3
+              className="font-display font-semibold text-3xl md:text-heading"
+              id="get-involved-title"
+            >
               Get Involved
             </h3>
-            <hr
-              className="divide-line-red w-1/2 ms-2 mt-2"
-              aria-hidden="true"
-            />
+            <hr className="divide-line-red w-24 mt-3" aria-hidden="true" />
           </div>
         </RevealAnimator>
 
-        {/* CTA Cards */}
+        {/* CTA Cards — asymmetric triptych */}
         <RevealAnimator variant="fade-up">
-          <div className="flex flex-wrap py-4 my-4 mx-4 justify-center">
-            {/* ── Desktop / Tablet (md+): all 3 cards in a row ── */}
-
-            {/* Sponsorship – md+ */}
-            <div className="hidden md:flex w-4/12 mb-3 justify-center">
-              <CardContent card={cards[0]} />
+          {/* Desktop (lg+): three cards in a row, center elevated */}
+          <div className="hidden lg:flex items-end justify-center gap-8 max-w-6xl mx-auto pb-8">
+            {/* Flanking card — Sponsorship */}
+            <div className="flex-1 max-w-sm">
+              <TiltCard card={cards[0]} />
             </div>
 
-            {/* Join The Community – md+ */}
-            <div className="hidden md:flex w-4/12 mb-3 justify-center">
-              <CardContent card={cards[1]} />
+            {/* Center card — Join The Community (elevated + scaled) */}
+            <div className="flex-1 max-w-md -translate-y-4 scale-105">
+              <TiltCard card={cards[1]} />
             </div>
 
-            {/* Contact Us – md+ */}
-            <div className="hidden md:flex w-4/12 mb-3 justify-center">
-              <CardContent card={cards[2]} />
+            {/* Flanking card — Contact Us */}
+            <div className="flex-1 max-w-sm">
+              <TiltCard card={cards[2]} />
+            </div>
+          </div>
+
+          {/* Mobile / Tablet (below lg): stacked layout */}
+          <div className="flex lg:hidden flex-col items-center gap-5 max-w-lg mx-auto">
+            {/* Join The Community — primary, full width, on top */}
+            <div className="w-full">
+              <TiltCard card={cards[1]} />
             </div>
 
-            {/* ── Mobile (below md): reordered layout ── */}
-
-            {/* Sponsorship – mobile */}
-            <div className="flex md:hidden w-6/12 mb-3 justify-center">
-              <CardContent card={cards[0]} />
-            </div>
-
-            {/* Contact Us – mobile (side by side with Sponsorship) */}
-            <div className="flex md:hidden w-6/12 mb-3 justify-center">
-              <CardContent card={cards[2]} />
-            </div>
-
-            {/* Join The Community – mobile (full width centered below) */}
-            <div className="flex md:hidden w-10/12 mx-auto mb-3 justify-center">
-              <CardContent card={cards[1]} />
+            {/* Sponsorship + Contact Us side by side */}
+            <div className="flex w-full gap-4">
+              <div className="flex-1">
+                <TiltCard card={cards[0]} />
+              </div>
+              <div className="flex-1">
+                <TiltCard card={cards[2]} />
+              </div>
             </div>
           </div>
         </RevealAnimator>
@@ -149,59 +155,87 @@ export default function GetInvolvedSection() {
   );
 }
 
-/* ── Card rendering helper ── */
+/* ── Tilt card with JS mousemove perspective effect ── */
 
-function CardContent({ card }: { card: InvolvedCard }) {
+function TiltCard({ card }: { card: InvolvedCard }) {
+  const cardRef = useRef<HTMLElement | null>(null);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    const el = cardRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    // Max tilt of ±8 degrees
+    const rotateY = ((x - cx) / cx) * 8;
+    const rotateX = -((y - cy) / cy) * 8;
+    el.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    const el = cardRef.current;
+    if (!el) return;
+    el.style.transform = "";
+  }, []);
+
   const isRed = card.variant === "red";
 
   const cardClasses = [
-    "flex flex-col shadow px-4 py-3 rounded-[20px] w-full max-w-[18rem] min-h-[8rem]",
-    "transition-all duration-300 ease-in-out hover:-translate-y-[5px]",
-    "no-underline",
+    "flex flex-col shadow-lg px-8 py-8 rounded-2xl w-full min-h-[14rem]",
+    "perspective-card no-underline",
+    "focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-2",
     isRed
-      ? "bg-primary-red text-white hover:bg-[#c81136]"
-      : "bg-[#d3d3d3] text-black hover:bg-[#e2e1e1]",
+      ? "bg-brand-red text-white hover:bg-brand-red-hover"
+      : "bg-white text-black hover:bg-brand-light border border-black/8",
   ].join(" ");
+
+  const titleId = `${card.title.replace(/\s+/g, "-").toLowerCase()}-title`;
+
+  const content = (
+    <>
+      {card.icon}
+      <p
+        className={`font-body italic opacity-70 mb-0 text-sm mt-4 ${
+          isRed ? "text-white" : "text-brand-slate"
+        }`}
+      >
+        {card.subtitle}
+      </p>
+      <h4 id={titleId} className="font-display text-2xl font-semibold mt-2">
+        {card.title}
+      </h4>
+    </>
+  );
 
   if (card.external) {
     return (
       <a
+        ref={cardRef as React.Ref<HTMLAnchorElement>}
         href={card.href}
         target="_blank"
         rel="noopener noreferrer"
         className={cardClasses}
-        aria-labelledby={`${card.title.replace(/\s+/g, "-").toLowerCase()}-title`}
+        aria-labelledby={titleId}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
       >
-        {card.icon}
-        <p className={`opacity-75 mb-0 text-sm ${isRed ? "text-white" : ""}`}>
-          {card.subtitle}
-        </p>
-        <h4
-          id={`${card.title.replace(/\s+/g, "-").toLowerCase()}-title`}
-          className="text-xl font-semibold"
-        >
-          {card.title}
-        </h4>
+        {content}
       </a>
     );
   }
 
   return (
     <Link
+      ref={cardRef as React.Ref<HTMLAnchorElement>}
       href={card.href}
       className={cardClasses}
-      aria-labelledby={`${card.title.replace(/\s+/g, "-").toLowerCase()}-title`}
+      aria-labelledby={titleId}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
-      {card.icon}
-      <p className={`opacity-75 mb-0 text-sm ${isRed ? "text-white" : ""}`}>
-        {card.subtitle}
-      </p>
-      <h4
-        id={`${card.title.replace(/\s+/g, "-").toLowerCase()}-title`}
-        className="text-xl font-semibold"
-      >
-        {card.title}
-      </h4>
+      {content}
     </Link>
   );
 }

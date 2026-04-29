@@ -57,11 +57,11 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
   - Mobile layout: photo full-width above text with a gradient fade at the bottom; text stacks below
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8_
 
-  - [ ]\* 4.1 Write unit tests for HeroSection
+  - [x] 4.1 Write unit tests for HeroSection
     - Verify headline text, display font class on "ColorStack", CTA link href, hero photo alt text, sponsor scroller presence
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
 
-- [ ] 5. Redesign SponsorScroller
+- [x] 5. Redesign SponsorScroller
   - Update `components/home/SponsorScroller.tsx` to render logos with `filter: grayscale(1) opacity(0.6)` by default, transitioning to `filter: grayscale(0) opacity(1)` on section hover (add a CSS class in `globals.css` using the `.logos:hover img` selector pattern)
   - Ensure the existing `@media (min-width: 992px) .logos:hover .logos-slide { animation-play-state: paused }` rule is preserved
   - Position the scroller at the bottom of the hero section, full-width
@@ -71,7 +71,7 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
     - Verify all sponsor logos render, animation class present, `aria-label` on container
     - _Requirements: 12.1, 12.2, 12.3_
 
-- [ ] 6. Redesign MissionSection — editorial pull-quote layout
+- [x] 6. Redesign MissionSection — editorial pull-quote layout
   - Refactor `components/home/MissionSection.tsx` to render the mission statement as a large pull-quote: `font-display` at `text-display` scale, centered, with a thin red `<hr>` rule above and below (reuse `.divide-line-main` or create a new `.divide-line-red-center` variant)
   - Redesign the three program pillar cards as photo-background cards: the image fills the card as a CSS `background-image` (or `<Image>` with `object-cover` and `fill`), overlaid with a dark gradient (`from-transparent to-brand-dark`), and the title (`font-display`) + description (`font-body`) in white text at the bottom
   - Desktop grid: first card spans 2 columns (`col-span-2`), the other two stack in the third column — use CSS Grid (`grid-cols-3`)
@@ -83,7 +83,7 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
     - Verify mission heading uses display font class, three pillar titles and descriptions present, dark background class, "Learn More" link href
     - _Requirements: 5.1, 5.2, 5.5, 5.6_
 
-- [ ] 7. Redesign StatsSection — typographic wall with count-up
+- [x] 7. Redesign StatsSection — typographic wall with count-up
   - Refactor `components/home/StatsSection.tsx` to remove the SVG shape dividers and ribbon clip-paths
   - Desktop layout: a 3×2 CSS Grid where each cell shows the stat value in `font-display text-hero` and the label in `font-body text-caption` below; alternate cells between `text-brand-red on bg-brand-light` and `text-white on bg-brand-dark` for a checkerboard rhythm
   - Mobile layout: 2-column grid with values at `text-display` scale
@@ -95,7 +95,7 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
     - Verify all six stat values and labels render, display font class on stat values, brand color classes present
     - _Requirements: 6.1, 6.2, 6.4_
 
-- [ ] 8. Redesign TestimonialsSection — editorial quote spreads
+- [x] 8. Redesign TestimonialsSection — editorial quote spreads
   - Refactor `components/home/TestimonialsSection.tsx` to remove the `ShapeDivider` SVG and the existing card/carousel structure
   - Desktop: paginated view where each "spread" is a two-column layout — photo left (40%, `object-cover`, rectangular with slight border-radius), quote right (60%); quote text in `font-body text-subheading`; a large decorative opening quotation mark in `font-display` at ~8rem, positioned as an oversized background element (absolute, low opacity); name in `font-body font-semibold`; year in `font-display text-overline uppercase text-brand-red`
   - Testimonial title uses `font-display` at `text-heading` scale
@@ -109,7 +109,7 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
     - Verify all four testimonials render with name, year, title, quote text, and photo; display font class on titles; navigation controls present
     - _Requirements: 7.1, 7.2, 7.5_
 
-- [ ] 9. Redesign GetInvolvedSection — asymmetric triptych CTAs
+- [x] 9. Redesign GetInvolvedSection — asymmetric triptych CTAs
   - Refactor `components/home/GetInvolvedSection.tsx` to implement the asymmetric triptych: on desktop, the center "Join The Community" card is elevated (`-translate-y-4 scale-105`) and visually dominant; flanking cards are at normal scale
   - Apply `font-display` to card titles and `font-body italic` to subtitle text
   - Replace the current `hover:-translate-y-[5px]` with a CSS perspective tilt effect: add a `perspective-card` class in `globals.css` using `transform-style: preserve-3d` and a subtle `rotateX`/`rotateY` on hover (use a JS `mousemove` listener or a pure CSS approximation with `:hover` transforms)
@@ -120,12 +120,12 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
     - Verify three CTAs present, "Join The Community" has red background class, correct hrefs, display font class on titles
     - _Requirements: 8.1, 8.2, 8.4, 8.5_
 
-- [ ] 10. Checkpoint — ensure all home section tests pass
+- [x] 10. Checkpoint — ensure all home section tests pass
   - Run `npm test` and confirm all tests in `__tests__/` pass
   - Fix any TypeScript errors introduced by the font/token changes
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 11. Redesign Footer
+- [x] 11. Redesign Footer
   - Refactor `components/Footer.tsx` to a two-row structure: top row has logo left + nav links right (desktop), bottom row has social icons centered + copyright below
   - Apply `font-body` to all text; social icon circles use `bg-brand-red hover:bg-brand-red-hover`
   - Preserve the `.footer-nav-link` underline animation (already in `globals.css`)
