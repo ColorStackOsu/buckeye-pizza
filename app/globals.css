@@ -350,6 +350,28 @@
   width: 600px;
 }
 
+.divide-line-sub-right {
+  opacity: 1;
+  height: 2px;
+  border: none;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(186, 12, 47, 1) 100%
+  );
+}
+
+.divide-line-sub-left {
+  opacity: 1;
+  height: 2px;
+  border: none;
+  background: linear-gradient(
+    90deg,
+    rgba(186, 12, 47, 1) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
 .divide-line-red {
   opacity: 1;
   height: 1px;

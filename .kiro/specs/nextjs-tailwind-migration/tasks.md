@@ -243,14 +243,14 @@ This plan migrates the ColorStack at Ohio State static website from Bootstrap 5 
     - Add page-level Open Graph metadata
     - _Requirements: 13.1_
 
-- [ ] 11. Implement About Page
-  - [ ] 11.1 Create About page components
+- [x] 11. Implement About Page
+  - [x] 11.1 Create About page components
     - Create `components/about/AboutHero.tsx` (server) with ColorStack logo, heading, and subheading with bounce animations
     - Create `components/about/AboutUsSection.tsx` (server) with mission description, social media links, offerings list, and national ColorStack link
     - Create `components/about/ContactUsSection.tsx` (server) with description and mailto link
     - _Requirements: 7.1, 7.2, 7.3_
 
-  - [ ] 11.2 Assemble About page with hash fragment scrolling
+  - [x] 11.2 Assemble About page with hash fragment scrolling
     - Create `app/about/page.tsx` as a client component wrapper composing AboutHero, AboutUsSection, and ContactUsSection
     - Implement `useEffect` to scroll to `#about-us` or `#contact-us` section on mount based on URL hash
     - Add page-level Open Graph metadata
