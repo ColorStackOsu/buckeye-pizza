@@ -108,71 +108,71 @@ This plan migrates the ColorStack at Ohio State static website from Bootstrap 5 
     - Configure metadata (title "ColorStackOSU", favicon, Open Graph defaults)
     - _Requirements: 2.1, 13.1, 13.2, 13.3_
 
-- [ ] 5. Checkpoint - Ensure project builds and shared components render
+- [x] 5. Checkpoint - Ensure project builds and shared components render
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 6. Implement Home Page
-  - [ ] 6.1 Create HeroSection and SponsorScroller client components
+- [x] 6. Implement Home Page
+  - [x] 6.1 Create HeroSection and SponsorScroller client components
     - Create `components/home/HeroSection.tsx` with typewriter animation heading, "Become a Member" CTA button, and hero image (visible on `lg` viewports)
     - Create `components/home/SponsorScroller.tsx` with infinite horizontal scrolling sponsor logos, duplicated logo set for seamless loop, pause on hover for `lg` viewports
     - Use `next/image` for the hero image, standard `<img>` for SVG sponsor logos
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 10.3, 10.4, 12.6_
 
-  - [ ] 6.2 Create MissionSection server component
+  - [x] 6.2 Create MissionSection server component
     - Create `components/home/MissionSection.tsx` with dark background, mission statement, "Learn More" link, and three mission cards (Workshops, Professional Development, Community) with `next/image` for card images
     - Wrap elements with `RevealAnimator` for scroll-triggered entrance
     - _Requirements: 3.5, 10.3_
 
-  - [ ] 6.3 Create StatsSection client component
+  - [x] 6.3 Create StatsSection client component
     - Create `components/home/StatsSection.tsx` rendering red and dark ribbon banners on `md+` viewports with six statistics, and vertically stacked stats on small viewports
     - Integrate GSAP scroll-triggered scaling animation for small-viewport stats
     - Use `RevealAnimator` for ribbon entrance animations (slide-left, slide-right)
     - _Requirements: 3.6, 3.7, 3.8, 12.9_
 
-  - [ ] 6.4 Create TestimonialsSection client component
+  - [x] 6.4 Create TestimonialsSection client component
     - Create `components/home/TestimonialsSection.tsx` with carousel state management for `lg` viewports, horizontal row for `md`, and stacked cards for `sm`
     - Each testimonial card contains quote icon, title, text, student photo, name, and class year
     - _Requirements: 3.9, 3.10, 3.11, 3.12_
 
-  - [ ] 6.5 Create GetInvolvedSection server component
+  - [x] 6.5 Create GetInvolvedSection server component
     - Create `components/home/GetInvolvedSection.tsx` with three CTA cards linking to Sponsors page, Slack community, and About page contact section
     - _Requirements: 3.13_
 
-  - [ ] 6.6 Assemble Home page
+  - [x] 6.6 Assemble Home page
     - Create `app/page.tsx` composing HeroSection, MissionSection, StatsSection, TestimonialsSection, and GetInvolvedSection
     - Add page-level Open Graph metadata
     - _Requirements: 13.1, 13.4_
 
-- [ ] 7. Implement Events Page
-  - [ ] 7.1 Create CalendarEmbed client component
+- [x] 7. Implement Events Page
+  - [x] 7.1 Create CalendarEmbed client component
     - Create `components/events/CalendarEmbed.tsx` rendering the Styled Calendar iframe and loading the parent-window script
     - _Requirements: 4.1_
 
-  - [ ] 7.2 Create EventCard and EventGrid client components
+  - [x] 7.2 Create EventCard and EventGrid client components
     - Create `components/events/EventCard.tsx` displaying event thumbnail (fetched from Drive or placeholder), name, and date
     - Create `components/events/EventGrid.tsx` rendering EventCard components from events data, managing selected event state for gallery modal
     - Use `RevealAnimator` with staggered delays on cards
     - _Requirements: 4.2, 4.3, 4.4_
 
-  - [ ] 7.3 Create GalleryModal client component
+  - [x] 7.3 Create GalleryModal client component
     - Create `components/events/GalleryModal.tsx` as a modal overlay with photo thumbnail grid, full-size image viewer on click, loading/error/empty states
     - Fetch images via `DriveGalleryService`
     - Display "Couldn't load photos" on fetch error, "No photos found" on empty result
     - _Requirements: 4.5, 4.6, 4.7, 4.8_
 
-  - [ ] 7.4 Assemble Events page
+  - [x] 7.4 Assemble Events page
     - Create `app/events/page.tsx` composing CalendarEmbed and EventGrid with GalleryModal
     - Add page-level Open Graph metadata
     - _Requirements: 13.1_
 
-- [ ] 8. Implement Exec Board Page
-  - [ ] 8.1 Create YearSelector client component
+- [x] 8. Implement Exec Board Page
+  - [x] 8.1 Create YearSelector client component
     - Create `components/execboard/YearSelector.tsx` rendering year buttons dynamically from Board_Data keys
     - Manage active year state, default to most recent year
     - Style active/inactive button states with Tailwind
     - _Requirements: 5.1, 5.2, 5.3_
 
-  - [ ] 8.2 Create MemberCard client component
+  - [x] 8.2 Create MemberCard client component
     - Create `components/execboard/MemberCard.tsx` displaying member photo, name, position, and conditional company logo
     - Make image clickable (button role, click handler) only when member has a non-null, non-empty bio
     - Apply gradient shine overlay and lift transform on hover for `lg` viewports
@@ -189,7 +189,7 @@ This plan migrates the ColorStack at Ohio State static website from Bootstrap 5 
     - For any BoardMember, a company logo element is rendered iff the `company` field is defined and non-empty
     - **Validates: Requirements 5.4**
 
-  - [ ] 8.5 Create MemberModal client component
+  - [x] 8.5 Create MemberModal client component
     - Create `components/execboard/MemberModal.tsx` displaying member photo, name, position, bio, LinkedIn link, and Calendly booking link
     - Disable "Book a Time" button when no Calendly URL; hide LinkedIn button when no LinkedIn URL
     - _Requirements: 5.7, 5.8, 5.9_
@@ -199,7 +199,7 @@ This plan migrates the ColorStack at Ohio State static website from Bootstrap 5 
     - For any BoardMember, LinkedIn button is visible iff `linkedin` is present, and Calendly button is enabled iff `calendly` is present
     - **Validates: Requirements 5.8, 5.9**
 
-  - [ ] 8.7 Create MemberGrid client component with grid balancing
+  - [x] 8.7 Create MemberGrid client component with grid balancing
     - Create `components/execboard/MemberGrid.tsx` rendering MemberCard components for the selected year
     - Implement grid balancing: insert spacer elements when `memberCount % 4 === 2` on `lg` viewports to center the last row
     - Contain MemberModal component, manage selected member state
@@ -210,7 +210,7 @@ This plan migrates the ColorStack at Ohio State static website from Bootstrap 5 
     - For any positive member count in a 4-column grid, spacers are inserted iff `count % 4 === 2`
     - **Validates: Requirements 5.10**
 
-  - [ ] 8.9 Assemble Exec Board page
+  - [x] 8.9 Assemble Exec Board page
     - Create `app/execboard/page.tsx` composing YearSelector and MemberGrid
     - Add page-level Open Graph metadata
     - _Requirements: 13.1_

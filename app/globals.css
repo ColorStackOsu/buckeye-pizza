@@ -402,3 +402,16 @@
   border-right: none;
   width: 0;
 }
+
+/* ==========================================================================
+   SPONSOR SCROLLER HOVER PAUSE
+   Pauses the infinite scroll animation on hover for large viewports.
+   This uses a descendant selector + media query that cannot be expressed
+   as a single Tailwind utility.
+   ========================================================================== */
+
+@media (min-width: 992px) {
+  .logos:hover .logos-slide {
+    animation-play-state: paused;
+  }
+}
