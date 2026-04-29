@@ -256,25 +256,25 @@ This plan migrates the ColorStack at Ohio State static website from Bootstrap 5 
     - Add page-level Open Graph metadata
     - _Requirements: 7.4, 13.1_
 
-- [ ] 12. Implement animated gradient backgrounds and visual polish
-  - [ ] 12.1 Add gradient background effects
+- [x] 12. Implement animated gradient backgrounds and visual polish
+  - [x] 12.1 Add gradient background effects
     - Implement animated gradient overlays on Hero, About hero, Sponsor header, Testimonials, and Calendar sections using Tailwind custom classes and the `moveGradient` keyframe
     - Ensure gradient masks fade to transparent at section edges
     - _Requirements: 12.5_
 
-  - [ ] 12.2 Implement GSAP scroll animation for small-viewport stats
+  - [x] 12.2 Implement GSAP scroll animation for small-viewport stats
     - Install `gsap` package
     - Add GSAP `ScrollTrigger` scaling animation to small-viewport stat elements matching the existing behavior (scale 0.9→1.3 with scrub)
     - _Requirements: 12.9_
 
-- [ ] 13. Final integration and wiring
+- [-] 13. Final integration and wiring
   - [ ] 13.1 Verify all internal links and routing
     - Ensure all Next.js `Link` components point to correct routes (`/`, `/events`, `/sponsors`, `/execboard`, `/about`)
     - Verify external links open in new tabs (Airtable signup, Test Bank, social media, Calendly, LinkedIn)
     - Verify hash fragment navigation on About page
     - _Requirements: 2.8, 7.4_
 
-  - [ ] 13.2 Verify responsive behavior across breakpoints
+  - [x] 13.2 Verify responsive behavior across breakpoints
     - Confirm Navigation collapses to hamburger menu below `lg`
     - Confirm Footer shows "Home" link below `md`
     - Confirm Stats ribbons vs stacked layout at breakpoints
@@ -282,13 +282,13 @@ This plan migrates the ColorStack at Ohio State static website from Bootstrap 5 
     - Confirm Hero image visibility at `lg`
     - _Requirements: 2.5, 2.7, 3.2, 3.7, 3.8, 3.10, 3.11, 3.12, 12.8_
 
-  - [ ] 13.3 Verify SEO metadata on all pages
+  - [x] 13.3 Verify SEO metadata on all pages
     - Confirm Open Graph title, description, image, and URL are set on each page
     - Confirm page title is "ColorStackOSU" across all pages
     - Confirm favicon is configured
     - _Requirements: 13.1, 13.2, 13.3, 13.4_
 
-- [ ] 14. Final checkpoint - Ensure all tests pass
+- [x] 14. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes

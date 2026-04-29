@@ -3,6 +3,57 @@
 @tailwind utilities;
 
 /* ==========================================================================
+   DESIGN TOKENS
+   CSS custom properties for the design system. These are the single source
+   of truth for all visual values — colors, typography, spacing, and motion.
+   Referenced by Tailwind theme extensions in tailwind.config.ts.
+   ========================================================================== */
+
+:root {
+  /* ── Brand Colors ── */
+  --color-brand-red: #b9283d;
+  --color-brand-red-hover: #d30f36;
+  --color-brand-dark: #202020;
+  --color-brand-light: #f8f8f8;
+  --color-brand-bg: #f2f2f2;
+
+  /* ── Extended Palette ── */
+  --color-brand-red-muted: #8a1e2e;
+  --color-brand-red-light: #f0d0d5;
+  --color-brand-cream: #faf5f0;
+  --color-brand-charcoal: #2d2d2d;
+  --color-brand-slate: #6b6b6b;
+
+  /* ── Typography Scale ── */
+  --text-hero: clamp(3.5rem, 8vw, 7rem);
+  --text-display: clamp(2rem, 4vw, 3.5rem);
+  --text-heading: clamp(1.5rem, 2.5vw, 2rem);
+  --text-subheading: clamp(1.125rem, 1.5vw, 1.375rem);
+  --text-body: clamp(0.9375rem, 1vw, 1.0625rem);
+  --text-caption: clamp(0.75rem, 0.85vw, 0.875rem);
+  --text-overline: 0.6875rem;
+
+  /* ── Spacing Scale ── */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+  --space-xl: 4rem;
+  --space-2xl: 6rem;
+  --space-3xl: 10rem;
+  --space-section: clamp(4rem, 8vw, 8rem);
+
+  /* ── Motion Tokens ── */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-sine: cubic-bezier(0.37, 0, 0.63, 1);
+  --duration-fast: 200ms;
+  --duration-normal: 400ms;
+  --duration-slow: 800ms;
+  --duration-reveal: 1200ms;
+}
+
+/* ==========================================================================
    REVEAL ANIMATIONS
    Scroll-triggered entrance animations migrated from css/style.css.
    These use CSS transitions toggled by adding/removing the .active class
@@ -161,6 +212,7 @@
     #ffffff 100%
   );
   background-size: 200% 100%;
+  animation: moveGradient 15s ease infinite;
   mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
   -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
 }
