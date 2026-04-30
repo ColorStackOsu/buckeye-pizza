@@ -2,7 +2,7 @@
 
 ## Overview
 
-Implement the editorial-brutalist visual redesign of the ColorStack at OSU website. The work proceeds in dependency order: design system tokens first, then fonts and Tailwind wiring, then component-by-component redesign, then cross-cutting concerns (section transitions, atmospheric effects, responsive polish, accessibility).
+Implement the editorial-brutalist visual redesign of the ColorStack at OSU website. The work proceeds in dependency order: design system tokens first, then fonts and Tailwind wiring, then component-by-component redesign, then inner pages, then cross-cutting concerns (section transitions, responsive polish, accessibility).
 
 All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + GSAP stack.
 
@@ -13,15 +13,6 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
   - Extend `tailwind.config.ts` with `brand.*` color aliases, `font-display`/`font-body` font families, `text-hero`/`text-display`/`text-heading`/`text-subheading`/`text-body`/`text-caption`/`text-overline` font-size utilities, `space-xs` through `space-section` spacing utilities, and `ease-out-expo`/`ease-out-quart`/`ease-in-out-sine` timing function utilities — all referencing the CSS custom properties
   - Keep all existing color aliases (`primary-red`, `hover-red`, `dark`, etc.) intact so no existing components break
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.7_
-
-  - [ ]\* 1.1 Write property test for WCAG color contrast compliance
-    - **Property 1: WCAG Color Contrast Compliance**
-    - Create `__tests__/design-system/colorContrast.property.test.ts`
-    - Use `fast-check` to generate arbitrary pairings from the design system's defined text colors and background colors
-    - Implement the WCAG 2.1 relative luminance formula and contrast ratio calculation
-    - Assert ≥ 4.5:1 for body-text pairings and ≥ 3:1 for large-text pairings
-    - Tag: `Feature: design-revamp, Property 1: WCAG Color Contrast Compliance`
-    - **Validates: Requirements 17.1, 17.2**
 
 - [x] 2. Replace font loading with Syne + Source Serif 4 via next/font
   - In `app/layout.tsx`, remove the `Onest` import and replace with `Syne` (variable `--font-display`, `display: "swap"`) and `Source_Serif_4` (variable `--font-body`, `display: "swap"`)
@@ -38,10 +29,6 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
   - Redesign the mobile menu as a full-screen overlay: `fixed inset-0 z-[200] bg-brand-dark flex flex-col items-center justify-center`; links stack vertically at `text-display` scale; animate open/close with GSAP staggered slide-in from right (80ms delay between items) and an X morph on the hamburger button
   - Preserve all existing navigation destinations and ARIA attributes
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6_
-
-  - [ ]\* 3.1 Write unit tests for Navigation
-    - Verify logo renders, all six destinations present (Events, Sponsors, Meet Us, About, Contact Us, Test Bank), sticky positioning class, mobile menu toggle, ARIA attributes
-    - _Requirements: 3.1, 3.2, 3.4, 3.6_
 
 - [x] 4. Redesign HeroSection — magazine-cover composition
   - Restructure `components/home/HeroSection.tsx` as a full-viewport section (`min-h-screen`) with the hero photo bleeding to the left edge at ~55% width and the text content on the right, overlapping the photo edge slightly (negative left margin or absolute positioning)
@@ -67,10 +54,6 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
   - Position the scroller at the bottom of the hero section, full-width
   - _Requirements: 12.1, 12.2, 12.3, 12.4_
 
-  - [ ]\* 5.1 Write unit tests for SponsorScroller
-    - Verify all sponsor logos render, animation class present, `aria-label` on container
-    - _Requirements: 12.1, 12.2, 12.3_
-
 - [x] 6. Redesign MissionSection — editorial pull-quote layout
   - Refactor `components/home/MissionSection.tsx` to render the mission statement as a large pull-quote: `font-display` at `text-display` scale, centered, with a thin red `<hr>` rule above and below (reuse `.divide-line-main` or create a new `.divide-line-red-center` variant)
   - Redesign the three program pillar cards as photo-background cards: the image fills the card as a CSS `background-image` (or `<Image>` with `object-cover` and `fill`), overlaid with a dark gradient (`from-transparent to-brand-dark`), and the title (`font-display`) + description (`font-body`) in white text at the bottom
@@ -79,10 +62,6 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
   - Preserve dark background, "Learn More" link, and all `aria-labelledby` attributes
   - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6_
 
-  - [ ]\* 6.1 Write unit tests for MissionSection
-    - Verify mission heading uses display font class, three pillar titles and descriptions present, dark background class, "Learn More" link href
-    - _Requirements: 5.1, 5.2, 5.5, 5.6_
-
 - [x] 7. Redesign StatsSection — typographic wall with count-up
   - Refactor `components/home/StatsSection.tsx` to remove the SVG shape dividers and ribbon clip-paths
   - Desktop layout: a 3×2 CSS Grid where each cell shows the stat value in `font-display text-hero` and the label in `font-body text-caption` below; alternate cells between `text-brand-red on bg-brand-light` and `text-white on bg-brand-dark` for a checkerboard rhythm
@@ -90,10 +69,6 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
   - Replace the existing GSAP scroll-scale animation with a count-up animation: use GSAP `ScrollTrigger` to trigger a `gsap.to()` on a numeric object, updating a React state or DOM text node; stagger left-to-right, top-to-bottom with 100ms between cells
   - Parse stat values (e.g., "54%", "250+", "10+") to extract the numeric part for count-up, then re-append the suffix on completion
   - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6_
-
-  - [ ]\* 7.1 Write unit tests for StatsSection
-    - Verify all six stat values and labels render, display font class on stat values, brand color classes present
-    - _Requirements: 6.1, 6.2, 6.4_
 
 - [x] 8. Redesign TestimonialsSection — editorial quote spreads
   - Refactor `components/home/TestimonialsSection.tsx` to remove the `ShapeDivider` SVG and the existing card/carousel structure
@@ -105,20 +80,12 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
   - Preserve all four testimonials, all ARIA carousel attributes, and dot/arrow navigation
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 7.6_
 
-  - [ ]\* 8.1 Write unit tests for TestimonialsSection
-    - Verify all four testimonials render with name, year, title, quote text, and photo; display font class on titles; navigation controls present
-    - _Requirements: 7.1, 7.2, 7.5_
-
 - [x] 9. Redesign GetInvolvedSection — asymmetric triptych CTAs
   - Refactor `components/home/GetInvolvedSection.tsx` to implement the asymmetric triptych: on desktop, the center "Join The Community" card is elevated (`-translate-y-4 scale-105`) and visually dominant; flanking cards are at normal scale
   - Apply `font-display` to card titles and `font-body italic` to subtitle text
   - Replace the current `hover:-translate-y-[5px]` with a CSS perspective tilt effect: add a `perspective-card` class in `globals.css` using `transform-style: preserve-3d` and a subtle `rotateX`/`rotateY` on hover (use a JS `mousemove` listener or a pure CSS approximation with `:hover` transforms)
   - Preserve all three link destinations, ARIA labels, and the red variant styling for "Join The Community"
   - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6_
-
-  - [ ]\* 9.1 Write unit tests for GetInvolvedSection
-    - Verify three CTAs present, "Join The Community" has red background class, correct hrefs, display font class on titles
-    - _Requirements: 8.1, 8.2, 8.4, 8.5_
 
 - [x] 10. Checkpoint — ensure all home section tests pass
   - Run `npm test` and confirm all tests in `__tests__/` pass
@@ -133,20 +100,12 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
   - Preserve all existing links, ARIA labels, and social destinations
   - _Requirements: 15.1, 15.2, 15.3, 15.4, 15.5, 15.6_
 
-  - [ ]\* 11.1 Write unit tests for Footer
-    - Verify logo, all five page links, four social icons, copyright text, dark background class, red accent on social icons
-    - _Requirements: 15.1, 15.2, 15.4, 15.5_
-
-- [ ] 12. Redesign EventCard component
+- [x] 12. Redesign EventCard component
   - Refactor `components/events/EventCard.tsx` to use a 16:10 aspect ratio (`aspect-[16/10]`) with the thumbnail as a full-card background image
   - Apply a dark gradient overlay from bottom (`from-transparent to-brand-dark/80`); event name in `font-display text-white font-bold` and date in `font-body text-brand-red text-caption` sit at the bottom over the gradient
   - Hover: image scales to `scale-105` (CSS transition on the `<Image>` wrapper), gradient overlay shifts to a red tint (`bg-brand-red/30`), and a subtle border appears (`ring-2 ring-brand-red`)
   - Preserve the `onSelect` click handler, `aria-label`, and loading skeleton
   - _Requirements: 13.1, 13.2, 13.3, 13.4, 13.5_
-
-  - [ ]\* 12.1 Write unit tests for EventCard
-    - Verify event name and date render, display font class on name, body font class on date, click handler fires, brand color overlay class present
-    - _Requirements: 13.1, 13.2, 13.4, 13.5_
 
 - [ ] 13. Redesign MemberCard component
   - Refactor `components/execboard/MemberCard.tsx` to add a thin red border on hover (`ring-2 ring-brand-red`) around the circular photo
@@ -155,11 +114,7 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
   - Preserve consistent photo size (`h-44 w-44`), company logo rendering, and all ARIA attributes
   - _Requirements: 14.1, 14.2, 14.3, 14.4, 14.5_
 
-  - [ ]\* 13.1 Write unit tests for MemberCard
-    - Verify photo, name, position render; interactive card has button role; body font class on name; consistent photo dimensions
-    - _Requirements: 14.1, 14.2, 14.4, 14.5_
-
-- [ ] 14. Implement section transitions — diagonal clip-paths and gradient bleeds
+- [x] 14. Implement section transitions — diagonal clip-paths and gradient bleeds
   - Remove all `ShapeDivider` SVG components from `StatsSection.tsx` and `TestimonialsSection.tsx`
   - Add a `.section-transition-diagonal` CSS class in `globals.css` using `clip-path: polygon(0 0, 100% 0, 100% calc(100% - 3vw), 0 100%)` on the outgoing section and `clip-path: polygon(0 3vw, 100% 0, 100% 100%, 0 100%)` on the incoming section — apply negative margin (`-mt-[3vw]`) to create the overlap
   - Add a `.section-transition-gradient` CSS class for gradient bleeds: a `::after` pseudo-element with a gradient from the section's background color to the next section's background color over ~80px
@@ -169,55 +124,74 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
   - Verify no horizontal overflow is introduced at any viewport width (check with `overflow-x: hidden` on `<body>` if needed)
   - _Requirements: 9.1, 9.2, 9.3, 9.4_
 
-- [ ] 15. Enhance RevealAnimator with new variants
-  - Add `clip-up` variant to `RevealVariant` type in `components/RevealAnimator.tsx`: initial state `clip-path: inset(100% 0 0 0)`, active state `clip-path: inset(0% 0 0 0)`, CSS transition 0.8s `ease-out-expo`
-  - Add `blur-in` variant: initial state `filter: blur(8px) opacity(0)`, active state `filter: blur(0) opacity(1)`, CSS transition 0.6s
-  - Add corresponding CSS classes `.reveal-clip-up`, `.reveal-blur-in` (and their `.active` states) to `globals.css`
-  - Add `@media (prefers-reduced-motion: reduce)` block in `globals.css` that sets all reveal animation transitions to `0s` and all reveal elements to their active/visible state immediately
+- [ ] 15. Remove RevealAnimator — migrate remaining usages to GSAP ScrollTrigger
+  - Delete `components/RevealAnimator.tsx` and `hooks/useReveal.ts`
+  - Delete `__tests__/components/RevealAnimator.test.tsx`
+  - In `components/home/MissionSection.tsx`: replace all `<RevealAnimator>` wrappers with GSAP ScrollTrigger — pull-quote fades up on scroll, card 0 slides from left, card 1 from right, card 2 from bottom, "Learn More" link fades up; use a single `useEffect` with a GSAP context for cleanup
+  - In `components/home/GetInvolvedSection.tsx`: replace the two `<RevealAnimator>` wrappers with a GSAP ScrollTrigger that stagger-fades the heading and action list into view on scroll
+  - In `components/events/EventGrid.tsx`: replace `<RevealAnimator>` wrappers with GSAP ScrollTrigger stagger on the card grid items; remove the `delay` prop pass-through to `EventCard` (no longer needed)
+  - In `components/events/CalendarEmbed.tsx`: replace the `<RevealAnimator>` wrapper with a simple GSAP ScrollTrigger fade-in on the iframe container
+  - Remove all remaining `import RevealAnimator` statements from `components/sponsors/`, `components/about/`, and any other files — these components will be fully replaced in Tasks 16–19
+  - Add `@media (prefers-reduced-motion: reduce)` block in `globals.css` that disables all GSAP animations by setting durations to 0 (use `gsap.defaults({ duration: 0 })` inside a `matchMedia` check in a shared utility or per-component)
+  - Update `__tests__/components/EventGrid.test.tsx`, `MissionSection.test.tsx`, `GetInvolvedSection.test.tsx`, `SponsorForm.test.tsx` to remove `vi.mock("@/components/RevealAnimator", ...)` mocks — they are no longer needed
   - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 10.6_
 
-  - [ ]\* 15.1 Write unit tests for RevealAnimator enhancements
-    - Verify `clip-up` and `blur-in` variants apply correct CSS classes, `will-change` attribute present, delay props work
-    - _Requirements: 10.2, 10.3, 10.5_
+- [x] 16. Redesign Events page — editorial layout with page hero
+  - Add an editorial page hero to `components/events/CalendarEmbed.tsx` and `components/events/EventGrid.tsx`: a full-width dark banner (`bg-brand-dark`) with the page title "Events" in `font-display text-hero text-white` and a thin red rule below — consistent with the home page's editorial language
+  - Refactor `CalendarEmbed.tsx`: replace the plain heading with the editorial section header pattern (overline label in `font-display text-overline text-brand-red uppercase tracking-widest`, then section title in `font-display text-heading`); apply `bg-brand-cream` or `bg-brand-bg` background; style the iframe container with a subtle border (`border border-black/10 rounded-lg`) and shadow
+  - Refactor `EventGrid.tsx`: replace the plain `<h3>` heading with the editorial section header pattern; update the grid to use `gap-6` and consistent padding with the design system spacing tokens; ensure `RevealAnimator` stagger is preserved
+  - Replace all hardcoded color classes (`text-dark`, `bg-bg-white`, `bg-light-gray`) with design system tokens (`text-brand-dark`, `bg-brand-bg`, `bg-brand-light`)
+  - Apply `font-body` to all body/label text throughout both components
+  - _Requirements: 2.1, 2.2, 13.1, 13.2, 16.1, 16.2_
 
-- [ ] 16. Implement atmospheric effects — gradient mesh and noise texture
-  - In `globals.css`, update `.hero-gradient-overlay::before` to use a multi-stop radial gradient mesh (soft red-to-cream) with `background-position` animated via `moveGradient` keyframe; keep opacity at 0.2
-  - Add a `.noise-overlay` CSS class using an inline SVG `<feTurbulence>` filter as `background-image` at 3–5% opacity — apply this class to the hero section wrapper and the stats section dark panels
-  - Update `.testimonial-gradient-overlay::before` to use the same animated radial gradient mesh pattern (subtle, opacity 0.1)
-  - Ensure all atmospheric effect containers have `overflow: hidden` to prevent bleed
-  - _Requirements: 11.1, 11.2, 11.3, 11.4_
+- [ ] 17. Redesign Sponsors page — editorial partner showcase
+  - Refactor `components/sponsors/SponsorHeader.tsx` into a full-width editorial page hero: dark background (`bg-brand-dark`), headline "Our Partners in Progress" in `font-display text-display text-white`, subtext in `font-body text-brand-slate`, "Become A Sponsor" CTA button using `bg-brand-red hover:bg-brand-red-hover` with `font-display text-overline uppercase tracking-widest`, and "Sponsorship Packet" link in `font-body text-caption`; add a thin red rule below the hero
+  - Refactor `components/sponsors/SponsorTier.tsx`: replace the plain heading with the editorial section header pattern (overline + title); alternate section backgrounds using `bg-brand-bg` and `bg-brand-cream` instead of the old `bg-light-gray`/`bg-bg-white`; apply `font-display` to tier names
+  - Refactor `components/sponsors/SponsorEntry.tsx`: apply `font-body` to the blurb text; add a subtle hover state on the logo (`opacity-80 hover:opacity-100 transition-opacity`); replace hardcoded layout classes with design system spacing tokens
+  - Refactor `components/sponsors/SponsorForm.tsx`: style the form card with `bg-white border border-black/10 rounded-xl shadow-sm`; apply `font-display` to the "Become a Sponsor" heading and `font-body` to all labels and inputs; update the submit button to use `bg-brand-red hover:bg-brand-red-hover font-display text-overline uppercase tracking-widest`; replace `focus:ring-primary-red/50` with `focus:ring-brand-red/50`
+  - Replace all hardcoded color classes (`text-primary-red`, `bg-primary-red`, `hover:bg-hover-red`, `text-dark`) with design system tokens throughout all four components
+  - _Requirements: 2.1, 2.2, 15.1, 16.1, 16.2_
 
-- [ ] 17. Responsive polish pass
+- [ ] 18. Redesign Exec Board page — editorial team directory
+  - Refactor `app/execboard/ExecBoardClient.tsx`: replace the plain `<h1>` and `<p>` with an editorial page hero section (`bg-brand-dark`, full-width, `font-display text-display text-white` for the title, `font-body text-brand-slate` for the subtitle); remove the `text-dark` and `text-gray-600` hardcoded classes
+  - Refactor `components/execboard/YearSelector.tsx`: style the active year button with `bg-brand-red text-white font-display text-overline uppercase tracking-widest`; style inactive buttons with `bg-brand-light text-brand-dark hover:bg-brand-cream font-body`; replace `bg-primary-red`, `bg-light-gray`, `text-dark` with design system tokens
+  - Refactor `components/execboard/MemberModal.tsx`: update the modal backdrop to `bg-brand-dark/80`; apply `font-display text-heading` to the member name, `font-body text-brand-red` to the position, `font-body` to the bio text; update the LinkedIn button to use brand blue and the Book a Time button to use `bg-brand-red hover:bg-brand-red-hover`; replace all hardcoded color classes with design system tokens
+  - Ensure `MemberCard` (Task 13) and `MemberGrid` layout use consistent spacing with `gap-6 md:gap-8` and design system padding
+  - _Requirements: 2.1, 2.2, 14.1, 14.2, 14.4, 16.1, 16.2_
+
+- [ ] 19. Redesign About page — editorial brand story
+  - Refactor `components/about/AboutHero.tsx`: replace the `animate-bounce-slow` logo treatment with a composed editorial hero — dark background (`bg-brand-dark`), logo centered at a fixed size, page title "ColorStack" in `font-display text-hero text-white` and "AT OSU" in `font-display text-overline text-brand-red uppercase tracking-widest`; remove inline `textShadow` styles and replace with Tailwind utilities; remove the bounce animation
+  - Refactor `components/about/AboutUsSection.tsx`: replace the decorative SVG book icon divider with a thin red `<hr>` rule (`.divide-line-red-center` pattern); apply `font-display text-heading` to the "About Us" heading; apply `font-body` to all paragraph text; replace `bg-light-gray` with `bg-brand-light`; replace `text-primary-red` link color with `text-brand-red`; update the two-column layout to use design system spacing tokens
+  - Refactor `components/about/ContactUsSection.tsx`: replace the decorative SVG envelope icon divider with a thin red rule; apply `font-display text-heading` to "Contact Us" and `font-display text-subheading` to "Reach Out"; apply `font-body` to paragraph text; replace `bg-bg-white` with `bg-brand-bg`; replace `text-primary-red` with `text-brand-red`
+  - Replace all hardcoded color classes (`text-primary-red`, `bg-light-gray`, `bg-bg-white`, `text-dark`) with design system tokens throughout all three components
+  - _Requirements: 2.1, 2.2, 5.1, 16.1, 16.2_
+
+- [ ] 20. Responsive polish pass
   - Audit every redesigned component at 320px, 768px, 992px, and 1440px viewport widths
   - Ensure all interactive elements have minimum 44×44px tap targets on mobile (add `min-h-[44px] min-w-[44px]` where needed)
   - Verify fluid typography (`clamp()` values in CSS custom properties) scales correctly between breakpoints — no text overflow or truncation
-  - Confirm single-column layout on mobile for Hero, Mission, Stats, Testimonials, GetInvolved, Footer
+  - Confirm single-column layout on mobile for Hero, Mission, Stats, Testimonials, GetInvolved, Footer, and all inner page heroes
   - Confirm no horizontal scrolling at any viewport width between 320px and 1920px — add `overflow-x: hidden` to `<body>` in `layout.tsx` if any section causes overflow
   - _Requirements: 16.1, 16.2, 16.3, 16.4, 16.5, 16.6_
 
-- [ ] 18. Accessibility audit and fixes
+- [ ] 21. Accessibility audit and fixes
   - Add visible focus indicators to all interactive elements that lack them: use `focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-2` Tailwind utilities (or a global `globals.css` rule for `:focus-visible`)
   - Verify all animated content (RevealAnimator wrappers, GSAP-animated elements) renders in its final visible state in the DOM — confirm screen readers can access content regardless of animation state by checking that no `aria-hidden="true"` is applied to content elements during animation
   - Audit all icon-only buttons and links for `aria-label` attributes — add any missing ones
-  - Confirm semantic HTML structure: `<nav>`, `<main>`, `<section>` with `aria-labelledby`, `<footer role="contentinfo">` are all present
+  - Confirm semantic HTML structure: `<nav>`, `<main>`, `<section>` with `aria-labelledby`, `<footer role="contentinfo">` are all present across all pages
   - Verify keyboard navigation works for the redesigned mobile menu overlay (Escape key closes, Tab cycles through links), the testimonials carousel (arrow keys or Tab to buttons), and the member bio modal
   - _Requirements: 17.3, 17.4, 17.5, 17.6, 17.7_
 
-  - [ ]\* 18.1 Write unit tests for accessibility attributes
-    - Verify focus indicator classes on interactive elements, ARIA labels on icon buttons, semantic landmark elements present, animated content not hidden from screen readers
-    - _Requirements: 17.3, 17.4, 17.5, 17.6_
-
-- [ ] 19. Final checkpoint — full test suite and build verification
-  - Run `npm test` and confirm all tests pass (unit tests + property test)
+- [ ] 22. Final checkpoint — full test suite and build verification
+  - Run `npm test` and confirm all tests pass
   - Run `npm run build` and confirm no TypeScript errors or build failures
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes
 
-- Tasks marked with `*` are optional and can be skipped for faster MVP delivery
 - Each task references specific requirements for traceability
 - The design system (Task 1) and font loading (Task 2) must be completed before any component work — all subsequent tasks depend on the token and font variables being available
-- The property test (Task 1.1) validates the mathematical WCAG contrast guarantee across all design system color pairings using `fast-check`
-- Section transitions (Task 14) should be implemented after all section components are complete to avoid layout conflicts
+- Section transitions (Task 14) should be implemented after all home section components are complete to avoid layout conflicts
 - The `prefers-reduced-motion` media query (Task 15) is a cross-cutting concern — implement it once in `globals.css` rather than per-component
+- Inner page redesigns (Tasks 16–19) follow the same editorial-brutalist language established by the home page: dark page heroes, `font-display` for headings, `font-body` for body text, design system tokens throughout, no hardcoded colors
 - Existing tests in `__tests__/components/` should continue to pass throughout — do not break existing component APIs

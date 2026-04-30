@@ -27,16 +27,16 @@ vi.mock("next/link", () => ({
   ),
 }));
 
-// Mock RevealAnimator to render children directly (no IntersectionObserver needed)
-vi.mock("@/components/RevealAnimator", () => ({
-  default: ({
-    children,
-    className,
-  }: {
-    children: React.ReactNode;
-    className?: string;
-  }) => <div className={className}>{children}</div>,
+// Mock GSAP and ScrollTrigger — no DOM animations in unit tests
+vi.mock("gsap", () => ({
+  default: {
+    registerPlugin: vi.fn(),
+    matchMedia: vi.fn(() => ({ add: vi.fn(), revert: vi.fn() })),
+    context: vi.fn(() => ({ revert: vi.fn() })),
+    from: vi.fn(),
+  },
 }));
+vi.mock("gsap/ScrollTrigger", () => ({ ScrollTrigger: {} }));
 
 describe("MissionSection", () => {
   // Requirement 5.1: THE Site SHALL display the mission statement with the
@@ -67,8 +67,6 @@ describe("MissionSection", () => {
   });
 
   // Requirement 5.2: THE Site SHALL present the three program pillars
-  // (Workshops, Professional Development, Community) with their images
-  // and descriptions
   it('renders the "Workshops" pillar title', () => {
     render(<MissionSection />);
     expect(
@@ -107,15 +105,12 @@ describe("MissionSection", () => {
 
   it("renders descriptions for all three pillars", () => {
     render(<MissionSection />);
-    // Workshops description
     expect(
       screen.getByText(/interactive workshops aimed at boosting/i),
     ).toBeInTheDocument();
-    // Professional Development description
     expect(
       screen.getByText(/elevate your career with our professional/i),
     ).toBeInTheDocument();
-    // Community description
     expect(
       screen.getByText(/supportive and inclusive community/i),
     ).toBeInTheDocument();
@@ -123,9 +118,7 @@ describe("MissionSection", () => {
 
   it("applies font-display class to pillar card titles", () => {
     render(<MissionSection />);
-    const workshopsHeading = screen.getByRole("heading", {
-      name: "Workshops",
-    });
+    const workshopsHeading = screen.getByRole("heading", { name: "Workshops" });
     expect(workshopsHeading).toHaveClass("font-display");
   });
 
@@ -137,33 +130,24 @@ describe("MissionSection", () => {
     expect(description).toHaveClass("font-body");
   });
 
-  // Requirement 5.5: THE Site SHALL maintain the dark background with light
-  // text for the mission area to preserve brand contrast
+  // Requirement 5.5: dark background
   it("applies dark background class to the section", () => {
     render(<MissionSection />);
     const section = document.getElementById("our-mission");
     expect(section).toHaveClass("bg-brand-dark");
   });
 
-  // Requirement 5.6: THE Site SHALL include the "Learn More" link directing
-  // to the About page
-  it('renders the "Learn More" link', () => {
+  // Requirement 5.6: Learn More link
+  it('renders the "Learn More" link pointing to the About page', () => {
     render(<MissionSection />);
     const learnMoreLink = screen.getByRole("link", { name: /learn more/i });
     expect(learnMoreLink).toBeInTheDocument();
-  });
-
-  it('"Learn More" link points to the About page', () => {
-    render(<MissionSection />);
-    const learnMoreLink = screen.getByRole("link", { name: /learn more/i });
     expect(learnMoreLink).toHaveAttribute("href", "/about#about-us");
   });
 
-  // Desktop grid layout — first card spans 2 columns
+  // Desktop grid — first card spans 2 columns
   it("first pillar card wrapper has lg:col-span-2 class for desktop grid", () => {
     render(<MissionSection />);
-    // The RevealAnimator mock passes className through; the first card's
-    // RevealAnimator receives className="lg:col-span-2"
     const colSpanEl = document.querySelector(".lg\\:col-span-2");
     expect(colSpanEl).toBeInTheDocument();
   });

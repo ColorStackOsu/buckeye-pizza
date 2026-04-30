@@ -3,6 +3,20 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import EventGrid from "@/components/events/EventGrid";
 
+// Mock GSAP and ScrollTrigger — no DOM animations in unit tests
+vi.mock("gsap", () => ({
+  default: {
+    registerPlugin: vi.fn(),
+    matchMedia: vi.fn(() => ({
+      add: vi.fn(),
+      revert: vi.fn(),
+    })),
+    context: vi.fn(() => ({ revert: vi.fn() })),
+    from: vi.fn(),
+  },
+}));
+vi.mock("gsap/ScrollTrigger", () => ({ ScrollTrigger: {} }));
+
 // Mock the drive-gallery module
 vi.mock("@/lib/drive-gallery", () => ({
   fetchDriveFolderImages: vi.fn().mockResolvedValue([]),
@@ -46,22 +60,7 @@ vi.mock("@/data/events-data", () => ({
   ],
 }));
 
-// Mock RevealAnimator to just render children
-vi.mock("@/components/RevealAnimator", () => ({
-  default: ({
-    children,
-    delay,
-    className,
-  }: {
-    children: React.ReactNode;
-    delay?: number;
-    className?: string;
-  }) => (
-    <div data-testid="reveal-animator" data-delay={delay} className={className}>
-      {children}
-    </div>
-  ),
-}));
+// Mock RevealAnimator to just render children — REMOVED (RevealAnimator deleted)
 
 describe("EventGrid", () => {
   beforeEach(() => {
@@ -88,21 +87,6 @@ describe("EventGrid", () => {
     expect(screen.getByText("January 1st, 2025")).toBeInTheDocument();
     expect(screen.getByText("February 2nd, 2025")).toBeInTheDocument();
     expect(screen.getByText("March 3rd, 2025")).toBeInTheDocument();
-  });
-
-  it("applies staggered delays to RevealAnimator wrappers", () => {
-    render(<EventGrid />);
-
-    const animators = screen.getAllByTestId("reveal-animator");
-    // The heading also uses RevealAnimator, so filter to card wrappers
-    const cardAnimators = animators.filter((el) =>
-      el.getAttribute("data-delay"),
-    );
-
-    // Delays should follow ((index % 3) + 1) * 100 pattern: 100, 200, 300
-    expect(cardAnimators[0]).toHaveAttribute("data-delay", "100");
-    expect(cardAnimators[1]).toHaveAttribute("data-delay", "200");
-    expect(cardAnimators[2]).toHaveAttribute("data-delay", "300");
   });
 
   it("renders clickable event card buttons", () => {

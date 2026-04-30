@@ -49,3 +49,5 @@ js/config.js
 # Temporary files
 tmp/
 temp/
+
+.kiro

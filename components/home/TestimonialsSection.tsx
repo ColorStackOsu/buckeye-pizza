@@ -152,7 +152,7 @@ export default function TestimonialsSection() {
     <section
       id="testimonials"
       aria-labelledby="testimonials-title"
-      className="testimonial-gradient-overlay py-space-section overflow-hidden"
+      className="testimonial-gradient-overlay py-space-section overflow-hidden bg-brand-cream"
     >
       {/* Section Title */}
       <div className="text-center mb-10 md:mb-14 px-4">

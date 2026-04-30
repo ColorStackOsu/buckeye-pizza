@@ -33,7 +33,7 @@ export default function ScrollHint() {
 
   return (
     <div
-      className={`fixed bottom-28 left-1/2 -translate-x-1/2 z-[999] flex flex-col items-center gap-1.5 pointer-events-none transition-opacity duration-500 ${
+      className={`fixed bottom-[6rem] left-1/2 -translate-x-1/2 z-[999] flex flex-col items-center gap-1.5 pointer-events-none transition-opacity duration-500 ${
         visible ? "opacity-100" : "opacity-0"
       }`}
       aria-hidden="true"

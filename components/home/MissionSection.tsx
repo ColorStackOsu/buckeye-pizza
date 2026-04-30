@@ -1,8 +1,12 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import RevealAnimator from "@/components/RevealAnimator";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface MissionCard {
   title: string;
@@ -35,15 +39,97 @@ const missionCards: MissionCard[] = [
   },
 ];
 
-/**
- * Reveal variants for each card:
- *  - Card 0 (large, col-span-2): slides from left
- *  - Card 1 (top-right stack):   slides from right
- *  - Card 2 (bottom-right stack): slides from bottom (fade-up)
- */
-const cardRevealVariants = ["slide-left", "slide-right", "fade-up"] as const;
-
 export default function MissionSection() {
+  const pullQuoteRef = useRef<HTMLDivElement>(null);
+  const card0Ref = useRef<HTMLDivElement>(null);
+  const card1Ref = useRef<HTMLDivElement>(null);
+  const card2Ref = useRef<HTMLDivElement>(null);
+  const learnMoreRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const mm = gsap.matchMedia();
+
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const ctx = gsap.context(() => {
+        // Pull-quote fades up
+        if (pullQuoteRef.current) {
+          gsap.from(pullQuoteRef.current, {
+            opacity: 0,
+            y: 50,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: pullQuoteRef.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          });
+        }
+        // Card 0 — slides from left
+        if (card0Ref.current) {
+          gsap.from(card0Ref.current, {
+            opacity: 0,
+            x: -60,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: card0Ref.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          });
+        }
+        // Card 1 — slides from right
+        if (card1Ref.current) {
+          gsap.from(card1Ref.current, {
+            opacity: 0,
+            x: 60,
+            duration: 0.8,
+            delay: 0.1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: card1Ref.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          });
+        }
+        // Card 2 — slides from bottom
+        if (card2Ref.current) {
+          gsap.from(card2Ref.current, {
+            opacity: 0,
+            y: 50,
+            duration: 0.8,
+            delay: 0.2,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: card2Ref.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          });
+        }
+        // Learn More fades up
+        if (learnMoreRef.current) {
+          gsap.from(learnMoreRef.current, {
+            opacity: 0,
+            y: 30,
+            duration: 0.6,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: learnMoreRef.current,
+              start: "top 90%",
+              toggleActions: "play none none none",
+            },
+          });
+        }
+      });
+      return () => ctx.revert();
+    });
+
+    return () => mm.revert();
+  }, []);
+
   return (
     <section
       id="our-mission"
@@ -52,31 +138,29 @@ export default function MissionSection() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* ── Pull-Quote Mission Statement ── */}
-        <RevealAnimator variant="fade-up">
-          <div className="text-center mb-12 lg:mb-16">
-            {/* Top red rule */}
-            <hr
-              className="divide-line-red-center w-1/2 mx-auto mb-6"
-              aria-hidden="true"
-            />
+        <div ref={pullQuoteRef} className="text-center mb-12 lg:mb-16">
+          {/* Top red rule */}
+          <hr
+            className="divide-line-red-center w-1/2 mx-auto mb-6"
+            aria-hidden="true"
+          />
 
-            <h2
-              id="mission-title"
-              className="font-display text-display text-white leading-tight tracking-tight px-4 lg:px-16 xl:px-24"
-            >
-              As one of the largest public universities in the nation, we
-              leverage OSU&apos;s vast resources and connections to create{" "}
-              <span className="text-brand-red">meaningful change</span> in tech
-              diversity.
-            </h2>
+          <h2
+            id="mission-title"
+            className="font-display text-display text-white leading-tight tracking-tight px-4 lg:px-16 xl:px-24"
+          >
+            As one of the largest public universities in the nation, we leverage
+            OSU&apos;s vast resources and connections to create{" "}
+            <span className="text-brand-red">meaningful change</span> in tech
+            diversity.
+          </h2>
 
-            {/* Bottom red rule */}
-            <hr
-              className="divide-line-red-center w-1/2 mx-auto mt-6"
-              aria-hidden="true"
-            />
-          </div>
-        </RevealAnimator>
+          {/* Bottom red rule */}
+          <hr
+            className="divide-line-red-center w-1/2 mx-auto mt-6"
+            aria-hidden="true"
+          />
+        </div>
 
         {/* ── Program Pillar Cards ── */}
         {/*
@@ -90,39 +174,34 @@ export default function MissionSection() {
           aria-label="Program pillars"
         >
           {/* Card 0 — large, spans 2 columns, slides from left */}
-          <RevealAnimator
-            variant={cardRevealVariants[0]}
-            className="lg:col-span-2"
-          >
+          <div ref={card0Ref} className="lg:col-span-2">
             <PillarCard card={missionCards[0]} tall />
-          </RevealAnimator>
+          </div>
 
           {/* Cards 1 & 2 — stack in the 3rd column */}
           <div className="flex flex-col gap-4 lg:gap-5">
             {/* Card 1 — slides from right */}
-            <RevealAnimator variant={cardRevealVariants[1]} delay={200}>
+            <div ref={card1Ref}>
               <PillarCard card={missionCards[1]} />
-            </RevealAnimator>
+            </div>
 
-            {/* Card 2 — slides from bottom (fade-up) */}
-            <RevealAnimator variant={cardRevealVariants[2]} delay={300}>
+            {/* Card 2 — slides from bottom */}
+            <div ref={card2Ref}>
               <PillarCard card={missionCards[2]} />
-            </RevealAnimator>
+            </div>
           </div>
         </div>
 
         {/* ── Learn More — after programs are shown ── */}
-        <RevealAnimator variant="fade-up" delay={200}>
-          <div className="text-center mt-10">
-            <Link
-              href="/about#about-us"
-              className="inline-block font-body text-white border border-white/40 px-6 py-3 rounded-sm hover:bg-white hover:text-brand-dark transition-colors duration-normal"
-              aria-label="Learn more about ColorStack at Ohio State"
-            >
-              Learn More
-            </Link>
-          </div>
-        </RevealAnimator>
+        <div ref={learnMoreRef} className="text-center mt-10">
+          <Link
+            href="/about#about-us"
+            className="inline-block font-body text-white border border-white/40 px-6 py-3 rounded-sm hover:bg-white hover:text-brand-dark transition-colors duration-normal"
+            aria-label="Learn more about ColorStack at Ohio State"
+          >
+            Learn More
+          </Link>
+        </div>
       </div>
     </section>
   );

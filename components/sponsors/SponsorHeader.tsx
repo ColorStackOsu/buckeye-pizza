@@ -1,5 +1,3 @@
-import RevealAnimator from "@/components/RevealAnimator";
-
 export default function SponsorHeader() {
   return (
     <div className="sponsor-header-gradient-overlay bg-bg-white">

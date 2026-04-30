@@ -2,11 +2,6 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import SponsorForm from "@/components/sponsors/SponsorForm";
 
-// Mock RevealAnimator to render children directly
-vi.mock("@/components/RevealAnimator", () => ({
-  default: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-}));
-
 describe("SponsorForm", () => {
   beforeEach(() => {
     vi.restoreAllMocks();

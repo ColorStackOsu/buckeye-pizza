@@ -1,14 +1,60 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { EventItem } from "@/types/events";
 import { eventsData } from "@/data/events-data";
 import EventCard from "@/components/events/EventCard";
 import GalleryModal from "@/components/events/GalleryModal";
-import RevealAnimator from "@/components/RevealAnimator";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function EventGrid() {
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
+  const headingRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const mm = gsap.matchMedia();
+
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const ctx = gsap.context(() => {
+        if (headingRef.current) {
+          gsap.from(headingRef.current, {
+            opacity: 0,
+            y: 30,
+            duration: 0.6,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: headingRef.current,
+              start: "top 88%",
+              toggleActions: "play none none none",
+            },
+          });
+        }
+        if (gridRef.current) {
+          const cards =
+            gridRef.current.querySelectorAll<HTMLElement>(".event-card-item");
+          gsap.from(cards, {
+            opacity: 0,
+            y: 40,
+            duration: 0.6,
+            ease: "power3.out",
+            stagger: 0.1,
+            scrollTrigger: {
+              trigger: gridRef.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          });
+        }
+      });
+      return () => ctx.revert();
+    });
+
+    return () => mm.revert();
+  }, []);
 
   const handleSelect = (event: EventItem) => {
     setSelectedEvent(event);
@@ -19,33 +65,44 @@ export default function EventGrid() {
   };
 
   return (
-    <section id="recent-events" aria-labelledby="recent-events-heading">
+    <section
+      id="recent-events"
+      aria-labelledby="recent-events-heading"
+      className="bg-brand-bg"
+    >
       <div className="w-full">
-        {/* Section heading */}
-        <RevealAnimator className="mx-2 px-2 pt-3 md:mx-5 md:px-4">
-          <h3 id="recent-events-heading" className="px-2 font-semibold">
+        {/* Editorial section header */}
+        <div
+          ref={headingRef}
+          className="mx-auto max-w-7xl px-6 pt-12 pb-6 md:px-12"
+        >
+          <p className="font-display text-overline text-brand-red uppercase tracking-widest mb-2">
+            Gallery
+          </p>
+          <h3
+            id="recent-events-heading"
+            className="font-display text-heading text-brand-dark"
+          >
             Recent Events
           </h3>
-          <hr className="divide-line-red ms-2 mt-2 w-1/2" />
-        </RevealAnimator>
+        </div>
 
         {/* Event cards grid */}
-        <div className="grid grid-cols-1 gap-4 px-5 py-4 md:grid-cols-2 lg:grid-cols-3">
+        <div
+          ref={gridRef}
+          className="mx-auto max-w-7xl grid grid-cols-1 gap-6 px-6 pb-12 md:grid-cols-2 md:px-12 lg:grid-cols-3"
+        >
           {eventsData.map((event, index) => {
             const delay = (((index % 3) + 1) * 100) as 100 | 200 | 300;
 
             return (
-              <RevealAnimator
-                key={event.id}
-                delay={delay}
-                className="mx-auto w-11/12 py-3 md:w-full"
-              >
+              <div key={event.id} className="event-card-item">
                 <EventCard
                   event={event}
                   onSelect={handleSelect}
                   delay={delay}
                 />
-              </RevealAnimator>
+              </div>
             );
           })}
         </div>

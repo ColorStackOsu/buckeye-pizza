@@ -83,7 +83,7 @@ export default function Footer() {
           {/* Logo */}
           <Link href="/" aria-label="ColorStackOSU Home" className="shrink-0">
             <Image
-              src="/images/Logo Horizontal.png"
+              src="/images/Logo Horizontal_White.png"
               alt="ColorStackOSU Logo"
               width={180}
               height={50}

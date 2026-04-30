@@ -242,7 +242,7 @@ export default function HeroSection() {
         className="absolute bottom-0 left-0 right-0 z-20"
         style={{ opacity: 0 }}
       >
-        <p className="px-8 sm:px-12 lg:px-20 pt-4 pb-2 uppercase font-body text-overline tracking-widest text-brand-slate">
+        <p className="px-8 sm:px-12 lg:px-20 pt-4 pb-2 uppercase font-body text-overline tracking-widest text-white/60">
           Our Supporters
         </p>
         <SponsorScroller />

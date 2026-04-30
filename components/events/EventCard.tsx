@@ -45,37 +45,61 @@ export default function EventCard({ event, onSelect, delay }: EventCardProps) {
   return (
     <button
       type="button"
-      className="group flex w-full cursor-pointer flex-col rounded-[10px] border-[1.5px] border-[#dcdcdc] bg-[#f7f7f7] text-left text-inherit shadow-none transition-all duration-300 ease-in-out hover:-translate-y-[5px] hover:shadow-[0_6px_12px_rgba(0,0,0,0.1)]"
-      style={{ aspectRatio: "1.64" }}
+      className="group relative w-full cursor-pointer overflow-hidden rounded-xl aspect-[4/3] transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-2xl"
       onClick={() => onSelect(event)}
       aria-label={`View ${event.name} gallery`}
     >
-      {/* Card media / thumbnail */}
-      <div
-        className="relative w-full overflow-hidden rounded-t-[10px]"
-        style={{ paddingTop: "30%" }}
-      >
+      {/* Full-bleed background image */}
+      <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105">
         {thumbnailSrc ? (
           <Image
             src={thumbnailSrc}
             alt={event.alt || `${event.name} Thumbnail`}
             fill
-            className="rounded-t-[10px] object-cover"
+            className="object-cover"
             style={{ objectPosition: "center 60%" }}
             sizes="(max-width: 768px) 90vw, (max-width: 992px) 45vw, 30vw"
             unoptimized={thumbnailSrc.includes("drive.google.com")}
           />
         ) : (
-          <div className="absolute inset-0 animate-pulse rounded-t-[10px] bg-gray-200" />
+          <div className="absolute inset-0 animate-pulse bg-brand-charcoal" />
         )}
-        {/* Red gradient overlay */}
-        <div className="event-gradient absolute inset-0 rounded-t-[10px] opacity-100" />
       </div>
 
-      {/* Card content */}
-      <div className="px-2 py-3">
-        <h3 className="mb-0 text-lg font-semibold">{event.name}</h3>
-        <p className="text-sm font-semibold text-primary-red">{event.date}</p>
+      {/* Gradient — tall, rich, dark at bottom */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+
+      {/* Red left border accent — grows up from bottom on hover */}
+      <div className="absolute left-0 bottom-0 w-[3px] h-0 bg-brand-red transition-all duration-500 ease-out group-hover:h-full" />
+
+      {/* Event info */}
+      <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-1 transition-transform duration-300 ease-out group-hover:translate-y-0">
+        {/* Date overline — fades in on hover */}
+        <p className="font-display text-overline text-brand-red uppercase tracking-widest mb-1.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+          {event.date}
+        </p>
+        <h3 className="font-display text-white font-bold leading-tight text-subheading">
+          {event.name}
+        </h3>
+        {/* "View Gallery" hint — fades in on hover */}
+        <p className="font-body text-caption text-white/60 mt-1.5 flex items-center gap-1.5 opacity-0 transition-opacity duration-300 delay-75 group-hover:opacity-100">
+          View Gallery
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M2 6h8M6 2l4 4-4 4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </p>
       </div>
     </button>
   );
