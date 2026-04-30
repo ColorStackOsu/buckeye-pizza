@@ -19,13 +19,13 @@ export default function HeroSection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
       // 1. Photo fades in with subtle scale settle
       tl.fromTo(
         photoRef.current,
-        { opacity: 0, scale: 1.04 },
-        { opacity: 1, scale: 1, duration: 0.9, ease: "power2.out" },
+        { opacity: 0, scale: 1.06 },
+        { opacity: 1, scale: 1, duration: 1.4, ease: "power2.out" },
         0,
       );
 
@@ -33,24 +33,24 @@ export default function HeroSection() {
       tl.fromTo(
         overlayRef.current,
         { opacity: 0 },
-        { opacity: 1, duration: 0.9 },
+        { opacity: 1, duration: 1.4 },
         0,
       );
 
       // 3. "Welcome to" fades up
       tl.fromTo(
         welcomeRef.current,
-        { opacity: 0, y: 14 },
-        { opacity: 1, y: 0, duration: 0.4 },
-        0.4,
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.65 },
+        0.6,
       );
 
-      // 4. "ColorStack" fades up
+      // 4. "ColorStack" slides up — big travel, punchy ease
       tl.fromTo(
         colorstackRef.current,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.5 },
-        0.6,
+        { opacity: 0, y: 40 },
+        { opacity: 1, y: 0, duration: 0.75 },
+        0.85,
       );
 
       // 5. "at Ohio State" — red box sweeps in, then text fades in on top
@@ -59,41 +59,41 @@ export default function HeroSection() {
         { scaleX: 0 },
         {
           scaleX: 1,
-          duration: 0.45,
-          ease: "power3.inOut",
+          duration: 0.65,
+          ease: "power4.inOut",
           transformOrigin: "left center",
         },
-        0.8,
+        1.1,
       );
       tl.fromTo(
         atOhioRef.current,
         { opacity: 0 },
-        { opacity: 1, duration: 0.2 },
-        1.1,
+        { opacity: 1, duration: 0.3 },
+        1.6,
       );
 
       // 6. Subline fades up
       tl.fromTo(
         sublineRef.current,
-        { opacity: 0, y: 16 },
-        { opacity: 1, y: 0, duration: 0.4 },
-        1.3,
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.6 },
+        1.85,
       );
 
       // 7. CTA fades up
       tl.fromTo(
         ctaRef.current,
-        { opacity: 0, y: 12 },
-        { opacity: 1, y: 0, duration: 0.4 },
-        1.5,
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.55 },
+        2.1,
       );
 
       // 8. Sponsor scroller slides up into frame
       tl.fromTo(
         scrollerRef.current,
         { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
-        1.6,
+        { opacity: 1, y: 0, duration: 0.65 },
+        2.25,
       );
     }, sectionRef);
 

@@ -15,11 +15,6 @@ const navLinks = [
 const aboutSubLinks = [
   { href: "/about#about-us", label: "About", external: false },
   { href: "/about#contact-us", label: "Contact Us", external: false },
-  {
-    href: "https://color-stack-test-bank.vercel.app/",
-    label: "Test Bank",
-    external: true,
-  },
 ];
 
 export default function Navigation() {

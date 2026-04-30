@@ -2,51 +2,57 @@ export default function ContactUsSection() {
   return (
     <section
       id="contact-us"
-      className="bg-bg-white"
+      className="bg-brand-dark py-16 md:py-24"
       aria-labelledby="contact-us-title"
     >
-      <div className="px-4 py-4">
-        <div className="w-full lg:w-10/12 md:w-10/12 mx-auto">
-          <div className="text-center mx-auto p-4">
-            <h2 className="font-semibold text-2xl" id="contact-us-title">
-              Contact Us
-            </h2>
+      <div className="mx-auto max-w-7xl px-6 md:px-12">
+        {/* ── Overline ── */}
+        <p className="font-display text-overline text-brand-red uppercase tracking-widest mb-6">
+          Get In Touch
+        </p>
 
-            <div className="flex justify-center items-center">
-              <hr
-                className="divide-line-sub-right w-[200px]"
-                aria-hidden="true"
-              />
-              <svg
-                className="w-8 h-8 text-primary-red mx-2 flex-shrink-0"
-                fill="currentColor"
-                viewBox="0 0 16 16"
-                aria-hidden="true"
-              >
-                <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757ZM16 11.801V4.697l-5.803 3.546L16 11.801Z" />
-              </svg>
-              <hr
-                className="divide-line-sub-left w-[200px]"
-                aria-hidden="true"
-              />
-            </div>
+        {/* ── Display-scale heading — the dominant element ── */}
+        <h2
+          id="contact-us-title"
+          className="font-display text-display text-white leading-tight max-w-2xl mb-8"
+        >
+          Want to collaborate or have a question?
+        </h2>
 
-            <h3 className="my-3 font-semibold text-xl">Reach Out</h3>
+        <hr
+          className="h-px border-none bg-brand-red w-24 mb-10"
+          aria-hidden="true"
+        />
 
-            <p className="text-base">
-              Want to collaborate on a tech talk or event with our community?
-              We&apos;re here for it! For any questions or opportunities, drop
-              us a line at{" "}
-              <a
-                href="mailto:colorstackosu@gmail.com"
-                className="text-primary-red font-bold hover:underline"
-              >
-                colorstackosu@gmail.com
-              </a>
-              .
-            </p>
-          </div>
-        </div>
+        {/* ── Email CTA — treated as a primary action, not inline text ── */}
+        <a
+          href="mailto:colorstackosu@gmail.com"
+          className="group inline-flex items-center gap-4 font-display text-heading text-white hover:text-brand-red transition-colors duration-200"
+          aria-label="Email ColorStack at Ohio State"
+        >
+          <span>colorstackosu@gmail.com</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="flex-shrink-0 transition-transform duration-200 group-hover:translate-x-1"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </a>
+
+        {/* ── Supporting copy ── */}
+        <p className="font-body text-body text-brand-slate mt-6 max-w-lg">
+          For sponsorship inquiries, event collaborations, or anything else —
+          we&apos;re happy to hear from you.
+        </p>
       </div>
     </section>
   );

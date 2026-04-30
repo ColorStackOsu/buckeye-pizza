@@ -159,7 +159,7 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
   - Ensure `MemberCard` (Task 13) and `MemberGrid` layout use consistent spacing with `gap-6 md:gap-8` and design system padding
   - _Requirements: 2.1, 2.2, 14.1, 14.2, 14.4, 16.1, 16.2_
 
-- [ ] 19. Redesign About page — editorial brand story
+- [x] 19. Redesign About page — editorial brand story
   - Refactor `components/about/AboutHero.tsx`: replace the `animate-bounce-slow` logo treatment with a composed editorial hero — dark background (`bg-brand-dark`), logo centered at a fixed size, page title "ColorStack" in `font-display text-hero text-white` and "AT OSU" in `font-display text-overline text-brand-red uppercase tracking-widest`; remove inline `textShadow` styles and replace with Tailwind utilities; remove the bounce animation
   - Refactor `components/about/AboutUsSection.tsx`: replace the decorative SVG book icon divider with a thin red `<hr>` rule (`.divide-line-red-center` pattern); apply `font-display text-heading` to the "About Us" heading; apply `font-body` to all paragraph text; replace `bg-light-gray` with `bg-brand-light`; replace `text-primary-red` link color with `text-brand-red`; update the two-column layout to use design system spacing tokens
   - Refactor `components/about/ContactUsSection.tsx`: replace the decorative SVG envelope icon divider with a thin red rule; apply `font-display text-heading` to "Contact Us" and `font-display text-subheading` to "Reach Out"; apply `font-body` to paragraph text; replace `bg-bg-white` with `bg-brand-bg`; replace `text-primary-red` with `text-brand-red`
