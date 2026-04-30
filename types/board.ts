@@ -4,8 +4,8 @@ export interface BoardMember {
   img: string;
   bio: string | null;
   linkedin: string;
-  calendly?: string;
-  company?: string;
+  calendly?: string | null;
+  company?: string | null;
 }
 
 export interface BoardYear {

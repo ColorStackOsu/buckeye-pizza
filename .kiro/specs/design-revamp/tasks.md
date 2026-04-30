@@ -152,7 +152,7 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
   - Replace all hardcoded color classes (`text-primary-red`, `bg-primary-red`, `hover:bg-hover-red`, `text-dark`) with design system tokens throughout all four components
   - _Requirements: 2.1, 2.2, 15.1, 16.1, 16.2_
 
-- [ ] 18. Redesign Exec Board page — editorial team directory
+- [x] 18. Redesign Exec Board page — editorial team directory
   - Refactor `app/execboard/ExecBoardClient.tsx`: replace the plain `<h1>` and `<p>` with an editorial page hero section (`bg-brand-dark`, full-width, `font-display text-display text-white` for the title, `font-body text-brand-slate` for the subtitle); remove the `text-dark` and `text-gray-600` hardcoded classes
   - Refactor `components/execboard/YearSelector.tsx`: style the active year button with `bg-brand-red text-white font-display text-overline uppercase tracking-widest`; style inactive buttons with `bg-brand-light text-brand-dark hover:bg-brand-cream font-body`; replace `bg-primary-red`, `bg-light-gray`, `text-dark` with design system tokens
   - Refactor `components/execboard/MemberModal.tsx`: update the modal backdrop to `bg-brand-dark/80`; apply `font-display text-heading` to the member name, `font-body text-brand-red` to the position, `font-body` to the bio text; update the LinkedIn button to use brand blue and the Book a Time button to use `bg-brand-red hover:bg-brand-red-hover`; replace all hardcoded color classes with design system tokens

@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState, useRef } from "react";
 import Image from "next/image";
 import { BoardMember } from "@/types/board";
+
+const TRANSITION_MS = 280;
 
 interface MemberModalProps {
   member: BoardMember | null;
@@ -10,69 +12,101 @@ interface MemberModalProps {
 }
 
 export default function MemberModal({ member, onClose }: MemberModalProps) {
-  // Prevent body scroll when modal is open
+  const [visible, setVisible] = useState(false);
+  // Keep a local copy of the member so content doesn't vanish mid-exit
+  const [displayMember, setDisplayMember] = useState<BoardMember | null>(null);
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Enter: new member arrives → mount with visible=false → one frame later flip visible=true
   useEffect(() => {
     if (member) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
+      if (closeTimerRef.current) {
+        clearTimeout(closeTimerRef.current);
+        closeTimerRef.current = null;
+      }
+      // First ensure we're in the hidden state before mounting content
+      setVisible(false);
+      setDisplayMember(member);
+      // Two rAFs: first lets React commit the DOM with visible=false,
+      // second triggers the transition from that painted state
+      const id = requestAnimationFrame(() => {
+        requestAnimationFrame(() => setVisible(true));
+      });
+      return () => cancelAnimationFrame(id);
     }
+  }, [member]);
+
+  // Initiate exit: flip visible → false, then clear display member after transition
+  const startClose = useCallback(() => {
+    setVisible(false);
+    closeTimerRef.current = setTimeout(() => {
+      setDisplayMember(null);
+      onClose();
+    }, TRANSITION_MS);
+  }, [onClose]);
+
+  // Lock body scroll
+  useEffect(() => {
+    document.body.style.overflow = displayMember ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [member]);
+  }, [displayMember]);
 
-  // Close on Escape key
+  // Escape key
   useEffect(() => {
-    if (!member) return;
-
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        onClose();
-      }
-    }
-
+    if (!displayMember) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") startClose();
+    };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [member, onClose]);
+  }, [displayMember, startClose]);
 
   const handleBackdropClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
-      if (e.target === e.currentTarget) {
-        onClose();
-      }
+      if (e.target === e.currentTarget) startClose();
     },
-    [onClose],
+    [startClose],
   );
 
-  if (!member) return null;
+  if (!displayMember) return null;
 
-  const hasCalendly = member.calendly !== undefined && member.calendly !== "";
-  const hasLinkedin = member.linkedin !== undefined && member.linkedin !== "";
+  const hasCalendly = Boolean(displayMember.calendly);
+  const hasLinkedin = Boolean(displayMember.linkedin);
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+      className={`fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 transition-[background-color] duration-[280ms] ease-out ${
+        visible ? "bg-black/60" : "bg-black/0"
+      }`}
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
-      aria-label={`${member.name} - ${member.position}`}
+      aria-labelledby="modal-member-name"
     >
-      <div className="relative w-full max-w-lg overflow-hidden rounded-xl bg-white shadow-xl">
+      {/* Modal panel */}
+      <div
+        className={`relative w-full max-w-3xl overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-white/20 transition-[opacity,transform] duration-[280ms] ease-out ${
+          visible
+            ? "opacity-100 translate-y-0 scale-100"
+            : "opacity-0 translate-y-5 scale-[0.96]"
+        }`}
+      >
         {/* Close button */}
         <button
           type="button"
-          onClick={onClose}
-          className="absolute right-3 top-3 z-10 rounded-full bg-white/80 p-1.5 text-gray-600 transition-colors hover:bg-white hover:text-gray-900"
+          onClick={startClose}
+          className="absolute right-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-brand-dark/10 text-brand-dark transition-colors hover:bg-brand-dark hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-red"
           aria-label="Close modal"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
+            className="h-4 w-4"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
-            strokeWidth={2}
+            strokeWidth={2.5}
           >
             <path
               strokeLinecap="round"
@@ -82,89 +116,108 @@ export default function MemberModal({ member, onClose }: MemberModalProps) {
           </svg>
         </button>
 
-        {/* Modal content */}
-        <div className="flex flex-col items-center px-6 pb-6 pt-8">
-          {/* Member photo */}
-          <div className="relative mb-4 h-32 w-32 overflow-hidden rounded-full">
-            <Image
-              src={`/${member.img}`}
-              alt={member.name}
-              fill
-              className="object-cover"
-              sizes="128px"
-            />
+        {/* Two-column layout on md+, stacked on mobile */}
+        <div className="flex flex-col md:flex-row">
+          {/* Left — portrait photo */}
+          <div className="relative w-full shrink-0 md:w-56 lg:w-72">
+            <div className="relative aspect-[4/3] md:aspect-auto md:h-full min-h-[14rem]">
+              <Image
+                src={`/${displayMember.img}`}
+                alt={displayMember.name}
+                fill
+                className="object-cover object-top"
+                sizes="(max-width: 768px) 100vw, 288px"
+              />
+            </div>
           </div>
 
-          {/* Name and position */}
-          <h2 className="mb-1 text-xl font-bold text-dark">{member.name}</h2>
-          <p className="mb-4 text-sm font-medium text-primary-red">
-            {member.position}
-          </p>
+          {/* Right — content */}
+          <div className="flex flex-1 flex-col justify-between px-6 pb-7 pt-5 md:px-8 md:py-8">
+            <div>
+              <p className="font-display text-overline text-brand-red uppercase tracking-widest mb-1">
+                {displayMember.position}
+              </p>
 
-          {/* Bio */}
-          {member.bio && (
-            <p className="mb-6 text-center text-sm leading-relaxed text-gray-700">
-              {member.bio}
-            </p>
-          )}
-
-          {/* Action buttons */}
-          <div className="flex gap-3">
-            {hasLinkedin && (
-              <a
-                href={member.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-[#0077b5] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#005f8d]"
-                aria-label={`${member.name}'s LinkedIn`}
+              <h2
+                id="modal-member-name"
+                className="font-display text-heading font-bold text-brand-dark leading-tight mb-1"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
+                {displayMember.name}
+              </h2>
+
+              {displayMember.company && (
+                <div className="mb-4 flex h-6 items-center">
+                  <img
+                    src={`/${displayMember.company}`}
+                    alt={`${displayMember.name}'s company`}
+                    className="h-5 w-auto object-contain"
+                  />
+                </div>
+              )}
+
+              <hr className="mb-4 h-px border-none bg-brand-red/30 w-12" />
+
+              {displayMember.bio && (
+                <p className="font-body text-sm leading-relaxed text-brand-slate">
+                  {displayMember.bio}
+                </p>
+              )}
+            </div>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              {hasLinkedin && (
+                <a
+                  href={displayMember.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-lg bg-[#0077b5] px-5 py-2.5 font-body text-sm font-semibold text-white transition-colors hover:bg-[#005f8d] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0077b5]"
+                  aria-label={`${displayMember.name}'s LinkedIn profile`}
                 >
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                </svg>
-                LinkedIn
-              </a>
-            )}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 shrink-0"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                  </svg>
+                  LinkedIn
+                </a>
+              )}
 
-            <button
-              type="button"
-              disabled={!hasCalendly}
-              onClick={() => {
-                if (hasCalendly) {
-                  window.open(member.calendly, "_blank", "noopener,noreferrer");
-                }
-              }}
-              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                hasCalendly
-                  ? "bg-primary-red text-white hover:bg-hover-red"
-                  : "cursor-not-allowed bg-gray-200 text-gray-400"
-              }`}
-              aria-label={
-                hasCalendly
-                  ? `Book a time with ${member.name}`
-                  : "No booking available"
-              }
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-              Book a Time
-            </button>
+              {hasCalendly && (
+                <button
+                  type="button"
+                  onClick={() =>
+                    window.open(
+                      displayMember.calendly,
+                      "_blank",
+                      "noopener,noreferrer",
+                    )
+                  }
+                  className="inline-flex items-center gap-2 rounded-lg bg-brand-red px-5 py-2.5 font-body text-sm font-semibold text-white transition-colors hover:bg-brand-red-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+                  aria-label={`Book a time with ${displayMember.name}`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 shrink-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                  Book a Time
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
