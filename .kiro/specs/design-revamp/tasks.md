@@ -144,7 +144,7 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
   - Apply `font-body` to all body/label text throughout both components
   - _Requirements: 2.1, 2.2, 13.1, 13.2, 16.1, 16.2_
 
-- [ ] 17. Redesign Sponsors page — editorial partner showcase
+- [x] 17. Redesign Sponsors page — editorial partner showcase
   - Refactor `components/sponsors/SponsorHeader.tsx` into a full-width editorial page hero: dark background (`bg-brand-dark`), headline "Our Partners in Progress" in `font-display text-display text-white`, subtext in `font-body text-brand-slate`, "Become A Sponsor" CTA button using `bg-brand-red hover:bg-brand-red-hover` with `font-display text-overline uppercase tracking-widest`, and "Sponsorship Packet" link in `font-body text-caption`; add a thin red rule below the hero
   - Refactor `components/sponsors/SponsorTier.tsx`: replace the plain heading with the editorial section header pattern (overline + title); alternate section backgrounds using `bg-brand-bg` and `bg-brand-cream` instead of the old `bg-light-gray`/`bg-bg-white`; apply `font-display` to tier names
   - Refactor `components/sponsors/SponsorEntry.tsx`: apply `font-body` to the blurb text; add a subtle hover state on the logo (`opacity-80 hover:opacity-100 transition-opacity`); replace hardcoded layout classes with design system spacing tokens

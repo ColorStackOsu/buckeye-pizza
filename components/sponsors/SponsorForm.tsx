@@ -99,21 +99,48 @@ export default function SponsorForm() {
   }
 
   return (
-    <section
-      id="sponsorForm"
-      className="sponsor-form-gradient-overlay bg-bg-white"
-    >
-      <div className="container mx-auto px-4 py-12">
-        <div className="w-full lg:w-10/12 md:w-10/12 mx-auto">
-          <div className="bg-white rounded-lg shadow-md p-6 md:p-8 relative z-10">
-            <h3 className="text-center text-xl font-semibold mb-2">
+    <section id="sponsorForm" className="bg-brand-red">
+      <div className="mx-auto max-w-7xl px-6 py-16 md:px-12 md:py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+          {/* Left — heading + pitch copy */}
+          <div>
+            <p className="font-display text-overline text-white/60 uppercase tracking-widest mb-4">
+              Partner With Us
+            </p>
+            <h2 className="font-display text-display text-white leading-tight max-w-xl">
               Become a Sponsor
-            </h3>
-            <p className="text-center text-sm mb-6">
+            </h2>
+            <hr className="mt-6 mb-8 h-px border-none bg-white/40 w-24" />
+            <p className="font-body text-white/80 text-subheading leading-relaxed mb-6">
               Interested in partnering with ColorStack@OSU? Fill out this quick
               form and our team will reach out to discuss partnership
               opportunities.
             </p>
+            <ul className="space-y-3">
+              {[
+                "Access to 250+ talented students",
+                "Brand visibility at all our events",
+                "Direct pipeline to diverse tech talent",
+                "Mentorship and recruiting opportunities",
+              ].map((point) => (
+                <li key={point} className="flex items-start gap-3">
+                  <span
+                    className="mt-1 h-1.5 w-1.5 rounded-full bg-white/60 shrink-0"
+                    aria-hidden="true"
+                  />
+                  <span className="font-body text-white/80 text-sm leading-relaxed">
+                    {point}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Right — form card, top-aligned with left text */}
+          <div className="bg-white rounded-xl shadow-2xl p-6 md:p-10">
+            <h3 className="font-display text-heading text-brand-dark mb-2 sr-only">
+              Sponsor Contact Form
+            </h3>
 
             {status === "success" && (
               <div
@@ -139,10 +166,10 @@ export default function SponsorForm() {
               <div className="mb-4">
                 <label
                   htmlFor="companyName"
-                  className="block text-sm font-medium mb-1"
+                  className="font-body text-sm font-medium text-brand-dark mb-1 block"
                 >
                   Company Name
-                  <span className="text-primary-red">*</span>
+                  <span className="text-brand-red">*</span>
                 </label>
                 <input
                   type="text"
@@ -150,7 +177,7 @@ export default function SponsorForm() {
                   name="companyName"
                   value={formData.companyName}
                   onChange={handleChange}
-                  className={`w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-red/50 ${
+                  className={`font-body text-sm w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-red/50 ${
                     errors.companyName ? "border-red-500" : "border-gray-300"
                   }`}
                   aria-required="true"
@@ -174,10 +201,10 @@ export default function SponsorForm() {
               <div className="mb-4">
                 <label
                   htmlFor="contactName"
-                  className="block text-sm font-medium mb-1"
+                  className="font-body text-sm font-medium text-brand-dark mb-1 block"
                 >
                   Contact Name
-                  <span className="text-primary-red">*</span>
+                  <span className="text-brand-red">*</span>
                 </label>
                 <input
                   type="text"
@@ -185,7 +212,7 @@ export default function SponsorForm() {
                   name="contactName"
                   value={formData.contactName}
                   onChange={handleChange}
-                  className={`w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-red/50 ${
+                  className={`font-body text-sm w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-red/50 ${
                     errors.contactName ? "border-red-500" : "border-gray-300"
                   }`}
                   aria-required="true"
@@ -209,10 +236,10 @@ export default function SponsorForm() {
               <div className="mb-4">
                 <label
                   htmlFor="contactEmail"
-                  className="block text-sm font-medium mb-1"
+                  className="font-body text-sm font-medium text-brand-dark mb-1 block"
                 >
                   Email Address
-                  <span className="text-primary-red">*</span>
+                  <span className="text-brand-red">*</span>
                 </label>
                 <input
                   type="email"
@@ -220,7 +247,7 @@ export default function SponsorForm() {
                   name="contactEmail"
                   value={formData.contactEmail}
                   onChange={handleChange}
-                  className={`w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-red/50 ${
+                  className={`font-body text-sm w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-red/50 ${
                     errors.contactEmail ? "border-red-500" : "border-gray-300"
                   }`}
                   aria-required="true"
@@ -244,7 +271,7 @@ export default function SponsorForm() {
               <div className="mb-6">
                 <label
                   htmlFor="message"
-                  className="block text-sm font-medium mb-1"
+                  className="font-body text-sm font-medium text-brand-dark mb-1 block"
                 >
                   Brief Message (Optional)
                 </label>
@@ -255,16 +282,16 @@ export default function SponsorForm() {
                   onChange={handleChange}
                   rows={3}
                   placeholder="Tell us a bit about your interest in partnering with ColorStack@OSU"
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-red/50"
+                  className="font-body text-sm w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-red/50"
                 />
               </div>
 
               {/* Submit Button */}
-              <div className="text-center">
+              <div>
                 <button
                   type="submit"
                   disabled={status === "submitting"}
-                  className="bg-primary-red text-white px-6 py-2 rounded hover:bg-hover-red transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-brand-dark hover:bg-brand-charcoal text-white px-8 py-3 rounded font-display text-overline uppercase tracking-widest transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {status === "submitting" ? "Submitting..." : "Submit"}
                 </button>
