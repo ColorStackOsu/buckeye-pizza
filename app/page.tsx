@@ -4,6 +4,7 @@ import MissionSection from "@/components/home/MissionSection";
 import StatsSection from "@/components/home/StatsSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import GetInvolvedSection from "@/components/home/GetInvolvedSection";
+import ScrollHint from "@/components/ScrollHint";
 
 export const metadata: Metadata = {
   openGraph: {
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
+      <ScrollHint />
       <HeroSection />
       <MissionSection />
       <StatsSection />
