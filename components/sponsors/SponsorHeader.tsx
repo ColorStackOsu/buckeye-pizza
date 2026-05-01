@@ -62,7 +62,7 @@ export default function SponsorHeader() {
         aria-hidden="true"
       />
 
-      <div className="relative mx-auto max-w-7xl px-6 py-16 md:px-12 md:py-24">
+      <div className="relative mx-auto max-w-7xl px-6 pt-28 pb-16 md:px-12 md:py-24">
         {/* Overline */}
         <p
           ref={overlineRef}
@@ -86,8 +86,8 @@ export default function SponsorHeader() {
           ref={subtitleRef}
           className="font-body text-brand-slate mt-4 text-subheading max-w-lg"
         >
-          Industry leaders who share our vision of increasing diversity in tech
-          — providing mentorship, resources, and opportunities to our members.
+          Industry leaders who share our vision of increasing diversity in tech,
+          providing mentorship, resources, and opportunities to our members.
         </p>
 
         {/* CTAs */}

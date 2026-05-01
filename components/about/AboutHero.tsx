@@ -64,7 +64,7 @@ export default function AboutHero() {
         aria-hidden="true"
       />
 
-      <div className="relative mx-auto max-w-7xl px-6 py-16 md:px-12 md:py-24">
+      <div className="relative mx-auto max-w-7xl px-6 pt-28 pb-16 md:px-12 md:py-24">
         {/* Overline */}
         <p
           ref={overlineRef}

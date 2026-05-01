@@ -163,14 +163,8 @@ export default function MissionSection() {
         </div>
 
         {/* ── Program Pillar Cards ── */}
-        {/*
-          Desktop (lg+): CSS Grid with 3 columns.
-            - Card 0 spans 2 columns (large feature card)
-            - Cards 1 & 2 stack in the 3rd column
-          Mobile/Tablet: single column, full-width cards
-        */}
         <div
-          className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-5"
+          className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-5 overflow-hidden"
           aria-label="Program pillars"
         >
           {/* Card 0 — large, spans 2 columns, slides from left */}

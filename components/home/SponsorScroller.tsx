@@ -89,18 +89,23 @@ export default function SponsorScroller() {
 
   return (
     <div
-      className="logos overflow-hidden whitespace-nowrap bg-white py-[1.2rem] shadow-[0_2px_4px_rgba(0,0,0,0.05)]"
+      className="logos w-full max-w-full overflow-hidden bg-white py-[1.2rem] shadow-[0_2px_4px_rgba(0,0,0,0.05)]"
+      style={{ isolation: "isolate" }}
       aria-label="Sponsor logos scrolling display"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Single track div that we translate via JS */}
-      <div ref={trackRef} className="inline-block will-change-transform">
+      <div
+        ref={trackRef}
+        className="will-change-transform"
+        style={{ display: "flex", flexWrap: "nowrap", width: "max-content" }}
+      >
         {/* Two copies for seamless loop */}
         {[0, 1].map((setIndex) => (
           <span
             key={setIndex}
-            className="logos-slide inline-block"
+            className="logos-slide flex-shrink-0 flex items-center"
             aria-hidden={setIndex === 1 ? "true" : undefined}
           >
             {sponsorLogos.map((logo) => (
@@ -109,7 +114,7 @@ export default function SponsorScroller() {
                 src={logo.src}
                 alt={setIndex === 0 ? logo.alt : ""}
                 loading="eager"
-                className={`inline-block h-[1.7rem] mx-[1.3rem] ${logo.className ?? ""}`}
+                className={`flex-shrink-0 h-[1.7rem] mx-[1.3rem] ${logo.className ?? ""}`}
               />
             ))}
           </span>

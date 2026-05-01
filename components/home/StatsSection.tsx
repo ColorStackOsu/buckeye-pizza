@@ -106,7 +106,7 @@ export default function StatsSection() {
           id="stats-title"
           className="font-display text-heading text-brand-dark max-w-2xl mx-auto leading-tight"
         >
-          A community that shows up — for each other, and for the industry.
+          A community that shows up for each other, and for the industry.
         </h2>
       </div>
 

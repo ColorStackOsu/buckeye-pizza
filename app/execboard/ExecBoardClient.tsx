@@ -106,7 +106,7 @@ export default function ExecBoardClient() {
           className="absolute inset-0 bg-brand-dark"
           aria-hidden="true"
         />
-        <div className="relative mx-auto max-w-7xl px-6 py-16 md:px-12 md:py-24">
+        <div className="relative mx-auto max-w-7xl px-6 pt-28 pb-16 md:px-12 md:py-24">
           <p
             ref={overlineRef}
             className="font-display text-overline text-brand-red uppercase tracking-widest mb-4"
@@ -127,7 +127,7 @@ export default function ExecBoardClient() {
             className="font-body text-brand-slate mt-4 text-subheading max-w-xl"
           >
             The people driving ColorStack at Ohio State. Click any member to
-            learn about their background — and book office hours to talk
+            learn about their background and book office hours to talk
             internships, offers, career paths, or anything in between.
           </p>
         </div>

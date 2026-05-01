@@ -70,7 +70,7 @@ export default function EventsHero() {
         aria-hidden="true"
       />
 
-      <div className="relative mx-auto max-w-7xl px-6 py-16 md:px-12 md:py-24">
+      <div className="relative mx-auto max-w-7xl px-6 pt-28 pb-16 md:px-12 md:py-24">
         {/* Overline */}
         <p
           ref={overlineRef}
@@ -94,7 +94,7 @@ export default function EventsHero() {
           ref={subtitleRef}
           className="font-body text-brand-slate mt-4 text-subheading max-w-md"
         >
-          Workshops, socials, and professional development — all in one place.
+          Workshops, socials, and professional development. All in one place.
         </p>
       </div>
     </div>

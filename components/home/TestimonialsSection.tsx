@@ -169,11 +169,21 @@ export default function TestimonialsSection() {
 
       {/* ── DESKTOP / TABLET: Editorial spread layout ── */}
       <div
-        className="hidden md:block relative z-10"
+        className="hidden md:block relative z-10 outline-none focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-2 rounded-2xl"
         role="region"
         aria-label="Testimonials carousel"
         aria-roledescription="carousel"
         aria-live="polite"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowLeft") {
+            e.preventDefault();
+            goToPrev();
+          } else if (e.key === "ArrowRight") {
+            e.preventDefault();
+            goToNext();
+          }
+        }}
       >
         <div className="max-w-6xl mx-auto px-6 lg:px-12">
           {/* Spread container — crossfade + slide transition */}
@@ -189,20 +199,20 @@ export default function TestimonialsSection() {
             aria-roledescription="slide"
             aria-label={`Testimonial ${activeIndex + 1} of ${totalTestimonials}`}
           >
-            <div className="flex items-stretch gap-0 rounded-2xl overflow-hidden shadow-sm bg-brand-cream min-h-[320px] lg:min-h-[360px]">
+            <div className="flex items-stretch gap-0 rounded-2xl overflow-hidden shadow-sm bg-brand-cream h-[380px] lg:h-[420px]">
               {/* Photo column — 30% on tablet, 40% on desktop */}
               <div className="w-[30%] lg:w-[40%] relative flex-shrink-0 self-stretch">
                 <Image
                   src={current.photo}
                   alt={`Photo of ${current.name}`}
                   fill
-                  className="object-cover object-top"
+                  className="object-cover object-center"
                   sizes="(min-width: 1024px) 40vw, 30vw"
                 />
               </div>
 
               {/* Quote column — 70% on tablet, 60% on desktop */}
-              <div className="w-[70%] lg:w-[60%] relative flex flex-col justify-center px-8 lg:px-12 py-8 lg:py-10 overflow-hidden">
+              <div className="w-[70%] lg:w-[60%] relative flex flex-col justify-center px-8 lg:px-12 py-8 lg:py-10 overflow-y-auto">
                 {/* Decorative oversized opening quotation mark */}
                 <span
                   className="font-display absolute top-4 left-6 lg:left-10 select-none pointer-events-none"
@@ -317,40 +327,42 @@ export default function TestimonialsSection() {
       </div>
 
       {/* ── MOBILE: Stacked layout — all four testimonials ── */}
-      <div className="block md:hidden px-4 relative z-10">
-        <div className="flex flex-col gap-10">
-          {testimonials.map((testimonial) => (
-            <div key={testimonial.name} className="flex flex-col items-center">
-              {/* Circular photo centered above */}
-              <div className="relative w-24 h-24 rounded-full overflow-hidden mb-5 flex-shrink-0 shadow-sm">
-                <Image
-                  src={testimonial.photo}
-                  alt={`Photo of ${testimonial.name}`}
-                  fill
-                  className="object-cover"
-                  sizes="96px"
-                />
-              </div>
+      <div className="block md:hidden relative z-10">
+        <div className="flex flex-col">
+          {testimonials.map((testimonial, i) => (
+            <div
+              key={testimonial.name}
+              className={`px-6 py-10 ${i % 2 === 0 ? "bg-brand-cream" : "bg-white"}`}
+            >
+              {/* Overline title */}
+              <p className="font-display text-overline uppercase tracking-widest text-brand-red mb-4">
+                {testimonial.title}
+              </p>
 
-              {/* Quote content below */}
-              <div className="text-center max-w-sm">
-                {/* Testimonial title */}
-                <p className="font-display text-overline uppercase tracking-widest text-brand-red mb-2">
-                  {testimonial.title}
-                </p>
+              {/* Quote text */}
+              <blockquote className="font-body text-body text-brand-dark leading-relaxed mb-6">
+                {testimonial.quote}
+              </blockquote>
 
-                {/* Quote text */}
-                <blockquote className="font-body text-body text-brand-dark leading-relaxed mb-4">
-                  {testimonial.quote}
-                </blockquote>
-
-                {/* Byline */}
-                <p className="font-body font-semibold text-brand-dark text-body leading-tight">
-                  {testimonial.name}
-                </p>
-                <p className="font-display text-overline uppercase tracking-widest text-brand-red">
-                  {testimonial.year}
-                </p>
+              {/* Byline row */}
+              <div className="flex items-center gap-4">
+                <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+                  <Image
+                    src={testimonial.photo}
+                    alt={`Photo of ${testimonial.name}`}
+                    fill
+                    className="object-cover object-center"
+                    sizes="40px"
+                  />
+                </div>
+                <div>
+                  <p className="font-body font-semibold text-brand-dark text-body leading-tight">
+                    {testimonial.name}
+                  </p>
+                  <p className="font-display text-overline uppercase tracking-widest text-brand-red">
+                    {testimonial.year}
+                  </p>
+                </div>
               </div>
             </div>
           ))}

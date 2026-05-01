@@ -264,143 +264,133 @@ export default function Navigation() {
         </div>
       </nav>
 
-      {/* Full-screen mobile overlay menu */}
-      {isMenuOpen && (
-        <div
-          ref={mobileMenuRef}
-          id="navbarCollapse"
-          className="fixed inset-0 z-[200] bg-brand-dark flex flex-col items-center justify-center lg:hidden"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Mobile navigation menu"
+      {/* Full-screen mobile overlay menu — always mounted, shown/hidden via pointer-events + opacity */}
+      <div
+        ref={mobileMenuRef}
+        id="navbarCollapse"
+        className={`fixed inset-0 z-[200] bg-brand-dark flex flex-col items-center justify-center lg:hidden transition-opacity duration-200 ${
+          isMenuOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Mobile navigation menu"
+        aria-hidden={!isMenuOpen}
+      >
+        {/* Close button (X) */}
+        <button
+          type="button"
+          className="absolute top-4 right-4 w-10 h-10 flex flex-col justify-center items-center gap-1.5"
+          onClick={() => setIsMenuOpen(false)}
+          aria-label="Close navigation"
         >
-          {/* Close button (X) */}
-          <button
-            type="button"
-            className="absolute top-4 right-4 w-10 h-10 flex flex-col justify-center items-center gap-1.5"
-            onClick={() => setIsMenuOpen(false)}
-            aria-label="Close navigation"
-          >
-            <span className="block w-6 h-0.5 bg-white rotate-45 translate-y-[3px]" />
-            <span className="block w-6 h-0.5 bg-white -rotate-45 -translate-y-[3px]" />
-          </button>
+          <span className="block w-6 h-0.5 bg-white rotate-45 translate-y-[3px]" />
+          <span className="block w-6 h-0.5 bg-white -rotate-45 -translate-y-[3px]" />
+        </button>
 
-          {/* Logo in overlay */}
-          <Link
-            href="/"
-            className="absolute top-4 left-4"
-            aria-label="ColorStackOSU Home"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            <Image
-              src="/images/Logo Horizontal.png"
-              alt="ColorStackOSU Logo"
-              width={160}
-              height={45}
-              className="h-11 w-auto brightness-0 invert"
-              draggable={false}
-            />
-          </Link>
+        {/* Logo in overlay */}
+        <Link
+          href="/"
+          className="absolute top-4 left-4"
+          aria-label="ColorStackOSU Home"
+          onClick={() => setIsMenuOpen(false)}
+        >
+          <Image
+            src="/images/Logo Horizontal.png"
+            alt="ColorStackOSU Logo"
+            width={160}
+            height={45}
+            className="h-11 w-auto brightness-0 invert"
+            draggable={false}
+          />
+        </Link>
 
-          {/* Stacked nav links */}
-          <ul className="flex flex-col items-center gap-8 list-none m-0 p-0">
-            {navLinks.map((link, index) => {
-              const isActive = pathname === link.href;
-              return (
-                <li
-                  key={link.href}
-                  ref={(el) => setMobileLinkRef(el, index)}
-                  className="flex flex-col items-center"
-                >
-                  <Link
-                    href={link.href}
-                    className={`font-display text-display uppercase tracking-widest transition-colors ${
-                      isActive
-                        ? "text-brand-red"
-                        : "text-white hover:text-brand-red"
-                    }`}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                  {isActive && (
-                    <span
-                      className="mt-2 w-1.5 h-1.5 rounded-full bg-brand-red"
-                      aria-hidden="true"
-                    />
-                  )}
-                </li>
-              );
-            })}
-
-            {/* Mobile About Us section */}
-            <li
-              ref={(el) => setMobileLinkRef(el, navLinks.length)}
-              className="flex flex-col items-center"
-            >
-              <button
-                type="button"
-                className="font-display text-display uppercase tracking-widest text-white hover:text-brand-red transition-colors flex items-center gap-2"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                aria-expanded={isDropdownOpen}
-                aria-haspopup="true"
+        {/* Stacked nav links */}
+        <ul className="flex flex-col items-center gap-8 list-none m-0 p-0">
+          {navLinks.map((link, index) => {
+            const isActive = pathname === link.href;
+            return (
+              <li
+                key={link.href}
+                ref={(el) => setMobileLinkRef(el, index)}
+                className="flex flex-col items-center"
               >
-                About Us
-                <svg
-                  className={`w-5 h-5 transition-transform duration-200 ${
-                    isDropdownOpen ? "rotate-180" : ""
+                <Link
+                  href={link.href}
+                  className={`font-display text-display uppercase tracking-widest transition-colors ${
+                    isActive
+                      ? "text-brand-red"
+                      : "text-white hover:text-brand-red"
                   }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
+                  onClick={() => setIsMenuOpen(false)}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
+                  {link.label}
+                </Link>
+                {isActive && (
+                  <span
+                    className="mt-2 w-1.5 h-1.5 rounded-full bg-brand-red"
+                    aria-hidden="true"
                   />
-                </svg>
-              </button>
+                )}
+              </li>
+            );
+          })}
 
-              {isDropdownOpen && (
-                <ul className="flex flex-col items-center gap-3 mt-4 list-none p-0">
-                  {aboutSubLinks.map((subLink) => (
-                    <li key={subLink.href}>
-                      {subLink.external ? (
-                        <a
-                          href={subLink.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="font-body text-white/70 text-lg hover:text-brand-red transition-colors"
-                          onClick={() => {
-                            setIsDropdownOpen(false);
-                            setIsMenuOpen(false);
-                          }}
-                        >
-                          {subLink.label}
-                        </a>
-                      ) : (
-                        <Link
-                          href={subLink.href}
-                          className="font-body text-white/70 text-lg hover:text-brand-red transition-colors"
-                          onClick={() => {
-                            setIsDropdownOpen(false);
-                            setIsMenuOpen(false);
-                          }}
-                        >
-                          {subLink.label}
-                        </Link>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          </ul>
-        </div>
-      )}
+          {/* Mobile About Us section */}
+          <li
+            ref={(el) => setMobileLinkRef(el, navLinks.length)}
+            className="flex flex-col items-center"
+          >
+            <button
+              type="button"
+              className="font-display text-display uppercase tracking-widest text-white hover:text-brand-red transition-colors flex items-center gap-2"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              aria-expanded={isDropdownOpen}
+              aria-haspopup="true"
+            >
+              About Us
+              <svg
+                className={`w-5 h-5 transition-transform duration-200 ${
+                  isDropdownOpen ? "rotate-180" : ""
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+
+            {isDropdownOpen && (
+              <ul className="flex flex-col items-center gap-3 mt-4 list-none p-0">
+                {aboutSubLinks.map((subLink) => (
+                  <li key={subLink.href}>
+                    <a
+                      href={subLink.href}
+                      target={subLink.external ? "_blank" : undefined}
+                      rel={subLink.external ? "noopener noreferrer" : undefined}
+                      className="font-body text-white/70 text-lg hover:text-brand-red transition-colors"
+                      onClick={() => {
+                        setIsDropdownOpen(false);
+                        setIsMenuOpen(false);
+                      }}
+                    >
+                      {subLink.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        </ul>
+      </div>
     </>
   );
 }

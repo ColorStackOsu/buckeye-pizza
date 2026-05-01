@@ -3,6 +3,32 @@
 @tailwind utilities;
 
 /* ==========================================================================
+   OVERFLOW CONTAINMENT
+   overflow-x: clip is stronger than hidden — it clips transform-based
+   overflow without creating a scroll container, keeping position:sticky
+   and GSAP transforms contained on all browsers.
+   ========================================================================== */
+
+html,
+body {
+  overflow-x: clip;
+}
+
+/* ==========================================================================
+   SMOOTH SCROLLING
+   ========================================================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ==========================================================================
    DESIGN TOKENS
    CSS custom properties for the design system. These are the single source
    of truth for all visual values — colors, typography, spacing, and motion.

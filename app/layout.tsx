@@ -42,11 +42,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${syne.variable} ${sourceSerif.variable}`}>
-      <body className="font-sans bg-bg-white flex flex-col min-h-screen overflow-x-hidden">
+      <body className="font-sans bg-bg-white flex flex-col min-h-screen">
         <Navigation />
         <main className="flex-1">{children}</main>
         <Footer />
-        <ScrollHint />
       </body>
     </html>
   );

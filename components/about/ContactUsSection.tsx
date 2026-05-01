@@ -50,7 +50,7 @@ export default function ContactUsSection() {
 
         {/* ── Supporting copy ── */}
         <p className="font-body text-body text-brand-slate mt-6 max-w-lg">
-          For sponsorship inquiries, event collaborations, or anything else —
+          For sponsorship inquiries, event collaborations, or anything else,{" "}
           we&apos;re happy to hear from you.
         </p>
       </div>
