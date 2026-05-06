@@ -5,9 +5,7 @@
 /* ==========================================================================
    GLOBAL FOCUS INDICATORS
    Provides a consistent, visible focus ring on all interactive elements
-   for keyboard and assistive technology users (Requirement 17.3).
-   The :focus:not(:focus-visible) rule removes the ring for mouse/touch
-   users who don't need it, keeping the UI clean.
+   for keyboard and assistive technology users.
    ========================================================================== */
 
 :focus-visible {
@@ -97,196 +95,11 @@ html {
 }
 
 /* ==========================================================================
-   REVEAL ANIMATIONS
-   Scroll-triggered entrance animations migrated from css/style.css.
-   These use CSS transitions toggled by adding/removing the .active class
-   via IntersectionObserver, so they cannot be expressed as Tailwind utilities.
-   ========================================================================== */
-
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition:
-    opacity 0.5s ease,
-    transform 0.75s ease;
-  transition-delay: 0.1s;
-  will-change: opacity, transform;
-}
-
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.reveal-forward {
-  opacity: 0;
-  transform: scale(0.75);
-  transition:
-    opacity 1s ease,
-    transform 1s ease;
-}
-
-.reveal-forward.active {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.reveal-left {
-  opacity: 0;
-  transform: translateX(-50px);
-  transition:
-    opacity 0.8s ease,
-    transform 0.8s ease;
-}
-
-.reveal-right {
-  opacity: 0;
-  transform: translateX(50px);
-  transition:
-    opacity 0.8s ease,
-    transform 0.8s ease;
-}
-
-.reveal-left.active,
-.reveal-right.active {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* Delay classes for staggered reveal effects */
-.delay-100 {
-  transition-delay: 0.1s;
-}
-.delay-200 {
-  transition-delay: 0.2s;
-}
-.delay-300 {
-  transition-delay: 0.3s;
-}
-.delay-400 {
-  transition-delay: 0.4s;
-}
-.delay-500 {
-  transition-delay: 0.5s;
-}
-
-/* ==========================================================================
    GRADIENT OVERLAY PSEUDO-ELEMENTS
-   Animated gradient backgrounds used on hero, about, sponsor, testimonial,
-   and calendar sections. These use ::before pseudo-elements with complex
-   gradient + mask combinations that cannot be expressed as Tailwind utilities.
+   Animated gradient backgrounds used on testimonial and calendar sections.
+   These use ::before pseudo-elements with complex gradient + mask
+   combinations that cannot be expressed as Tailwind utilities.
    ========================================================================== */
-
-/* Hero section gradient overlay */
-.hero-gradient-overlay {
-  position: relative;
-}
-
-.hero-gradient-overlay::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  background: linear-gradient(
-    270deg,
-    #ffffff 0%,
-    #f0e0e3 20%,
-    #bc0e2e 50%,
-    #f0e0e3 80%,
-    #ffffff 100%
-  );
-  background-size: 200% 200%;
-  animation: moveGradient 15s ease infinite;
-  opacity: 0.2;
-}
-
-/* About section gradient overlay */
-.about-gradient-overlay {
-  position: relative;
-}
-
-.about-gradient-overlay::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    270deg,
-    #ffffff 0%,
-    #f0e0e3 20%,
-    #8a0a22 50%,
-    #f0e0e3 80%,
-    #ffffff 100%
-  );
-  background-size: 200% 200%;
-  animation: moveGradient 15s ease infinite;
-  opacity: 0.2;
-  z-index: 0;
-  mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
-}
-
-/* Sponsor header gradient overlay */
-.sponsor-header-gradient-overlay {
-  position: relative;
-}
-
-.sponsor-header-gradient-overlay::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0.1;
-  z-index: 0;
-  background: linear-gradient(
-    270deg,
-    #ffffff 0%,
-    #f8edef 15%,
-    #f0e0e3 30%,
-    #d86f82 40%,
-    #bc0e2e 50%,
-    #d86f82 60%,
-    #f0e0e3 70%,
-    #f8edef 85%,
-    #ffffff 100%
-  );
-  background-size: 200% 100%;
-  animation: moveGradient 15s ease infinite;
-  mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
-}
-
-/* Sponsor form gradient overlay */
-.sponsor-form-gradient-overlay {
-  position: relative;
-}
-
-.sponsor-form-gradient-overlay::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    270deg,
-    #ffffff 0%,
-    #f0e0e3 20%,
-    #bc0e2e 50%,
-    #f0e0e3 80%,
-    #ffffff 100%
-  );
-  background-size: 200% 200%;
-  animation: moveGradient 15s ease infinite;
-  opacity: 0.1;
-  z-index: 0;
-  mask-image: linear-gradient(to top, black 75%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to top, black 75%, transparent 100%);
-}
 
 /* Testimonial section gradient overlay */
 .testimonial-gradient-overlay {
@@ -357,26 +170,16 @@ html {
   -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
 }
 
-/* ==========================================================================
-   GRADIENT SHINE OVERLAY (Board member card hover effect)
-   Used on exec board member cards for the shiny hover gradient effect.
-   ========================================================================== */
-
-.gradient-overlay {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    60deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgb(255, 255, 255) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  background-size: 200% 200%;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
+@keyframes moveGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* ==========================================================================
@@ -414,8 +217,7 @@ html {
 
 /* ==========================================================================
    DESKTOP NAV LINK UNDERLINE ANIMATION
-   Animated red underline that slides in from center on hover, mirroring
-   the footer-nav-link pattern but using the brand red color directly.
+   Animated red underline that slides in from center on hover.
    ========================================================================== */
 
 .nav-link {
@@ -441,73 +243,10 @@ html {
 }
 
 /* ==========================================================================
-   DIVIDER LINES
-   Gradient divider lines used between sections. These use complex
-   linear-gradient backgrounds that are more readable as custom CSS.
+   DIVIDER LINE
+   Centered red gradient divider used in MissionSection.
    ========================================================================== */
 
-.divide-line-main {
-  opacity: 1;
-  height: 0.75px;
-  border: none;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.3) 15%,
-    rgba(255, 255, 255, 1) 35%,
-    rgba(255, 255, 255, 1) 65%,
-    rgba(255, 255, 255, 0.3) 85%,
-    rgba(255, 255, 255, 0) 100%
-  );
-}
-
-.divide-line-sub {
-  opacity: 1;
-  height: 2px;
-  border: none;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(186, 12, 47, 1) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  width: 600px;
-}
-
-.divide-line-sub-right {
-  opacity: 1;
-  height: 2px;
-  border: none;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(186, 12, 47, 1) 100%
-  );
-}
-
-.divide-line-sub-left {
-  opacity: 1;
-  height: 2px;
-  border: none;
-  background: linear-gradient(
-    90deg,
-    rgba(186, 12, 47, 1) 0%,
-    rgba(255, 255, 255, 0) 100%
-  );
-}
-
-.divide-line-red {
-  opacity: 1;
-  height: 1px;
-  border: none;
-  background: linear-gradient(
-    90deg,
-    rgba(186, 12, 47, 1) 0%,
-    rgba(255, 255, 255, 0) 100%
-  );
-}
-
-/* Centered red divider — fades in from center, used in pull-quote layout */
 .divide-line-red-center {
   opacity: 1;
   height: 1px;
@@ -523,85 +262,9 @@ html {
 }
 
 /* ==========================================================================
-   RIBBON STATS (clip-path shapes)
-   The ribbon banners use clip-path polygons that cannot be expressed
-   as Tailwind utilities.
+   HERO NOISE TEXTURE OVERLAY
+   SVG noise texture for the hero section atmospheric effect.
    ========================================================================== */
-
-.ribbon-red {
-  clip-path: polygon(0 0, 100% 0, 88% 100%, 0% 100%);
-}
-
-.ribbon-black {
-  clip-path: polygon(12% 0, 100% 0, 100% 100%, 0% 100%);
-}
-
-/* ==========================================================================
-   EVENT CARD GRADIENT
-   The red gradient overlay on event card thumbnails.
-   ========================================================================== */
-
-.event-gradient {
-  background: linear-gradient(
-    0deg,
-    rgb(234, 17, 61) 20%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  mix-blend-mode: screen;
-}
-
-/* ==========================================================================
-   TYPEWRITER LINE
-   The typewriter animation lines need overflow:hidden and width:0 as
-   initial state, toggled by the typing keyframe animation.
-   ========================================================================== */
-
-.typewriter-line {
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  border-right: none;
-  width: 0;
-}
-
-/* ==========================================================================
-   SPONSOR SCROLLER HOVER PAUSE
-   Pauses the infinite scroll animation on hover for large viewports.
-   This uses a descendant selector + media query that cannot be expressed
-   as a single Tailwind utility.
-   ========================================================================== */
-
-/* Hover slowdown is handled via JS in SponsorScroller.tsx */
-
-/* ==========================================================================
-   HERO ATMOSPHERIC EFFECTS
-   Radial gradient mesh and noise texture overlay for the hero section.
-   These use complex gradient + SVG filter combinations that cannot be
-   expressed as Tailwind utilities.
-   ========================================================================== */
-
-.hero-gradient-mesh {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(
-      ellipse 70% 60% at 75% 40%,
-      rgba(185, 40, 61, 0.12) 0%,
-      transparent 70%
-    ),
-    radial-gradient(
-      ellipse 50% 50% at 85% 70%,
-      rgba(240, 208, 213, 0.3) 0%,
-      transparent 60%
-    ),
-    radial-gradient(
-      ellipse 60% 40% at 60% 20%,
-      rgba(250, 245, 240, 0.5) 0%,
-      transparent 70%
-    );
-  background-size: 200% 200%;
-  animation: heroMeshShift 18s ease-in-out infinite alternate;
-}
 
 .hero-noise-overlay {
   position: absolute;
@@ -612,59 +275,10 @@ html {
   background-size: 200px 200px;
 }
 
-@keyframes heroMeshShift {
-  0% {
-    background-position:
-      0% 0%,
-      100% 100%,
-      50% 50%;
-  }
-  50% {
-    background-position:
-      30% 60%,
-      70% 30%,
-      80% 20%;
-  }
-  100% {
-    background-position:
-      60% 30%,
-      20% 80%,
-      30% 70%;
-  }
-}
-
-/* ==========================================================================
-   PERSPECTIVE CARD — 3D TILT HOVER EFFECT
-   Used on GetInvolvedSection CTA cards. Applies CSS perspective and
-   transform-style: preserve-3d so that hover rotateX/rotateY transforms
-   create a subtle tilt toward the cursor. The JS mousemove listener in
-   the component drives the exact tilt values; the CSS class sets up the
-   3D rendering context and transition.
-   ========================================================================== */
-
-.perspective-card {
-  transform-style: preserve-3d;
-  perspective: 800px;
-  transition:
-    transform 0.3s var(--ease-out-quart, cubic-bezier(0.25, 1, 0.5, 1)),
-    box-shadow 0.3s ease;
-  will-change: transform;
-}
-
-/* Pure-CSS fallback tilt for environments without JS */
-@media (hover: hover) {
-  .perspective-card:hover {
-    transform: perspective(800px) rotateX(4deg) rotateY(-4deg) translateY(-4px);
-    box-shadow:
-      8px 12px 32px rgba(0, 0, 0, 0.15),
-      0 2px 8px rgba(0, 0, 0, 0.08);
-  }
-}
-
 /* ==========================================================================
    SPONSOR SCROLLER — GRAYSCALE LOGOS
    Logos rendered in grayscale with opacity by default, transitioning to
-   full color once the user has scrolled away from the top of the page.
+   full color once the user has scrolled past the hero.
    The [data-scrolled] attribute is set on <body> by ScrollHint.tsx.
    ========================================================================== */
 
@@ -673,47 +287,8 @@ html {
   transition: filter 0.6s ease;
 }
 
-.logos {
-  transition: none;
-}
-
 body[data-scrolled="true"] .logos img {
   filter: grayscale(0) opacity(1);
-}
-
-/* ==========================================================================
-   SCROLL INDICATOR CHEVRONS
-   Staggered cascading fade animation on the three chevrons in the hero
-   scroll indicator. Each chevron pulses in sequence to suggest downward
-   movement.
-   ========================================================================== */
-
-.scroll-chevron {
-  animation: chevronPulse 1.6s ease-in-out infinite;
-}
-
-.scroll-chevron-1 {
-  animation-delay: 0s;
-}
-
-.scroll-chevron-2 {
-  animation-delay: 0.2s;
-}
-
-.scroll-chevron-3 {
-  animation-delay: 0.4s;
-}
-
-@keyframes chevronPulse {
-  0%,
-  100% {
-    transform: translateY(0);
-    opacity: 0.4;
-  }
-  50% {
-    transform: translateY(3px);
-    opacity: 1;
-  }
 }
 
 /* ==========================================================================

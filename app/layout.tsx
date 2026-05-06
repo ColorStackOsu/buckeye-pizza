@@ -3,7 +3,6 @@ import { Syne } from "next/font/google";
 import { Source_Serif_4 } from "next/font/google";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import ScrollHint from "@/components/ScrollHint";
 import "./globals.css";
 
 const syne = Syne({

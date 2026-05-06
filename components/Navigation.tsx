@@ -175,12 +175,6 @@ export default function Navigation() {
     if (el) mobileLinksRef.current[index] = el;
   };
 
-  // All mobile nav items (main links + About Us)
-  const allMobileLinks = [
-    ...navLinks,
-    { href: "/about#about-us", label: "About Us" },
-  ];
-
   return (
     <>
       <nav
