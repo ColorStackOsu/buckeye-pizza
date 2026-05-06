@@ -100,7 +100,10 @@ export default function ExecBoardClient() {
   return (
     <main>
       {/* ── Editorial page hero ── */}
-      <div className="relative overflow-hidden bg-brand-dark">
+      <section
+        aria-labelledby="execboard-hero-heading"
+        className="relative overflow-hidden bg-brand-dark"
+      >
         <div
           ref={bgRef}
           className="absolute inset-0 bg-brand-dark"
@@ -114,7 +117,10 @@ export default function ExecBoardClient() {
             ColorStack at Ohio State
           </p>
           <div ref={titleRef} className="overflow-hidden">
-            <h1 className="font-display text-hero text-white leading-none">
+            <h1
+              id="execboard-hero-heading"
+              className="font-display text-hero text-white leading-none"
+            >
               Executive Board
             </h1>
           </div>
@@ -131,7 +137,7 @@ export default function ExecBoardClient() {
             internships, offers, career paths, or anything in between.
           </p>
         </div>
-      </div>
+      </section>
 
       {/* ── Content area ── */}
       <div className="mx-auto max-w-6xl px-6 py-12 md:px-12">

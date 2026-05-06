@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import { EventItem } from "@/types/events";
 import { DriveImage } from "@/types/drive";
@@ -22,6 +22,8 @@ export default function GalleryModal({ event, onClose }: GalleryModalProps) {
     status: "loading",
   });
   const [selectedImage, setSelectedImage] = useState<DriveImage | null>(null);
+  const modalPanelRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<Element | null>(null);
 
   // Fetch images when event changes
   useEffect(() => {
@@ -86,6 +88,53 @@ export default function GalleryModal({ event, onClose }: GalleryModalProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [event, onClose, selectedImage]);
 
+  // Move focus into modal when it opens; return focus to triggering element on close
+  useEffect(() => {
+    if (event) {
+      triggerRef.current = document.activeElement;
+      const id = setTimeout(() => {
+        modalPanelRef.current?.focus();
+      }, 50);
+      return () => clearTimeout(id);
+    } else if (triggerRef.current) {
+      (triggerRef.current as HTMLElement).focus?.();
+      triggerRef.current = null;
+    }
+  }, [event]);
+
+  // Focus trap: keep Tab cycling within the modal panel
+  const handleModalKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key !== "Tab") return;
+      const panel = modalPanelRef.current;
+      if (!panel) return;
+
+      const focusable = Array.from(
+        panel.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    },
+    [],
+  );
+
   const handleBackdropClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (e.target === e.currentTarget) {
@@ -111,7 +160,12 @@ export default function GalleryModal({ event, onClose }: GalleryModalProps) {
       aria-modal="true"
       aria-label={title}
     >
-      <div className="relative mx-4 flex max-h-[90vh] w-full max-w-4xl flex-col rounded-lg bg-white shadow-xl">
+      <div
+        className="relative mx-4 flex max-h-[90vh] w-full max-w-4xl flex-col rounded-lg bg-white shadow-xl"
+        ref={modalPanelRef}
+        tabIndex={-1}
+        onKeyDown={handleModalKeyDown}
+      >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
           <h2 className="text-lg font-semibold text-dark">{title}</h2>

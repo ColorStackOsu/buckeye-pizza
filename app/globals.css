@@ -3,6 +3,23 @@
 @tailwind utilities;
 
 /* ==========================================================================
+   GLOBAL FOCUS INDICATORS
+   Provides a consistent, visible focus ring on all interactive elements
+   for keyboard and assistive technology users (Requirement 17.3).
+   The :focus:not(:focus-visible) rule removes the ring for mouse/touch
+   users who don't need it, keeping the UI clean.
+   ========================================================================== */
+
+:focus-visible {
+  outline: 2px solid var(--color-brand-red);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ==========================================================================
    OVERFLOW CONTAINMENT
    overflow-x: clip is stronger than hidden — it clips transform-based
    overflow without creating a scroll container, keeping position:sticky

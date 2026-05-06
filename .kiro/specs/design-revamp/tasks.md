@@ -166,7 +166,7 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
   - Replace all hardcoded color classes (`text-primary-red`, `bg-light-gray`, `bg-bg-white`, `text-dark`) with design system tokens throughout all three components
   - _Requirements: 2.1, 2.2, 5.1, 16.1, 16.2_
 
-- [ ] 20. Responsive polish pass
+- [x] 20. Responsive polish pass
   - Audit every redesigned component at 320px, 768px, 992px, and 1440px viewport widths
   - Ensure all interactive elements have minimum 44×44px tap targets on mobile (add `min-h-[44px] min-w-[44px]` where needed)
   - Verify fluid typography (`clamp()` values in CSS custom properties) scales correctly between breakpoints — no text overflow or truncation
@@ -174,7 +174,7 @@ All implementation is in TypeScript/TSX using the existing Next.js + Tailwind + 
   - Confirm no horizontal scrolling at any viewport width between 320px and 1920px — add `overflow-x: hidden` to `<body>` in `layout.tsx` if any section causes overflow
   - _Requirements: 16.1, 16.2, 16.3, 16.4, 16.5, 16.6_
 
-- [ ] 21. Accessibility audit and fixes
+- [x] 21. Accessibility audit and fixes
   - Add visible focus indicators to all interactive elements that lack them: use `focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-2` Tailwind utilities (or a global `globals.css` rule for `:focus-visible`)
   - Verify all animated content (RevealAnimator wrappers, GSAP-animated elements) renders in its final visible state in the DOM — confirm screen readers can access content regardless of animation state by checking that no `aria-hidden="true"` is applied to content elements during animation
   - Audit all icon-only buttons and links for `aria-label` attributes — add any missing ones

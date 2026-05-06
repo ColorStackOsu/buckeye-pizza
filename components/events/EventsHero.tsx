@@ -62,7 +62,10 @@ export default function EventsHero() {
   }, []);
 
   return (
-    <div className="relative overflow-hidden bg-brand-dark">
+    <section
+      aria-labelledby="events-hero-heading"
+      className="relative overflow-hidden bg-brand-dark"
+    >
       {/* Animated background panel (for the slide-down reveal) */}
       <div
         ref={bgRef}
@@ -81,7 +84,10 @@ export default function EventsHero() {
 
         {/* Main title */}
         <div ref={titleRef} className="overflow-hidden">
-          <h1 className="font-display text-hero text-white leading-none">
+          <h1
+            id="events-hero-heading"
+            className="font-display text-hero text-white leading-none"
+          >
             Events
           </h1>
         </div>
@@ -97,6 +103,6 @@ export default function EventsHero() {
           Workshops, socials, and professional development. All in one place.
         </p>
       </div>
-    </div>
+    </section>
   );
 }

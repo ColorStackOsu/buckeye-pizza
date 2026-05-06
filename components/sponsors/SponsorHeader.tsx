@@ -54,7 +54,10 @@ export default function SponsorHeader() {
   }, []);
 
   return (
-    <div className="relative overflow-hidden bg-brand-dark">
+    <section
+      aria-labelledby="sponsors-hero-heading"
+      className="relative overflow-hidden bg-brand-dark"
+    >
       {/* Animated background panel */}
       <div
         ref={bgRef}
@@ -73,7 +76,10 @@ export default function SponsorHeader() {
 
         {/* Main title */}
         <div ref={titleRef} className="overflow-hidden">
-          <h1 className="font-display text-hero text-white leading-none">
+          <h1
+            id="sponsors-hero-heading"
+            className="font-display text-hero text-white leading-none"
+          >
             Sponsors
           </h1>
         </div>
@@ -101,11 +107,12 @@ export default function SponsorHeader() {
           <a
             href="/assets/Sponsorship Packet.pdf"
             className="font-body text-caption text-brand-slate hover:text-white transition-colors uppercase tracking-wide"
+            aria-label="Download Sponsorship Packet (PDF)"
           >
             Sponsorship Packet ↗
           </a>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

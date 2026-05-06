@@ -52,7 +52,7 @@ export default function AboutHero() {
   }, []);
 
   return (
-    <div
+    <section
       id="about-hero"
       className="relative overflow-hidden bg-brand-dark"
       aria-labelledby="about-heading"
@@ -95,6 +95,6 @@ export default function AboutHero() {
           among underrepresented students in computing at Ohio State.
         </p>
       </div>
-    </div>
+    </section>
   );
 }

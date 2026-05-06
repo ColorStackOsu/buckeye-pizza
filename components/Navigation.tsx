@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -24,6 +24,7 @@ export default function Navigation() {
   const dropdownRef = useRef<HTMLLIElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const mobileLinksRef = useRef<HTMLLIElement[]>([]);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
 
   // Scroll listener — gain frosted-glass backdrop past the hero
@@ -105,6 +106,70 @@ export default function Navigation() {
     }
   }, [isMenuOpen]);
 
+  // Escape key closes mobile menu; focus returns to hamburger button
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setIsMenuOpen(false);
+        hamburgerRef.current?.focus();
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isMenuOpen]);
+
+  // Focus trap for mobile menu overlay
+  const handleMenuKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (!isMenuOpen || e.key !== "Tab") return;
+
+      const menu = mobileMenuRef.current;
+      if (!menu) return;
+
+      const focusable = Array.from(
+        menu.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      ).filter((el) => !el.closest('[aria-hidden="true"]'));
+
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    },
+    [isMenuOpen],
+  );
+
+  // When menu opens, move focus to the first focusable link inside it
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    // Delay to let GSAP animation start before stealing focus
+    const id = setTimeout(() => {
+      const menu = mobileMenuRef.current;
+      if (!menu) return;
+      const firstFocusable = menu.querySelector<HTMLElement>(
+        "a[href], button:not([disabled])",
+      );
+      firstFocusable?.focus();
+    }, 300);
+    return () => clearTimeout(id);
+  }, [isMenuOpen]);
+
   // Helper to register mobile link refs
   const setMobileLinkRef = (el: HTMLLIElement | null, index: number) => {
     if (el) mobileLinksRef.current[index] = el;
@@ -146,6 +211,7 @@ export default function Navigation() {
 
           {/* Mobile hamburger button */}
           <button
+            ref={hamburgerRef}
             type="button"
             className="lg:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -277,6 +343,7 @@ export default function Navigation() {
         aria-modal="true"
         aria-label="Mobile navigation menu"
         aria-hidden={!isMenuOpen}
+        onKeyDown={handleMenuKeyDown}
       >
         {/* Close button (X) */}
         <button

@@ -16,6 +16,7 @@ export default function MemberModal({ member, onClose }: MemberModalProps) {
   // Keep a local copy of the member so content doesn't vanish mid-exit
   const [displayMember, setDisplayMember] = useState<BoardMember | null>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const modalPanelRef = useRef<HTMLDivElement>(null);
 
   // Enter: new member arrives → mount with visible=false → one frame later flip visible=true
   useEffect(() => {
@@ -63,6 +64,58 @@ export default function MemberModal({ member, onClose }: MemberModalProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [displayMember, startClose]);
 
+  // Move focus into modal when it opens; return focus to triggering element on close
+  const triggerRef = useRef<Element | null>(null);
+
+  useEffect(() => {
+    if (displayMember && visible) {
+      // Store the element that had focus before the modal opened
+      triggerRef.current = document.activeElement;
+      // Focus the modal panel so screen readers announce it
+      const id = setTimeout(() => {
+        modalPanelRef.current?.focus();
+      }, 50);
+      return () => clearTimeout(id);
+    } else if (!displayMember && triggerRef.current) {
+      // Return focus to the triggering element when modal closes
+      (triggerRef.current as HTMLElement).focus?.();
+      triggerRef.current = null;
+    }
+  }, [displayMember, visible]);
+
+  // Focus trap: keep Tab cycling within the modal panel
+  const handleModalKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key !== "Tab") return;
+      const panel = modalPanelRef.current;
+      if (!panel) return;
+
+      const focusable = Array.from(
+        panel.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    },
+    [],
+  );
+
   const handleBackdropClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (e.target === e.currentTarget) startClose();
@@ -87,11 +140,14 @@ export default function MemberModal({ member, onClose }: MemberModalProps) {
     >
       {/* Modal panel */}
       <div
+        ref={modalPanelRef}
         className={`relative w-full max-w-3xl overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-white/20 transition-[opacity,transform] duration-[280ms] ease-out ${
           visible
             ? "opacity-100 translate-y-0 scale-100"
             : "opacity-0 translate-y-5 scale-[0.96]"
         }`}
+        tabIndex={-1}
+        onKeyDown={handleModalKeyDown}
       >
         {/* Close button */}
         <button
