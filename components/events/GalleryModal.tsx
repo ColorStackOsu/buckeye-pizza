@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import Image from "next/image";
 import { EventItem } from "@/types/events";
 import { DriveImage } from "@/types/drive";
 import { fetchDriveFolderImages } from "@/lib/drive-gallery";
@@ -206,13 +205,12 @@ export default function GalleryModal({ event, onClose }: GalleryModalProps) {
                 ← Back
               </button>
               <div className="relative w-full">
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={selectedImage.full}
                   alt={selectedImage.alt}
-                  width={1200}
-                  height={800}
                   className="mx-auto max-h-[70vh] w-auto rounded object-contain"
-                  unoptimized
+                  referrerPolicy="no-referrer"
                 />
               </div>
             </div>
@@ -243,13 +241,12 @@ export default function GalleryModal({ event, onClose }: GalleryModalProps) {
                       className="group relative aspect-square overflow-hidden rounded"
                       aria-label={`View ${image.alt}`}
                     >
-                      <Image
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
                         src={image.src}
                         alt={image.alt}
-                        fill
-                        className="object-cover transition-transform duration-200 group-hover:scale-105"
-                        sizes="(max-width: 768px) 50vw, 33vw"
-                        unoptimized
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
+                        referrerPolicy="no-referrer"
                       />
                     </button>
                   ))}

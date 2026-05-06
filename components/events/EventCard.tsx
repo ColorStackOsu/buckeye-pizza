@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { EventItem } from "@/types/events";
 import { fetchDriveFolderImages } from "@/lib/drive-gallery";
 
@@ -52,14 +51,13 @@ export default function EventCard({ event, onSelect, delay }: EventCardProps) {
       {/* Full-bleed background image */}
       <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105">
         {thumbnailSrc ? (
-          <Image
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
             src={thumbnailSrc}
             alt={event.alt || `${event.name} Thumbnail`}
-            fill
-            className="object-cover"
+            className="absolute inset-0 w-full h-full object-cover"
             style={{ objectPosition: "center 60%" }}
-            sizes="(max-width: 768px) 90vw, (max-width: 992px) 45vw, 30vw"
-            unoptimized={thumbnailSrc.includes("drive.google.com")}
+            referrerPolicy="no-referrer"
           />
         ) : (
           <div className="absolute inset-0 animate-pulse bg-brand-charcoal" />
