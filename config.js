@@ -1,3 +1,0 @@
-window.__APP_CONFIG__ = {
-  GOOGLE_DRIVE_API_KEY: "AIzaSyBlMm3ZSJ-NatKQAFJ_YooRKB7w8w_2LZw",
-};
