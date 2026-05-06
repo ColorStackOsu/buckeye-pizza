@@ -1,11 +1,11 @@
 import { DriveImage, DriveFileResponse } from "@/types/drive";
+import { EventItem } from "@/types/events";
 
-const cache = new Map<string, DriveImage[]>();
+const imageCache = new Map<string, DriveImage[]>();
+let eventsCache: EventItem[] | null = null;
 
 /**
  * Generate a Google Drive thumbnail URL for a given file ID.
- * @param fileId - The Google Drive file ID
- * @param size - The thumbnail width in pixels (default: 400)
  */
 export function driveThumb(fileId: string, size: number = 400): string {
   return `https://drive.google.com/thumbnail?id=${fileId}&sz=w${size}`;
@@ -13,17 +13,121 @@ export function driveThumb(fileId: string, size: number = 400): string {
 
 /**
  * Generate a full-size Google Drive image URL for a given file ID.
- * @param fileId - The Google Drive file ID
  */
 export function driveFull(fileId: string): string {
   return `https://drive.google.com/thumbnail?id=${fileId}&sz=w2000`;
 }
 
 /**
+ * Parse an event folder name into a name and date.
+ * Expected format: "Event Name - Month Day, Year"
+ * e.g. "Matcha & Map - January 20, 2026"
+ */
+function parseEventFolderName(folderName: string): {
+  name: string;
+  date: string;
+} | null {
+  // Match "Name - Date" pattern
+  const match = folderName.match(/^(.+?)\s*-\s*(.+)$/);
+  if (!match) {
+    return null;
+  }
+
+  const name = match[1].trim();
+  const date = match[2].trim();
+
+  return { name, date };
+}
+
+/**
+ * Parse a date string like "January 20, 2026" into a Date object for sorting.
+ */
+function parseDateString(dateStr: string): Date {
+  const parsed = new Date(dateStr);
+  if (!isNaN(parsed.getTime())) {
+    return parsed;
+  }
+  // If parsing fails, return epoch so it sorts to the end
+  return new Date(0);
+}
+
+/**
+ * Fetch all event subfolders from the parent events folder.
+ * Returns EventItem[] sorted by date (newest first).
+ */
+export async function fetchEventFolders(): Promise<EventItem[]> {
+  if (eventsCache) {
+    return eventsCache;
+  }
+
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_DRIVE_API_KEY;
+  const parentFolderId = process.env.NEXT_PUBLIC_EVENTS_PARENT_FOLDER_ID;
+
+  if (!apiKey) {
+    console.error("Missing NEXT_PUBLIC_GOOGLE_DRIVE_API_KEY");
+    return [];
+  }
+
+  if (!parentFolderId) {
+    console.error("Missing NEXT_PUBLIC_EVENTS_PARENT_FOLDER_ID");
+    return [];
+  }
+
+  const query = `'${parentFolderId}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false`;
+  const url = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&key=${apiKey}&fields=files(id,name)&orderBy=name&pageSize=100`;
+
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      console.error(`Drive API error fetching folders: ${response.status}`);
+      return [];
+    }
+
+    const data: DriveFileResponse = await response.json();
+
+    const events: EventItem[] = (data.files || [])
+      .map((folder) => {
+        const parsed = parseEventFolderName(folder.name);
+        if (!parsed) {
+          // If folder name doesn't match convention, use full name
+          return {
+            id: folder.id,
+            name: folder.name,
+            date: "",
+            alt: `${folder.name} Thumbnail`,
+            galleryTitle: folder.name,
+            driveFolderId: folder.id,
+          };
+        }
+
+        return {
+          id: folder.id,
+          name: parsed.name,
+          date: parsed.date,
+          alt: `${parsed.name} Thumbnail`,
+          galleryTitle: `${parsed.name} - ${parsed.date}`,
+          driveFolderId: folder.id,
+        };
+      })
+      // Sort by date, newest first
+      .sort((a, b) => {
+        const dateA = parseDateString(a.date);
+        const dateB = parseDateString(b.date);
+        return dateB.getTime() - dateA.getTime();
+      });
+
+    eventsCache = events;
+    return events;
+  } catch (error) {
+    console.error("Failed to fetch event folders:", error);
+    return [];
+  }
+}
+
+/**
  * Fetch image listings from a Google Drive folder using the Drive API v3.
  * Results are cached in memory to avoid redundant API calls.
- * @param folderId - The Google Drive folder ID to fetch images from
- * @returns An array of DriveImage objects
  */
 export async function fetchDriveFolderImages(
   folderId: string | undefined,
@@ -32,7 +136,7 @@ export async function fetchDriveFolderImages(
     return [];
   }
 
-  const cached = cache.get(folderId);
+  const cached = imageCache.get(folderId);
   if (cached) {
     return cached;
   }
@@ -42,7 +146,8 @@ export async function fetchDriveFolderImages(
     throw new Error("Missing GOOGLE_DRIVE_API_KEY");
   }
 
-  const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+mimeType+contains+'image'&key=${apiKey}&fields=files(id,name)`;
+  const query = `'${folderId}' in parents and mimeType contains 'image' and trashed=false`;
+  const url = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&key=${apiKey}&fields=files(id,name)&pageSize=100`;
 
   const response = await fetch(url);
 
@@ -58,7 +163,7 @@ export async function fetchDriveFolderImages(
     alt: file.name || "Drive image",
   }));
 
-  cache.set(folderId, images);
+  imageCache.set(folderId, images);
 
   return images;
 }
