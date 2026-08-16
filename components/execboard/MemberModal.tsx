@@ -245,13 +245,15 @@ export default function MemberModal({ member, onClose }: MemberModalProps) {
               {hasCalendly && (
                 <button
                   type="button"
-                  onClick={() =>
-                    window.open(
-                      displayMember.calendly,
-                      "_blank",
-                      "noopener,noreferrer",
-                    )
-                  }
+                  onClick={() => {
+                    if (displayMember.calendly) {
+                      window.open(
+                        displayMember.calendly,
+                        "_blank",
+                        "noopener,noreferrer",
+                      );
+                    }
+                  }}
                   className="inline-flex items-center gap-2 rounded-lg bg-brand-red px-5 py-2.5 font-body text-sm font-semibold text-white transition-colors hover:bg-brand-red-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
                   aria-label={`Book a time with ${displayMember.name}`}
                 >

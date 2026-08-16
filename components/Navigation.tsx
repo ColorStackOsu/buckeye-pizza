@@ -21,10 +21,12 @@ export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+
   const dropdownRef = useRef<HTMLLIElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const mobileLinksRef = useRef<HTMLLIElement[]>([]);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
+
   const pathname = usePathname();
 
   // Scroll listener — gain frosted-glass backdrop past the hero
@@ -32,12 +34,14 @@ export default function Navigation() {
     function handleScroll() {
       setIsScrolled(window.scrollY > 80);
     }
+
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // initialise on mount
+    handleScroll();
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close dropdown when clicking outside
+  // Close desktop dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -47,7 +51,9 @@ export default function Navigation() {
         setIsDropdownOpen(false);
       }
     }
+
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
@@ -58,13 +64,16 @@ export default function Navigation() {
         setIsMenuOpen(false);
       }
     }
+
     window.addEventListener("resize", handleResize);
+
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "";
+
     return () => {
       document.body.style.overflow = "";
     };
@@ -77,16 +86,22 @@ export default function Navigation() {
     const links = mobileLinksRef.current.filter(Boolean);
 
     if (isMenuOpen) {
-      // Animate overlay in
       gsap.fromTo(
         mobileMenuRef.current,
         { opacity: 0 },
-        { opacity: 1, duration: 0.25, ease: "power2.out" },
+        {
+          opacity: 1,
+          duration: 0.25,
+          ease: "power2.out",
+        },
       );
-      // Stagger links sliding in from right
+
       gsap.fromTo(
         links,
-        { x: 80, opacity: 0 },
+        {
+          x: 80,
+          opacity: 0,
+        },
         {
           x: 0,
           opacity: 1,
@@ -97,7 +112,6 @@ export default function Navigation() {
         },
       );
     } else {
-      // Animate overlay out
       gsap.to(mobileMenuRef.current, {
         opacity: 0,
         duration: 0.2,
@@ -106,73 +120,79 @@ export default function Navigation() {
     }
   }, [isMenuOpen]);
 
-  // Escape key closes mobile menu; focus returns to hamburger button
+  // Escape key closes mobile menu and returns focus to hamburger
   useEffect(() => {
     if (!isMenuOpen) return;
 
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
         setIsMenuOpen(false);
         hamburgerRef.current?.focus();
       }
     }
 
     window.addEventListener("keydown", handleKeyDown);
+
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isMenuOpen]);
 
   // Focus trap for mobile menu overlay
   const handleMenuKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (!isMenuOpen || e.key !== "Tab") return;
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (!isMenuOpen || event.key !== "Tab") return;
 
       const menu = mobileMenuRef.current;
+
       if (!menu) return;
 
       const focusable = Array.from(
         menu.querySelectorAll<HTMLElement>(
           'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
         ),
-      ).filter((el) => !el.closest('[aria-hidden="true"]'));
+      ).filter((element) => !element.closest('[aria-hidden="true"]'));
 
       if (focusable.length === 0) return;
 
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
 
-      if (e.shiftKey) {
+      if (event.shiftKey) {
         if (document.activeElement === first) {
-          e.preventDefault();
+          event.preventDefault();
           last.focus();
         }
-      } else {
-        if (document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
+      } else if (document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
       }
     },
     [isMenuOpen],
   );
 
-  // When menu opens, move focus to the first focusable link inside it
+  // Move focus to first link when mobile menu opens
   useEffect(() => {
     if (!isMenuOpen) return;
-    // Delay to let GSAP animation start before stealing focus
-    const id = setTimeout(() => {
+
+    const timeoutId = setTimeout(() => {
       const menu = mobileMenuRef.current;
+
       if (!menu) return;
+
       const firstFocusable = menu.querySelector<HTMLElement>(
         "a[href], button:not([disabled])",
       );
+
       firstFocusable?.focus();
     }, 300);
-    return () => clearTimeout(id);
+
+    return () => clearTimeout(timeoutId);
   }, [isMenuOpen]);
 
-  // Helper to register mobile link refs
-  const setMobileLinkRef = (el: HTMLLIElement | null, index: number) => {
-    if (el) mobileLinksRef.current[index] = el;
+  // Register mobile link refs for GSAP animation
+  const setMobileLinkRef = (element: HTMLLIElement | null, index: number) => {
+    if (element) {
+      mobileLinksRef.current[index] = element;
+    }
   };
 
   return (
@@ -186,7 +206,7 @@ export default function Navigation() {
         aria-label="Main navigation"
       >
         <div className="flex items-center justify-between px-3 md:px-10 py-2">
-          {/* Logo — white version over hero, dark version when scrolled */}
+          {/* Logo */}
           <Link href="/" aria-label="ColorStackOSU Home">
             <Image
               src={
@@ -208,22 +228,23 @@ export default function Navigation() {
             ref={hamburgerRef}
             type="button"
             className="lg:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            onClick={() => setIsMenuOpen((current) => !current)}
             aria-controls="navbarCollapse"
             aria-expanded={isMenuOpen}
             aria-label="Toggle navigation"
           >
-            {/* Hamburger → X morph */}
             <span
               className={`block w-6 h-0.5 transition-all duration-300 ${
                 isScrolled || isMenuOpen ? "bg-brand-dark" : "bg-white"
               } ${isMenuOpen ? "rotate-45 translate-y-2" : ""}`}
             />
+
             <span
               className={`block w-6 h-0.5 transition-all duration-300 ${
                 isScrolled || isMenuOpen ? "bg-brand-dark" : "bg-white"
               } ${isMenuOpen ? "opacity-0" : ""}`}
             />
+
             <span
               className={`block w-6 h-0.5 transition-all duration-300 ${
                 isScrolled || isMenuOpen ? "bg-brand-dark" : "bg-white"
@@ -231,10 +252,11 @@ export default function Navigation() {
             />
           </button>
 
-          {/* Desktop nav links */}
+          {/* Desktop navigation */}
           <ul className="hidden lg:flex items-center gap-0 list-none m-0 p-0">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
+
               return (
                 <li key={link.href} className="mx-4 flex flex-col items-center">
                   <Link
@@ -245,7 +267,7 @@ export default function Navigation() {
                   >
                     {link.label}
                   </Link>
-                  {/* Active-page red dot indicator */}
+
                   {isActive && (
                     <span
                       className="mt-1 w-1 h-1 rounded-full bg-brand-red"
@@ -256,7 +278,7 @@ export default function Navigation() {
               );
             })}
 
-            {/* About Us dropdown */}
+            {/* Desktop About Us dropdown */}
             <li
               ref={dropdownRef}
               className="mx-4 relative flex flex-col items-center"
@@ -266,7 +288,7 @@ export default function Navigation() {
                 className={`nav-link font-display text-overline uppercase tracking-widest transition-colors flex items-center gap-1 ${
                   isScrolled ? "text-brand-dark" : "text-white"
                 }`}
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                onClick={() => setIsDropdownOpen((current) => !current)}
                 aria-expanded={isDropdownOpen}
                 aria-haspopup="true"
               >
@@ -324,7 +346,7 @@ export default function Navigation() {
         </div>
       </nav>
 
-      {/* Full-screen mobile overlay menu — always mounted, shown/hidden via pointer-events + opacity */}
+      {/* Full-screen mobile menu */}
       <div
         ref={mobileMenuRef}
         id="navbarCollapse"
@@ -339,7 +361,7 @@ export default function Navigation() {
         aria-hidden={!isMenuOpen}
         onKeyDown={handleMenuKeyDown}
       >
-        {/* Close button (X) */}
+        {/* Close button */}
         <button
           type="button"
           className="absolute top-4 right-4 w-10 h-10 flex flex-col justify-center items-center gap-1.5"
@@ -350,7 +372,7 @@ export default function Navigation() {
           <span className="block w-6 h-0.5 bg-white -rotate-45 -translate-y-[3px]" />
         </button>
 
-        {/* Logo in overlay */}
+        {/* Mobile overlay logo */}
         <Link
           href="/"
           className="absolute top-4 left-4"
@@ -367,14 +389,15 @@ export default function Navigation() {
           />
         </Link>
 
-        {/* Stacked nav links */}
+        {/* Mobile links */}
         <ul className="flex flex-col items-center gap-8 list-none m-0 p-0">
           {navLinks.map((link, index) => {
             const isActive = pathname === link.href;
+
             return (
               <li
                 key={link.href}
-                ref={(el) => setMobileLinkRef(el, index)}
+                ref={(element) => setMobileLinkRef(element, index)}
                 className="flex flex-col items-center"
               >
                 <Link
@@ -388,6 +411,7 @@ export default function Navigation() {
                 >
                   {link.label}
                 </Link>
+
                 {isActive && (
                   <span
                     className="mt-2 w-1.5 h-1.5 rounded-full bg-brand-red"
@@ -398,56 +422,28 @@ export default function Navigation() {
             );
           })}
 
-          {/* Mobile About Us section */}
+          {/* Mobile About Us link — no dropdown */}
           <li
-            ref={(el) => setMobileLinkRef(el, navLinks.length)}
+            ref={(element) => setMobileLinkRef(element, navLinks.length)}
             className="flex flex-col items-center"
           >
-            <button
-              type="button"
-              className="font-display text-display uppercase tracking-widest text-white hover:text-brand-red transition-colors flex items-center gap-2"
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              aria-expanded={isDropdownOpen}
-              aria-haspopup="true"
+            <Link
+              href="/about#about-us"
+              className={`font-display text-display uppercase tracking-widest transition-colors ${
+                pathname === "/about"
+                  ? "text-brand-red"
+                  : "text-white hover:text-brand-red"
+              }`}
+              onClick={() => setIsMenuOpen(false)}
             >
               About Us
-              <svg
-                className={`w-5 h-5 transition-transform duration-200 ${
-                  isDropdownOpen ? "rotate-180" : ""
-                }`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </button>
+            </Link>
 
-            {isDropdownOpen && (
-              <ul className="flex flex-col items-center gap-3 mt-4 list-none p-0">
-                {aboutSubLinks.map((subLink) => (
-                  <li key={subLink.href}>
-                    <a
-                      href={subLink.href}
-                      target={subLink.external ? "_blank" : undefined}
-                      rel={subLink.external ? "noopener noreferrer" : undefined}
-                      className="font-body text-white/70 text-lg hover:text-brand-red transition-colors"
-                      onClick={() => {
-                        setIsDropdownOpen(false);
-                        setIsMenuOpen(false);
-                      }}
-                    >
-                      {subLink.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+            {pathname === "/about" && (
+              <span
+                className="mt-2 w-1.5 h-1.5 rounded-full bg-brand-red"
+                aria-hidden="true"
+              />
             )}
           </li>
         </ul>

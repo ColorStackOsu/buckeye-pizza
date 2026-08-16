@@ -113,13 +113,17 @@ export default function TestimonialsSection() {
   const activeIndexRef = useRef(0);
 
   const navigateTo = (index: number) => {
-    if (index === activeIndexRef.current) return;
+    if (index === activeIndexRef.current || isTransitioning) return;
+
+    activeIndexRef.current = index;
+
     if (transitionTimeoutRef.current) {
       clearTimeout(transitionTimeoutRef.current);
     }
+
     setIsTransitioning(true);
+
     transitionTimeoutRef.current = setTimeout(() => {
-      activeIndexRef.current = index;
       setDisplayIndex(index);
       setActiveIndex(index);
       setIsTransitioning(false);
@@ -137,8 +141,13 @@ export default function TestimonialsSection() {
     navigateTo(current === totalTestimonials - 1 ? 0 : current + 1);
   };
 
-  // Cleanup timeout on unmount
+  // Preload testimonial images and clean up timeout on unmount
   useEffect(() => {
+    testimonials.forEach(({ photo }) => {
+      const img = new window.Image();
+      img.src = photo;
+    });
+
     return () => {
       if (transitionTimeoutRef.current) {
         clearTimeout(transitionTimeoutRef.current);
@@ -203,6 +212,7 @@ export default function TestimonialsSection() {
               {/* Photo column — 30% on tablet, 40% on desktop */}
               <div className="w-[30%] lg:w-[40%] relative flex-shrink-0 self-stretch">
                 <Image
+                  key={current.photo}
                   src={current.photo}
                   alt={`Photo of ${current.name}`}
                   fill
